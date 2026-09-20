@@ -1,0 +1,403 @@
+/**
+ * 移动端性能降温：暂停不可见层动画、降低 GPU 合成开销，不影响功能与交互。
+ * 配合 html.is-mobile / html.is-low-end（index.html 注入）分级生效。
+ */
+
+/*
+ * 切后台只暂停已知持续动画。禁止 html.miya-tab-hidden * 全量选择器：
+ * 切回前台时会对整棵 DOM（含 ::before/::after）做样式重算，容易卡数秒。
+ */
+html.miya-tab-hidden :is(
+  .wg-player__orb,
+  .wg-player__scan,
+  .wg-player__ring,
+  .wg-player__disc,
+  .wg-player__eq span,
+  .wg-player__marquee span,
+  .wg-polaroid__card--1,
+  .ins-atelier-orb,
+  .mdl__aurora,
+  .mdl__scan,
+  .mdl__frame::before,
+  .mdl__cover-ring,
+  .mc-room-deco__grain,
+  .fr-orb,
+  .fr-ticker,
+  .ncm-vinyl,
+  .ncm-mini-player__disc,
+  .lt-vinyl__disc,
+  .qq-card-voice__bar,
+  .phone__snow,
+  .phone__curtain,
+  .wg-4x2-glass__orb,
+  .wg-4x2-glass__spark,
+  .splash-logo,
+  .miya-splash__mark,
+  .miya-auth__loader span
+) {
+  animation-play-state: paused !important;
+}
+
+.miya-mode-layer:not(.is-active) *,
+.miya-mode-layer:not(.is-active) *::before,
+.miya-mode-layer:not(.is-active) *::after {
+  animation-play-state: paused !important;
+}
+
+body.miya-app-open .phone__wall,
+body.miya-app-open .phone__wall *,
+body.miya-app-open .desk-shell,
+body.miya-app-open .desk-shell * {
+  animation-play-state: paused !important;
+}
+
+[hidden] *,
+[hidden] *::before,
+[hidden] *::after {
+  animation-play-state: paused !important;
+}
+
+/* 非活跃玩法层跳过绘制（切换过渡时 is-leaving 仍保留） */
+.miya-mode-layer:not(.is-active):not(.is-leaving) {
+  content-visibility: hidden;
+  contain: layout style paint;
+}
+
+/* ── 移动端：降低合成与毛玻璃开销 ── */
+
+html.is-mobile .glass,
+html.is-mobile .foot__dock.glass,
+html.is-mobile .modal__card.glass {
+  backdrop-filter: blur(10px) saturate(1.06) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(1.06) !important;
+}
+
+/* 主屏空闲：图标区去掉毛玻璃（十余个 blur 叠加是主要发热源之一） */
+html.is-mobile body.miya-mode-phone:not(.miya-app-open) :is(
+  .ic__box.glass,
+  .foot__dock.glass
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  box-shadow: 0 2px 10px rgba(100, 110, 125, 0.08) !important;
+}
+
+html.is-mobile .wg-player:not(.has-custom-player-bg) {
+  backdrop-filter: blur(12px) saturate(1.05) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(1.05) !important;
+}
+
+html.is-mobile .phone__snow,
+html.is-mobile .phone__curtain {
+  filter: none !important;
+}
+
+html.is-mobile .wg-player__grain {
+  display: none !important;
+}
+
+html.is-mobile .wg-player__orb {
+  filter: blur(16px) !important;
+}
+
+html.is-mobile .qq-room__head,
+html.is-mobile .qq-room__foot {
+  background: rgba(245, 245, 243, 0.96) !important;
+  backdrop-filter: blur(8px) saturate(1.08) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(1.08) !important;
+}
+
+html.is-mobile :is(
+  .fr-back,
+  .fr-nav__bar,
+  .fr-compose__veil,
+  .fr-note-editor__head
+) {
+  backdrop-filter: blur(10px) saturate(1.08) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(1.08) !important;
+}
+
+html.is-mobile :is(
+  .ins-atelier-rail,
+  .ins-vault-topbar,
+  .ncm-mini-player,
+  .miya-dialog-backdrop,
+  .miya-dialog-card
+) {
+  backdrop-filter: blur(10px) saturate(1.06) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(1.06) !important;
+}
+
+html.is-mobile .desk--p1,
+html.is-mobile .desk--p2,
+html.is-mobile .desk--p3,
+html.is-mobile .qq-room__scroll,
+html.is-mobile #qq-room-scroll,
+html.is-mobile .ncm-scroll,
+html.is-mobile .sim-root {
+  contain: layout style;
+}
+
+/* ── 主屏空闲：关闭纯装饰无限动画 ── */
+
+html.is-mobile body.miya-mode-phone:not(.miya-app-open) .wg-polaroid__card--1 {
+  animation: none !important;
+}
+
+html.is-mobile body.miya-mode-phone:not(.miya-app-open) :is(
+  .wg-player__orb,
+  .wg-player__scan,
+  .wg-player__ring,
+  .wg-player__marquee span,
+  .wg-polaroid__card--1,
+  .ins-atelier-orb,
+  .mdl__aurora,
+  .mdl__scan,
+  .mdl__frame::before,
+  .mc-room-deco__grain,
+  .fr-orb,
+  .fr-ticker
+) {
+  animation: none !important;
+}
+
+/* ── 主屏分页：仅跳过距当前页 2 页以上的桌面，相邻页保持绘制以保证横滑流畅 ── */
+
+html.is-mobile .desk-viewport[data-desk-page="0"] .desk--p3,
+html.is-mobile .desk-viewport[data-desk-page="2"] .desk--p1 {
+  content-visibility: hidden;
+  contain: strict;
+}
+
+html.is-mobile .desk-viewport[data-desk-page="0"] .desk--p3 *,
+html.is-mobile .desk-viewport[data-desk-page="2"] .desk--p1 * {
+  animation-play-state: paused !important;
+}
+
+/* 移动端关闭 SVG 噪点纹理（feTurbulence 持续占 GPU） */
+html.is-mobile :is(
+  .p2f-board__grain,
+  .wg-folio__grain,
+  .wg-ledger__grain,
+  .mc-room-deco__grain,
+  .qq-card-xfer__grain,
+  .qq-card-txtimg__grain,
+  .mc-hv__deco-grain,
+  .qq-journal__grain,
+  .qq-card-to__grain,
+  .qq-card-gift__grain,
+  .qq-card-cpinv__grain
+) {
+  display: none !important;
+}
+
+html.is-mobile .mc-room-deco {
+  opacity: 0.35;
+}
+
+html.is-mobile .fr-orb {
+  filter: blur(20px);
+  opacity: 0.7;
+}
+
+/* ── 低端机：进一步降级 ── */
+
+html.is-mobile.is-low-end .wg-player__orb,
+html.is-mobile.is-low-end .wg-player__scan,
+html.is-mobile.is-low-end .wg-player__ring,
+html.is-mobile.is-low-end .wg-player__marquee span,
+html.is-mobile.is-low-end .wg-polaroid__card--1,
+html.is-mobile.is-low-end .ins-atelier-orb,
+html.is-mobile.is-low-end .mdl__aurora,
+html.is-mobile.is-low-end .mdl__scan,
+html.is-mobile.is-low-end .mdl__frame::before,
+html.is-mobile.is-low-end .mc-room-deco__grain {
+  animation: none !important;
+}
+
+html.is-mobile.is-low-end .glass,
+html.is-mobile.is-low-end .wg-player:not(.has-custom-player-bg),
+html.is-mobile.is-low-end .foot__dock.glass {
+  backdrop-filter: blur(6px) saturate(1.02) !important;
+  -webkit-backdrop-filter: blur(6px) saturate(1.02) !important;
+}
+
+html.is-mobile.is-low-end .qq-room__head,
+html.is-mobile.is-low-end .qq-room__foot {
+  background: rgba(245, 245, 243, 0.98) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.is-mobile.is-low-end .fr-orb {
+  filter: blur(14px);
+  opacity: 0.55;
+}
+
+/* ── 自定义桌面：小组件毛玻璃降级（主屏空闲） ── */
+
+html.is-mobile body.miya-mode-phone:not(.miya-app-open) :is(
+  .desk-custom__wg,
+  .wg-4x2-glass,
+  .wg-4x2-glass__frame,
+  .wg-4x2-glass__panel,
+  .desk-custom__wg--glassdeck
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.is-mobile.is-low-end body.miya-mode-phone:not(.miya-app-open) :is(
+  .desk-custom__wg,
+  .wg-4x2-glass__orb,
+  .wg-4x2-glass__spark
+) {
+  filter: none !important;
+  animation: none !important;
+}
+
+/* 自定义桌面：远离当前页 2 页以上跳过绘制 */
+html.is-mobile .desk-custom__page[data-desk-far] {
+  content-visibility: hidden;
+  contain: strict;
+}
+
+html.is-mobile .desk-custom__page[data-desk-far] * {
+  animation-play-state: paused !important;
+}
+
+/* 拖拽/编辑繁忙窗口：临时关闭实时 blur（DOM 属性直改，不触发重渲染） */
+html[data-glass-busy="1"] :is(
+  .glass,
+  .foot__dock.glass,
+  .desk-custom__wg,
+  .wg-4x2-glass,
+  .wg-4x2-glass__frame,
+  .wg-4x2-glass__panel,
+  .wg-player:not(.has-custom-player-bg)
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html[data-glass-busy="1"] :is(
+  .desk-custom__wg,
+  .wg-4x2-glass__frame,
+  .wg-4x2-glass__panel
+) {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.42),
+    rgba(255, 255, 255, 0.24) 55%,
+    rgba(255, 255, 255, 0.32)) !important;
+}
+
+/* glass-pass：双 RAF 切换 blur 小数位，强制 WebKit/Chromium 重合成毛玻璃 */
+html[data-glass-pass="1"] .glass,
+html[data-glass-pass="1"] .foot__dock.glass {
+  backdrop-filter: blur(10.01px) saturate(1.06) !important;
+  -webkit-backdrop-filter: blur(10.01px) saturate(1.06) !important;
+}
+
+html.is-mobile[data-glass-pass="1"] .qq-room__head,
+html.is-mobile[data-glass-pass="1"] .qq-room__foot {
+  backdrop-filter: blur(8.01px) saturate(1.08) !important;
+  -webkit-backdrop-filter: blur(8.01px) saturate(1.08) !important;
+}
+
+html.is-mobile.is-low-end[data-glass-pass="1"] .qq-room__head,
+html.is-mobile.is-low-end[data-glass-pass="1"] .qq-room__foot {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* App 打开：壁纸瞬时隐藏，避免透明帧 bleed-through */
+body.miya-app-open .phone__wall.has-custom-wall {
+  opacity: 0 !important;
+  transition: opacity 0s !important;
+}
+
+body.miya-app-open.miya-mode-phone .phone__wall.has-custom-wall {
+  pointer-events: none;
+}
+
+/* ── P4：真机全屏与滚动 hygiene ── */
+
+html.is-mobile,
+html.is-mobile body {
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+}
+
+html.is-mobile .phone {
+  height: var(--app-height, 100dvh);
+  min-height: var(--app-height, 100dvh);
+}
+
+html.is-mobile .phone__wall {
+  contain: strict;
+}
+
+html.is-mobile .phone__snow,
+html.is-mobile .phone__curtain,
+html.is-mobile .phone__haze {
+  display: none !important;
+}
+
+/* ── P2：App 内打开时进一步降 blur（移动端） ── */
+
+html.is-mobile body.miya-app-open :is(
+  .miya-dialog-backdrop,
+  .miya-dialog-card,
+  .ncm-mini-player,
+  .ins-atelier-rail,
+  .ins-vault-topbar
+) {
+  backdrop-filter: blur(8px) saturate(1.04) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(1.04) !important;
+}
+
+html.is-mobile.is-low-end body.miya-app-open :is(
+  .glass,
+  .foot__dock.glass,
+  .miya-dialog-card,
+  .ncm-mini-player
+) {
+  backdrop-filter: blur(4px) saturate(1.01) !important;
+  -webkit-backdrop-filter: blur(4px) saturate(1.01) !important;
+}
+
+html.is-mobile.is-low-end body.miya-app-open :is(
+  .qq-room__head,
+  .qq-room__foot
+) {
+  background: rgba(245, 245, 243, 0.98) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+html.is-mobile.is-low-end #cp-ripple-canvas {
+  opacity: 0.45;
+}
+
+html.is-mobile.is-low-end .miya-chat-app.is-open,
+html.is-mobile.is-low-end .miya-forum-app.is-open,
+html.is-mobile.is-low-end #miya-couple-app.is-open {
+  contain: layout style;
+}
+
+/* 滚动中暂时关闭毛玻璃，松手后恢复 —— 不改布局与可点区域 */
+html.miya-is-scrolling :is(
+  .glass,
+  .qq-room__head,
+  .qq-room__foot,
+  .foot__dock.glass,
+  .fr-back,
+  .fr-nav__bar,
+  .ncm-mini-player,
+  .miya-dialog-backdrop,
+  .miya-dialog-card
+) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}

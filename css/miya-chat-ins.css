@@ -1,0 +1,1546 @@
+/* Miya Chat · INS 奶油软刊风 — 对齐设计稿 */
+
+.theme-soft {
+  --soft-font: "Noto Sans SC", "DM Sans", -apple-system, sans-serif;
+  --soft-serif: "Cormorant Garamond", "Noto Serif SC", Georgia, serif;
+  --soft-script: "Great Vibes", "Cormorant Garamond", cursive;
+  --soft-bg: #FFFFFF;
+  --soft-bg-2: #F5F5F5;
+  --soft-bg-3: #FAFAFA;
+  --soft-surface: #FFFFFF;
+  --soft-surface-2: #FFFFFF;
+  --soft-ink: #7A6E64;
+  --soft-ink-2: #9A8F86;
+  --soft-ink-3: #C9B6A6;
+  --soft-gold: #C9B896;
+  --soft-gold-soft: rgba(201, 184, 150, 0.28);
+  --soft-peach: #F0DED2;
+  --soft-coral: #ED9B62;
+  --soft-badge: #EB9558;
+  --soft-line: rgba(0, 0, 0, 0.06);
+  --soft-shadow: 0 4px 22px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.03);
+  --soft-shadow-float: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --soft-r: 16px;
+  --soft-r-lg: 20px;
+  --soft-r-pill: 999px;
+  --soft-topbar-h: 56px;
+  --soft-tabbar-h: 58px;
+  --soft-float-gap: 6px;
+  --soft-safe-t: env(safe-area-inset-top, 0px);
+  --soft-safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+.theme-soft.miya-chat-app {
+  font-family: var(--soft-font);
+  font-weight: 300;
+  color: var(--soft-ink);
+  background: var(--soft-bg) !important;
+}
+
+/* ── 装饰层 ── */
+.soft-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.soft-deco__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.soft-deco__sparkles {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+  background:
+    radial-gradient(1px 1px at 22% 28%, rgba(200, 200, 200, 0.25), transparent),
+    radial-gradient(1px 1px at 84% 18%, rgba(200, 200, 200, 0.2), transparent);
+}
+
+.soft-deco__crystal {
+  position: absolute;
+  top: calc(var(--soft-safe-t) + 36px);
+  right: 10px;
+  width: 36px;
+  height: 52px;
+  z-index: 2;
+  display: none;
+  background:
+    linear-gradient(155deg, rgba(255, 252, 248, 0.9) 0%, rgba(232, 210, 195, 0.5) 45%, rgba(201, 184, 150, 0.35) 100%);
+  clip-path: polygon(50% 0%, 78% 28%, 68% 100%, 32% 100%, 22% 28%);
+  filter: drop-shadow(0 3px 6px rgba(120, 90, 70, 0.12));
+  opacity: 0.88;
+}
+
+.miya-chat-app.theme-soft:has(.qq-page--msg.is-active) .soft-deco__crystal { display: block; }
+
+.soft-deco__ribbon {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.22;
+}
+
+.soft-deco__ribbon--feed {
+  display: none;
+}
+
+.soft-deco__floral {
+  position: absolute;
+  width: clamp(100px, 32vw, 160px);
+  height: auto;
+  opacity: 0.5;
+  object-fit: contain;
+  filter: saturate(0.82) contrast(0.94) sepia(0.08);
+}
+
+.soft-deco__floral:not([hidden]) { display: block; }
+.soft-deco__floral--tl { top: calc(var(--soft-safe-t) + 72px); left: -14px; transform: rotate(-10deg); }
+.soft-deco__floral--tr { top: calc(var(--soft-safe-t) + 48px); right: -18px; width: clamp(90px, 28vw, 140px); transform: rotate(14deg) scaleX(-1); }
+.soft-deco__floral--br { bottom: calc(var(--soft-tabbar-h) + var(--soft-safe-b) + 48px); right: -20px; width: clamp(130px, 40vw, 210px); opacity: 0.38; }
+
+.soft-deco__floral--tl:not([src]),
+.soft-deco__floral--tr:not([src]),
+.soft-deco__floral--br:not([src]) { display: none; }
+
+.miya-chat-app.theme-soft:has(.qq-page--msg.is-active) .soft-deco__floral--tl:not([src]),
+.miya-chat-app.theme-soft:has(.qq-page--msg.is-active) .soft-deco__floral--tl[src=""] {
+  display: none;
+}
+
+.miya-chat-app.theme-soft:has(.qq-page--contacts.is-active) .soft-deco__floral--br:not([src]),
+.miya-chat-app.theme-soft:has(.qq-page--contacts.is-active) .soft-deco__floral--br[src=""],
+.miya-chat-app.theme-soft:has(.qq-page--mine.is-active) .soft-deco__floral--br:not([src]),
+.miya-chat-app.theme-soft:has(.qq-page--mine.is-active) .soft-deco__floral--br[src=""] {
+  display: none;
+}
+
+.soft-deco__quote {
+  display: none !important;
+}
+
+.soft-deco__quote--feed {
+  display: none !important;
+}
+
+.soft-deco__quote--profile {
+  display: none !important;
+}
+
+/* ── 页面 ── */
+.theme-soft .qq-pages {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  background: #ffffff;
+}
+
+.theme-soft .qq-page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-soft .qq-page.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.theme-soft .qq-page__scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding:
+    calc(var(--soft-safe-t) + var(--soft-topbar-h) + var(--soft-float-gap) + 4px)
+    16px
+    calc(var(--soft-safe-b) + var(--soft-tabbar-h) + var(--soft-float-gap) + 24px);
+}
+
+.theme-soft .qq-page__scroll::-webkit-scrollbar { display: none; }
+
+.theme-soft .qq-page--feed .qq-page__scroll--feed {
+  padding-top: calc(var(--soft-safe-t) + var(--soft-topbar-h) + 40px);
+}
+
+/* ── 顶栏（透明融入背景） ── */
+.soft-topbar {
+  position: absolute;
+  top: calc(var(--soft-safe-t) + 6px);
+  left: 16px;
+  right: 16px;
+  z-index: 40;
+  min-height: var(--soft-topbar-h);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.soft-topbar__back {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--soft-ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(120, 90, 70, 0.06);
+}
+
+.soft-topbar__back svg { width: 17px; height: 17px; }
+
+.soft-topbar__titles { flex: 1; min-width: 0; }
+
+.soft-topbar__title {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+  color: var(--soft-ink);
+}
+
+.soft-topbar__subtitle {
+  font-family: var(--soft-script);
+  font-style: normal;
+  font-size: 15px;
+  color: var(--soft-ink-3);
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.soft-topbar__subtitle--inline {
+  display: inline;
+  margin-top: 0;
+  font-size: 13px;
+}
+
+.qq-page--contacts .soft-topbar {
+  min-height: 48px;
+  align-items: flex-start;
+  padding-top: 2px;
+}
+
+.qq-page--contacts .soft-topbar__title {
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.qq-page--contacts .soft-topbar__subtitle--inline {
+  margin-top: 1px;
+}
+
+.soft-topbar__meta {
+  font-size: 11px;
+  color: var(--soft-ink-3);
+  margin-top: 2px;
+  font-weight: 300;
+}
+
+.soft-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.soft-topbar__icon {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--soft-ink-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.soft-topbar__icon svg { width: 19px; height: 19px; stroke-width: 1.4; }
+
+.soft-topbar__icon--gold {
+  background: var(--soft-gold-soft);
+  color: #8A7868;
+}
+
+/* ── 搜索 ── */
+.soft-search {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.soft-search input {
+  width: 100%;
+  height: 42px;
+  border: none;
+  border-radius: var(--soft-r-pill);
+  background: var(--soft-surface-2);
+  box-shadow: var(--soft-shadow);
+  padding: 0 16px 0 40px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--soft-ink);
+  outline: none;
+}
+
+.soft-search input::placeholder { color: var(--soft-ink-3); }
+
+.soft-search__icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  color: var(--soft-ink-3);
+  pointer-events: none;
+}
+
+/* ── 筛选 ── */
+.soft-filters {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.soft-filters::-webkit-scrollbar { display: none; }
+
+.soft-filter {
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  padding: 5px 10px;
+  border-radius: var(--soft-r-pill);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, background 0.2s;
+}
+
+.soft-filter.is-active {
+  color: var(--soft-ink);
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 1px 6px rgba(120, 90, 70, 0.06);
+}
+
+.soft-filter--menu {
+  margin-left: auto;
+  padding: 5px 6px;
+  color: var(--soft-ink-2);
+}
+
+.soft-filter--menu svg { width: 15px; height: 15px; display: block; }
+
+/* ── Stories ── */
+.soft-stories {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 2px 2px 14px;
+  margin-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.soft-stories::-webkit-scrollbar { display: none; }
+
+.soft-stories--compact { padding-bottom: 8px; margin-bottom: 10px; }
+
+.soft-story {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 60px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.soft-story__ring {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(145deg, #F0DED2, #C9B896, #ED9B62);
+}
+
+.soft-story__ring--new {
+  background: linear-gradient(145deg, #ED9B62, #C9B896, #F0DED2);
+}
+
+.soft-story__ava,
+.soft-story img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid var(--soft-surface-2);
+  object-fit: cover;
+  background: var(--soft-bg-2);
+  display: block;
+}
+
+.soft-story__add {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid var(--soft-surface-2);
+  background: var(--soft-bg-3);
+  display: grid;
+  place-items: center;
+  color: var(--soft-ink-3);
+}
+
+.soft-story__add svg { width: 22px; height: 22px; }
+
+.soft-story__label,
+.soft-story__name {
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--soft-ink-2);
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── 对话列表 ── */
+.theme-soft .qq-chat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 0;
+}
+
+.soft-thread,
+.theme-soft .qq-chat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 4px;
+  border: none;
+  border-radius: var(--soft-r);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: background 0.2s;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 72px;
+}
+
+.soft-thread__ava-wrap,
+.theme-soft .qq-chat-item .soft-thread__ava-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.theme-soft .qq-chat-item--pinned {
+  background: rgba(237, 155, 98, 0.06);
+  box-shadow: inset 3px 0 0 var(--soft-coral);
+  border-radius: var(--soft-r);
+}
+
+.theme-soft .qq-chat-item--pinned .soft-thread__ava-wrap::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--soft-coral) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 17v5M9 10.76a4 4 0 0 1 6 0v1.24l1.5 1.5H7.5L9 12V10.76z'/%3E%3C/svg%3E") center/9px no-repeat;
+  border: 2px solid #fff;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.soft-thread__pin { display: none !important; }
+
+.soft-thread__ava,
+.theme-soft .qq-chat-item__ava {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--soft-bg-2);
+  display: block;
+  border: none;
+}
+
+.soft-thread__body { flex: 1; min-width: 0; }
+
+.soft-thread__row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.soft-thread__aside {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  min-width: 44px;
+}
+
+.soft-thread__name,
+.theme-soft .qq-chat-item__name {
+  font-family: var(--soft-font);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--soft-ink);
+}
+
+.soft-thread__time {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  flex-shrink: 0;
+}
+
+.soft-thread__badge,
+.theme-soft .qq-chat-item__badge {
+  position: static;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--soft-r-pill);
+  background: var(--soft-badge);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  display: grid;
+  place-items: center;
+  border: none;
+  line-height: 1;
+}
+
+.soft-thread__preview,
+.theme-soft .qq-chat-item__msg {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.soft-thread.is-unread .soft-thread__name,
+.theme-soft .qq-chat-item.is-unread .qq-chat-item__name { font-weight: 600; }
+
+.soft-thread.is-unread .soft-thread__preview,
+.theme-soft .qq-chat-item.is-unread .qq-chat-item__msg {
+  color: var(--soft-ink-2);
+}
+
+.theme-soft .qq-chat-swipe__act {
+  background: var(--soft-coral);
+  color: #fff;
+  border-radius: var(--soft-r);
+}
+
+.theme-soft .qq-chat-empty {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--soft-ink-3);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  font-family: var(--soft-font);
+}
+
+.theme-soft .qq-chat-empty span {
+  display: block;
+  font-size: 12px;
+  margin-top: 6px;
+  opacity: 0.85;
+}
+
+/* ── 动态 Tab ── */
+.soft-feed-tabs {
+  position: absolute;
+  top: calc(var(--soft-safe-t) + var(--soft-topbar-h) + 2px);
+  left: 16px;
+  right: 16px;
+  z-index: 35;
+  display: flex;
+  gap: 22px;
+  padding: 0 2px 6px;
+  border-bottom: 1px solid var(--soft-line);
+}
+
+.soft-feed-tab {
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  cursor: pointer;
+  padding: 4px 0 8px;
+  position: relative;
+}
+
+.soft-feed-tab.is-active {
+  color: var(--soft-ink);
+  font-weight: 500;
+}
+
+.soft-feed-tab.is-active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--soft-coral);
+}
+
+.soft-feed-list,
+.theme-soft #qq-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.soft-fab,
+.theme-soft .mm-compose-fab {
+  display: none;
+}
+
+.soft-fab svg,
+.theme-soft .mm-compose-fab svg { width: 20px; height: 20px; }
+
+/* Feed 卡片 */
+.theme-soft .mm-feed-card,
+.soft-feed-card {
+  background: var(--soft-surface-2);
+  border-radius: var(--soft-r-lg);
+  border: 1px solid var(--soft-line);
+  box-shadow: var(--soft-shadow);
+  overflow: hidden;
+  padding: 0;
+}
+
+.soft-feed-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 14px 8px;
+}
+
+.soft-feed-card__ava {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--soft-bg-2);
+  flex-shrink: 0;
+}
+
+.soft-feed-card__ava--ph {
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--soft-ink-2);
+}
+
+.soft-feed-card__meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.soft-feed-card__name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.soft-feed-card__author,
+.theme-soft .mm-feed-card__author {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--soft-ink);
+}
+
+.soft-feed-card__tag {
+  font-size: 9px;
+  font-weight: 400;
+  padding: 2px 7px;
+  border-radius: var(--soft-r-pill);
+  background: var(--soft-gold-soft);
+  color: #8A7868;
+  letter-spacing: 0.04em;
+}
+
+.soft-feed-card__time {
+  font-size: 11px;
+  color: var(--soft-ink-3);
+  margin-top: 2px;
+  display: block;
+}
+
+.theme-soft .mm-feed-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 8px;
+  border: none;
+}
+
+.theme-soft .mm-feed-card__text,
+.soft-feed-card__text {
+  padding: 0 14px 10px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--soft-ink-2);
+}
+
+.soft-feed-card__loc {
+  padding: 0 14px 10px;
+}
+
+.soft-feed-card__loc-pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  padding: 4px 10px;
+  border-radius: var(--soft-r-pill);
+  background: var(--soft-bg-3);
+}
+
+.theme-soft .mm-feed-card__media,
+.theme-soft .mm-feed-card__media-grid {
+  margin: 0 12px 10px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.theme-soft .mm-feed-card__media-grid img,
+.theme-soft .mm-feed-card__media img {
+  filter: saturate(0.9) contrast(0.96) sepia(0.05);
+}
+
+.theme-soft .mm-feed-actions {
+  display: flex;
+  gap: 16px;
+  padding: 6px 14px 12px;
+  border-top: none;
+}
+
+.theme-soft .mm-feed-action {
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.theme-soft .mm-feed-action svg { width: 16px; height: 16px; }
+
+.theme-soft .mm-feed-action.is-liked { color: var(--soft-coral); }
+
+.theme-soft .mm-feed-social {
+  padding: 0 14px 14px;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--soft-ink-2);
+}
+
+.theme-soft .mm-feed-card--empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--soft-ink-3);
+}
+
+/* ── 联系人 ── */
+.soft-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.soft-quick-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 4px;
+  border: none;
+  border-radius: var(--soft-r);
+  background: var(--soft-surface-2);
+  box-shadow: var(--soft-shadow);
+  cursor: pointer;
+  font: inherit;
+  color: var(--soft-ink-2);
+}
+
+.soft-quick-card__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: var(--soft-bg-3);
+  display: grid;
+  place-items: center;
+  color: var(--soft-ink);
+}
+
+.soft-quick-card__icon svg { width: 17px; height: 17px; stroke-width: 1.4; }
+
+.soft-quick-card__label {
+  font-size: 11px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.soft-section-head {
+  margin-bottom: 6px;
+  padding: 0 2px;
+}
+
+.soft-section-head__title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--soft-ink);
+}
+
+.soft-contacts-wrap {
+  position: relative;
+  padding-right: 16px;
+}
+
+.soft-contact-group { margin-bottom: 6px; content-visibility: auto; contain-intrinsic-size: auto 320px; }
+
+.soft-contact-group__letter {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--soft-gold);
+  padding: 10px 2px 4px;
+  letter-spacing: 0.06em;
+}
+
+.soft-contact-item,
+.theme-soft .qq-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 6px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: background 0.2s;
+}
+
+.soft-contact-item__ava,
+.theme-soft .qq-contact-row__ava,
+.soft-contact-item img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--soft-bg-2);
+  flex-shrink: 0;
+  border: none;
+}
+
+.soft-contact-item__name,
+.theme-soft .qq-contact-row__name {
+  font-size: 15px;
+  font-weight: 400;
+  font-family: var(--soft-font);
+}
+
+.soft-contact-item__note,
+.theme-soft .qq-contact-row__sub {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  margin-top: 2px;
+}
+
+.soft-contacts-empty {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--soft-ink-3);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.soft-alpha-rail {
+  position: absolute;
+  right: -4px;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 8px 0;
+}
+
+.soft-alpha-tag {
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  padding: 1px 3px;
+  cursor: pointer;
+}
+
+.soft-alpha-tag.is-active {
+  color: var(--soft-coral);
+  font-weight: 600;
+}
+
+/* ── 个人页 ── */
+.soft-profile-card {
+  background: var(--soft-surface-2);
+  border-radius: var(--soft-r-lg);
+  box-shadow: var(--soft-shadow);
+  padding: 18px 16px 0;
+  margin-bottom: 12px;
+  border: 1px solid var(--soft-line);
+}
+
+.soft-profile-card__main {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.soft-profile-card__ava-wrap {
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  width: 70px;
+  height: 70px;
+}
+
+.soft-profile-card__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(145deg, #F0DED2, #C9B896, #ED9B62);
+  box-shadow: 0 0 16px rgba(237, 155, 98, 0.15);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.soft-profile-card__ava {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  object-fit: cover;
+  background: var(--soft-bg-2);
+  display: block;
+}
+
+.soft-profile-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.soft-profile-card__badge {
+  position: absolute;
+  bottom: -2px;
+  right: -8px;
+  z-index: 2;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 3px 7px;
+  border-radius: var(--soft-r-pill);
+  background: linear-gradient(135deg, #F0DED2, #C9B896);
+  color: #6B5E54;
+  border: 1.5px solid #fff;
+}
+
+.soft-profile-card__name {
+  font-size: 17px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  color: var(--soft-ink);
+}
+
+.soft-profile-card__id {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  margin-bottom: 6px;
+}
+
+.soft-profile-card__bio {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--soft-ink-2);
+  line-height: 1.45;
+  outline: none;
+  cursor: text;
+  border-radius: 6px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+
+.soft-profile-card__bio:focus {
+  background: var(--soft-bg-3);
+  box-shadow: 0 0 0 1px var(--soft-line);
+  color: var(--soft-ink);
+}
+
+.soft-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0 14px;
+  border-top: 1px solid var(--soft-line);
+}
+
+.soft-stat__num {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--soft-ink);
+}
+
+.soft-stat__lbl {
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  margin-top: 2px;
+}
+
+.soft-status-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  background: var(--soft-surface-2);
+  border-radius: var(--soft-r);
+  box-shadow: var(--soft-shadow);
+  border: 1px solid var(--soft-line);
+  min-height: 68px;
+}
+
+.soft-status-card__copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.soft-status-card__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--soft-ink-3);
+  margin-bottom: 3px;
+}
+
+.soft-status-card__text {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--soft-ink);
+  outline: none;
+  min-height: 1.4em;
+  line-height: 1.45;
+  cursor: text;
+  border-radius: 6px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+
+.soft-status-card__text:focus {
+  background: var(--soft-bg-3);
+  box-shadow: 0 0 0 1px var(--soft-line);
+}
+
+.soft-status-card__ava-btn {
+  position: relative;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--soft-bg-2);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.soft-status-card__ava {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+.soft-status-card__ava:not([src]),
+.soft-status-card__ava[src=""] {
+  opacity: 0;
+}
+
+.soft-status-card__ava-hint {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--soft-ink-3);
+  background: var(--soft-bg-2);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.soft-status-card__ava-btn:has(.soft-status-card__ava[src]:not([src=""])) .soft-status-card__ava-hint {
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: 9px;
+}
+
+.soft-status-card__ava-btn:active .soft-status-card__ava-hint {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
+.soft-stat__num[data-soft-edit] {
+  outline: none;
+  cursor: text;
+  border-radius: 6px;
+  padding: 2px 6px;
+  margin: -2px -6px;
+  min-width: 1.5em;
+}
+
+.soft-stat__num[data-soft-edit]:focus {
+  background: var(--soft-bg-3);
+  box-shadow: 0 0 0 1px var(--soft-line);
+}
+
+.soft-stat__num[data-soft-edit]:empty::before {
+  content: "0";
+  color: var(--soft-ink-3);
+}
+
+.soft-priv-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.soft-priv-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 11px 4px;
+  border: none;
+  border-radius: 12px;
+  background: var(--soft-surface-2);
+  box-shadow: 0 2px 8px rgba(120, 90, 70, 0.04);
+  cursor: pointer;
+  font: inherit;
+  color: var(--soft-ink-2);
+}
+
+.soft-priv-item__icon svg { width: 18px; height: 18px; color: var(--soft-ink); stroke-width: 1.3; }
+
+.soft-priv-item__label {
+  font-size: 10px;
+  font-weight: 300;
+  text-align: center;
+  line-height: 1.25;
+}
+
+.soft-menu { display: flex; flex-direction: column; gap: 6px; }
+
+.soft-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  background: var(--soft-surface-2);
+  border-radius: var(--soft-r);
+  border: 1px solid var(--soft-line);
+  box-shadow: 0 1px 6px rgba(120, 90, 70, 0.03);
+  cursor: pointer;
+}
+
+.soft-menu__item-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--soft-ink-2);
+  flex-shrink: 0;
+}
+
+.soft-menu__item-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.soft-menu__item-arrow {
+  color: var(--soft-ink-3);
+  font-size: 14px;
+}
+
+/* ── 底栏 ── */
+.soft-tabbar {
+  position: absolute;
+  bottom: calc(var(--soft-safe-b) + 8px);
+  left: 14px;
+  right: 14px;
+  z-index: 50;
+  height: var(--soft-tabbar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  background: #FFFFFF;
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: var(--soft-r-pill);
+  box-shadow: var(--soft-shadow-float);
+}
+
+.soft-tabbar__pendant { display: none !important; }
+
+.soft-tabbar__item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 7px 2px;
+  color: var(--soft-ink-3);
+  position: relative;
+}
+
+.soft-tabbar__item svg {
+  width: 21px;
+  height: 21px;
+  stroke-width: 1.4;
+}
+
+.soft-tabbar__item span {
+  font-size: 9px;
+  font-weight: 300;
+}
+
+.soft-tabbar__item.is-active {
+  color: var(--soft-ink);
+}
+
+.soft-tabbar__item.is-active svg {
+  color: var(--soft-coral);
+  stroke: var(--soft-coral);
+}
+
+.soft-tabbar__item.is-active span { font-weight: 500; }
+
+.soft-tabbar__item.is-active::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: calc(50% - 14px);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--soft-badge);
+}
+
+.theme-soft.qq-room-open .soft-tabbar {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(14px);
+  transition: all 0.28s;
+}
+
+/* ── 对话室：INS 紧凑气泡 · 自定义美化时不覆盖 ── */
+.theme-soft #qq-room:not(.mq-has-custom-css) .qq-room__row--them .qq-room__bubble,
+.theme-soft #mq-bf-preview-room:not(.mq-has-custom-css) .qq-room__row--them .qq-room__bubble {
+  background: #f7f5f2;
+  color: #3d3834;
+  border: 1px solid rgba(122, 110, 100, 0.08);
+  border-radius: 14px 14px 14px 3px;
+  box-shadow: none;
+}
+.theme-soft #qq-room:not(.mq-has-custom-css) .qq-room__row--me .qq-room__bubble,
+.theme-soft #mq-bf-preview-room:not(.mq-has-custom-css) .qq-room__row--me .qq-room__bubble {
+  background: linear-gradient(135deg, #3A3532, #1A1A1A);
+  color: #FAFAFA;
+  border: none;
+  border-radius: 14px 14px 3px 14px;
+  box-shadow: none;
+}
+
+/* 隐藏旧主题 */
+.theme-soft .noir-header-area,
+.theme-soft .noir-tab-bar,
+.theme-soft .noir-chat-search { display: none !important; }
+
+.theme-soft .qq-search-hit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: var(--soft-r);
+  background: var(--soft-surface-2);
+  box-shadow: var(--soft-shadow);
+  margin-bottom: 8px;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+}
+
+.theme-soft .qq-search-empty {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--soft-ink-3);
+  font-size: 14px;
+}
+
+/* ── 覆盖 miya-chat.css 基础变量 ── */
+.miya-chat-app.theme-soft,
+.miya-chat-app.theme-soft .qq-pages,
+.miya-chat-app.theme-soft .qq-page,
+.miya-chat-app.theme-soft .qq-page__scroll,
+.miya-chat-app.theme-soft .qq-page--msg,
+.miya-chat-app.theme-soft .qq-page--feed,
+.miya-chat-app.theme-soft .qq-page--contacts,
+.miya-chat-app.theme-soft .qq-page--mine {
+  background: #ffffff !important;
+}
+
+.miya-chat-app.theme-soft {
+  background: var(--soft-bg) !important;
+  color: var(--soft-ink) !important;
+}
+
+.miya-chat-app.theme-soft .qq-tabbar {
+  position: absolute;
+  border: none;
+  box-shadow: none;
+  height: auto;
+  padding: 0;
+}
+
+.miya-chat-app.theme-soft .soft-tabbar.qq-tabbar {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  box-shadow: var(--soft-shadow-float) !important;
+}
+
+.miya-chat-app.theme-soft .qq-pages { background: #ffffff; }
+
+.miya-chat-app.theme-soft.qq-room-open .qq-pages {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.miya-chat-app.theme-soft .qq-page--msg .qq-page__scroll {
+  padding: calc(var(--soft-safe-t) + var(--soft-topbar-h) + var(--soft-float-gap) + 4px) 16px calc(var(--soft-safe-b) + var(--soft-tabbar-h) + var(--soft-float-gap) + 24px) !important;
+}
+
+.miya-chat-app.theme-soft .qq-page--feed .qq-page__scroll--feed,
+.miya-chat-app.theme-soft .qq-page--contacts .qq-page__scroll,
+.miya-chat-app.theme-soft .qq-page--mine .qq-page__scroll {
+  padding-bottom: calc(var(--soft-safe-b) + var(--soft-tabbar-h) + var(--soft-float-gap) + 24px) !important;
+}
+
+.miya-chat-app.theme-soft .qq-chat-list {
+  gap: 0 !important;
+  padding-top: 0 !important;
+}
+
+.miya-chat-app.theme-soft .qq-chat-swipe__main {
+  background: #ffffff !important;
+}
+
+.miya-chat-app.theme-soft .qq-chat-item__name {
+  font-family: var(--soft-font) !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  color: var(--soft-ink) !important;
+  text-transform: none !important;
+}
+
+.miya-chat-app.theme-soft .qq-chat-item__msg {
+  font-family: var(--soft-font) !important;
+  font-size: 13px !important;
+  font-weight: 300 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.miya-chat-app.theme-soft .qq-chat-item__ava {
+  border-radius: 50% !important;
+  border: none !important;
+  width: 48px !important;
+  height: 48px !important;
+}
+
+.miya-chat-app.theme-soft .qq-chat-item__badge {
+  background: var(--soft-badge) !important;
+  border: none !important;
+  border-radius: var(--soft-r-pill) !important;
+}
+
+.miya-chat-app.theme-soft .qq-contact-row {
+  border-bottom: none !important;
+  padding: 9px 6px !important;
+}
+
+.miya-chat-app.theme-soft .qq-contact-row__ava {
+  border-radius: 50% !important;
+  border: none !important;
+}
+
+.miya-chat-app.theme-soft .qq-contact-row__name {
+  font-family: var(--soft-font) !important;
+  font-size: 15px !important;
+  text-transform: none !important;
+}
+
+.miya-chat-app.theme-soft .qq-chat-empty {
+  font-family: var(--soft-font) !important;
+  font-size: 14px !important;
+  text-transform: none !important;
+}
+
+.miya-chat-app.theme-soft .qq-chat-empty span {
+  font-size: 12px !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+[data-soft-deco]:not([hidden])[src] { display: block; }
+[data-soft-text] { cursor: default; }
+
+[data-soft-edit]:focus {
+  outline: none;
+}
+
+@media (max-width: 360px) {
+  .soft-quick-grid { gap: 6px; }
+  .soft-quick-card { padding: 10px 2px; }
+  .soft-quick-card__label { font-size: 10px; }
+  .soft-topbar__title { font-size: 20px; }
+}
+
+/* ── 长按消息菜单 · INS 奶油风 ── */
+.theme-soft .qq-msg-menu {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: rgba(201, 184, 150, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 0 0 0.5px rgba(201, 184, 150, 0.08),
+    0 6px 22px rgba(120, 90, 70, 0.1),
+    0 2px 6px rgba(120, 90, 70, 0.05);
+}
+
+.theme-soft .qq-msg-menu__btn {
+  color: var(--soft-ink);
+  font-weight: 400;
+}
+
+.theme-soft .qq-msg-menu__btn + .qq-msg-menu__btn::before {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(201, 184, 150, 0.22) 18%,
+    rgba(201, 184, 150, 0.22) 82%,
+    transparent
+  );
+}
+
+.theme-soft .qq-msg-menu__btn:active {
+  background: rgba(201, 184, 150, 0.12);
+}
+
+.theme-soft .qq-msg-menu__btn.is-danger {
+  color: #D85668;
+}
+
+.theme-soft .qq-msg-menu__btn.is-danger:active {
+  background: rgba(216, 86, 104, 0.1);
+}

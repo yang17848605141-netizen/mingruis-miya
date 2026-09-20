@@ -1,0 +1,840 @@
+/* 自定义布局 · 4×1 小组件 · 五种独立风格 */
+
+.wg-4x1 {
+  box-sizing: border-box;
+  font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+  color: #2a2a2e;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wg-4x1 *,
+.wg-4x1 *::before,
+.wg-4x1 *::after {
+  box-sizing: border-box;
+}
+
+/* ── 共享 · 图片占位 ── */
+.wg-4x1__photo,
+.wg-4x1-film__photo,
+.wg-4x1-wave__photo,
+.wg-4x1-ticket__photo,
+.wg-4x1-ticketphoto__photo,
+.wg-4x1-orbit__photo,
+.wg-4x1-ledger__photo,
+.wg-4x1-mooddiary__avatar,
+.wg-4x1-weekmood__avatar {
+  background: linear-gradient(145deg, #f4f4f6 0%, #e8e8ec 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.wg-4x1-film__photo.has-custom-photo,
+.wg-4x1-wave__photo.has-custom-photo,
+.wg-4x1-ticket__photo.has-custom-photo,
+.wg-4x1-ticketphoto__photo.has-custom-photo,
+.wg-4x1-orbit__photo.has-custom-photo,
+.wg-4x1-ledger__photo.has-custom-photo,
+.wg-4x1-mooddiary__avatar.has-custom-photo,
+.wg-4x1-weekmood__avatar.has-custom-photo {
+  background-color: transparent;
+}
+
+/* ── 共享 · 半透明毛玻璃底 ── */
+.wg-4x1-film,
+.wg-4x1-wave,
+.wg-4x1-ticket,
+.wg-4x1-ticketphoto,
+.wg-4x1-orbit,
+.wg-4x1-ledger {
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* 自定义背景 · 不透明实底（关闭毛玻璃） */
+.wg-4x1-film.has-custom-bg,
+.wg-4x1-wave.has-custom-bg,
+.wg-4x1-ticket.has-custom-bg,
+.wg-4x1-orbit.has-custom-bg,
+.wg-4x1-ledger.has-custom-bg {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: #f8f8fa;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.wg-4x1-film.has-custom-bg .wg-4x1-film__holes {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 6px, transparent 6px 14px),
+    linear-gradient(rgba(236, 236, 239, 0.82), rgba(236, 236, 239, 0.82));
+}
+
+.wg-4x1-ticket.has-custom-bg .wg-4x1-ticket__stub {
+  background: rgba(248, 248, 250, 0.88);
+}
+
+.wg-4x1-ledger.has-custom-bg .wg-4x1-ledger__left {
+  background: rgba(249, 249, 251, 0.88);
+}
+
+/* ── 1 · 胶片行记 · 穿孔胶片条 ── */
+.wg-4x1-film {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: rgba(250, 250, 250, 0.68);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 6px 18px rgba(30,34,42,0.06);
+}
+
+.wg-4x1-film__holes {
+  flex: 0 0 7px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 6px, transparent 6px 14px),
+    linear-gradient(rgba(236, 236, 239, 0.55), rgba(236, 236, 239, 0.55));
+  background-size: 14px 100%, 100% 100%;
+  opacity: 0.95;
+}
+
+.wg-4x1-film__body {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  padding: 4px 12px 5px;
+  min-height: 0;
+}
+
+.wg-4x1-film__frame {
+  flex: 0 0 38%;
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+}
+
+.wg-4x1-film__frame::before,
+.wg-4x1-film__frame::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: rgba(255,255,255,0.55);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wg-4x1-film__frame::before { left: 0; }
+.wg-4x1-film__frame::after { right: 0; }
+
+.wg-4x1-film__photo {
+  width: 100%;
+  height: 100%;
+  min-height: 52px;
+}
+
+.wg-4x1-film__meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+  padding-right: 4px;
+}
+
+.wg-4x1-film__title {
+  margin: 0;
+  font-family: 'Instrument Serif', 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-film__note {
+  margin: 0;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9a9aa3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── 2 · 余白浪 · 波浪底 + 圆相 ── */
+.wg-4x1-wave {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 6px 14px 10px 16px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.wg-4x1-wave__curve {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 18px;
+  fill: rgba(245, 245, 247, 0.72);
+  pointer-events: none;
+}
+
+.wg-4x1-wave__content {
+  flex: 1;
+  min-width: 0;
+  z-index: 1;
+}
+
+.wg-4x1-wave__tag {
+  display: inline-block;
+  margin-bottom: 2px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: rgba(240, 240, 243, 0.72);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: #888;
+  text-transform: lowercase;
+}
+
+.wg-4x1-wave__title {
+  margin: 0;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 17px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-wave__photo-wrap {
+  position: relative;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  margin-left: 10px;
+  z-index: 1;
+}
+
+.wg-4x1-wave__photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(30,34,42,0.08);
+}
+
+.wg-4x1-wave__ring {
+  position: absolute;
+  inset: -5px;
+  border: 1px solid rgba(200,200,210,0.55);
+  border-radius: 50%;
+  border-top-color: transparent;
+  transform: rotate(-28deg);
+  pointer-events: none;
+}
+
+/* ── 3 · 慢票根 · 锯齿票券 ── */
+.wg-4x1-ticket {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  background: rgba(254, 254, 254, 0.68);
+  filter: drop-shadow(0 4px 12px rgba(30,34,42,0.05));
+}
+
+.wg-4x1-ticket__stub {
+  position: relative;
+  flex: 0 0 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: rgba(248, 248, 250, 0.58);
+}
+
+.wg-4x1-ticket__stub::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  right: -6px;
+  width: 12px;
+  background:
+    radial-gradient(circle at 50% 0, transparent 5px, rgba(254, 254, 254, 0.68) 5px) 0 0 / 12px 12px repeat-y;
+  z-index: 2;
+}
+
+.wg-4x1-ticket__photo {
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  transform: rotate(-3deg);
+  box-shadow: 0 2px 8px rgba(30,34,42,0.1);
+}
+
+.wg-4x1-ticket__code {
+  font-family: 'Bebas Neue', 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #b0b0b8;
+}
+
+.wg-4x1-ticket__tear {
+  flex: 0 0 0;
+  width: 0;
+  border-left: 1.5px dashed rgba(180,180,190,0.5);
+  margin: 10px 0;
+}
+
+.wg-4x1-ticket__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  padding: 6px 14px 6px 10px;
+  min-width: 0;
+}
+
+.wg-4x1-ticket__title {
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-ticket__date {
+  margin: 0;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #aaa;
+}
+
+/* ── 3b · 纯照片 · 慢票根外形（无左侧票根） ── */
+.wg-4x1-ticketphoto {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(254, 254, 254, 0.68);
+  filter: drop-shadow(0 4px 12px rgba(30,34,42,0.05));
+}
+
+.wg-4x1-ticketphoto__photo {
+  width: 100%;
+  height: 100%;
+}
+
+.wg-4x1-ticketphoto:has(.wg-4x1-ticketphoto__photo.has-custom-photo) {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: transparent;
+}
+
+/* ── 4 · 轨道相 · 倾斜相框 + 轨道环 ── */
+.wg-4x1-orbit {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  padding: 5px 14px 5px 10px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72) 0%, rgba(250, 250, 250, 0.62) 100%);
+}
+
+.wg-4x1-orbit__visual {
+  position: relative;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wg-4x1-orbit__ring {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid rgba(210,210,218,0.7);
+  border-radius: 50%;
+  border-right-color: transparent;
+  border-bottom-color: rgba(210,210,218,0.25);
+  transform: rotate(15deg);
+}
+
+.wg-4x1-orbit__ring::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px dotted rgba(200,200,208,0.45);
+  border-radius: 50%;
+}
+
+.wg-4x1-orbit__photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  transform: rotate(-8deg);
+  box-shadow: 0 3px 12px rgba(30,34,42,0.12);
+  z-index: 1;
+}
+
+.wg-4x1-orbit__copy {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  padding-left: 2px;
+}
+
+.wg-4x1-orbit__name {
+  margin: 0 0 2px;
+  font-family: 'Outfit', 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-orbit__mood {
+  margin: 0;
+  font-family: 'Great Vibes', cursive;
+  font-size: 16px;
+  line-height: 1.1;
+  color: #6a6a72;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-orbit__dotline {
+  display: block;
+  margin-top: 4px;
+  width: 48px;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, #ccc 0 3px, transparent 3px 7px);
+  opacity: 0.6;
+}
+
+/* ── 5 · 细账簿 · 摊开的账页 ── */
+.wg-4x1-ledger {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset, 0 4px 14px rgba(30,34,42,0.05);
+}
+
+.wg-4x1-ledger__left {
+  position: relative;
+  flex: 0 0 34%;
+  padding: 7px 8px 7px 10px;
+  background: rgba(249, 249, 251, 0.58);
+}
+
+.wg-4x1-ledger__photo {
+  width: 100%;
+  height: 100%;
+  min-height: 48px;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(30,34,42,0.08);
+}
+
+.wg-4x1-ledger__clip {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 8px;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, #ddd 0%, #c8c8d0 100%);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  pointer-events: none;
+}
+
+.wg-4x1-ledger__fold {
+  flex: 0 0 3px;
+  background: linear-gradient(90deg, rgba(0,0,0,0.04), rgba(0,0,0,0.01), rgba(0,0,0,0.06));
+  box-shadow: 1px 0 3px rgba(0,0,0,0.04);
+}
+
+.wg-4x1-ledger__right {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px 6px 12px;
+  min-width: 0;
+}
+
+.wg-4x1-ledger__rules {
+  position: absolute;
+  inset: 8px 10px 8px 8px;
+  background: repeating-linear-gradient(
+    transparent 0,
+    transparent 13px,
+    rgba(220,220,228,0.55) 13px,
+    rgba(220,220,228,0.55) 14px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wg-4x1-ledger__right::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: 1px;
+  background: rgba(220,160,160,0.35);
+  z-index: 0;
+}
+
+.wg-4x1-ledger__line1,
+.wg-4x1-ledger__line2 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: 'LXGW WenKai SC', 'Noto Serif SC', serif;
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-ledger__line2 {
+  font-size: 10px;
+  color: #888;
+  font-style: italic;
+}
+
+/* ── 6 · 心情日记 ── */
+.wg-4x1-mooddiary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px 0 8px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(210, 210, 218, 0.55);
+  box-shadow: 0 2px 10px rgba(40, 40, 48, 0.04);
+}
+
+.wg-4x1-mooddiary__back {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin-left: 2px;
+  border-left: 1.5px solid rgba(120, 120, 128, 0.7);
+  border-bottom: 1.5px solid rgba(120, 120, 128, 0.7);
+  transform: rotate(45deg);
+}
+
+.wg-4x1-mooddiary__avatar {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid rgba(220, 220, 226, 0.75);
+}
+
+.wg-4x1-mooddiary__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.wg-4x1-mooddiary__top {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 2px;
+  min-width: 0;
+}
+
+.wg-4x1-mooddiary__head-title {
+  font-size: 10px;
+  font-weight: 500;
+  color: #4a4a52;
+  white-space: nowrap;
+}
+
+.wg-4x1-mooddiary__username {
+  font-size: 9px;
+  color: rgba(110, 110, 118, 0.82);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-mooddiary__body {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.35;
+  color: #3a3a42;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-mooddiary__stamp {
+  flex: 0 0 auto;
+  max-width: 72px;
+  font-size: 8px;
+  line-height: 1.2;
+  color: rgba(150, 150, 158, 0.75);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.wg-4x1-mooddiary__aside {
+  flex: 0 0 auto;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-width: 42px;
+  padding: 5px 0 4px;
+}
+
+.wg-4x1-mooddiary__actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.wg-4x1-mooddiary__icon {
+  display: block;
+  width: 9px;
+  height: 9px;
+  flex: 0 0 auto;
+  background: rgba(152, 152, 160, 0.68);
+  -webkit-mask: no-repeat center / contain;
+  mask: no-repeat center / contain;
+}
+
+.wg-4x1-mooddiary__icon--like {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 20.8l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.98L12 20.8z' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 20.8l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.98L12 20.8z' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3C/svg%3E");
+}
+
+.wg-4x1-mooddiary__icon--save {
+  width: 8px;
+  height: 9px;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 4h12v16l-6-4-6 4V4z' fill='none' stroke='%23000' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 4h12v16l-6-4-6 4V4z' fill='none' stroke='%23000' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* ── 7 · 周历心情 ── */
+.wg-4x1-weekmood {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 0 8px;
+  border-radius: 12px;
+  background: #f2f2f5;
+  border: 1px solid rgba(220, 220, 226, 0.5);
+  overflow: hidden;
+}
+
+.wg-4x1-weekmood.has-custom-bg {
+  background-color: #f2f2f5;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.wg-4x1-weekmood__avatar {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1.5px solid rgba(220, 220, 226, 0.75);
+  background-color: #e8e8ec;
+}
+
+.wg-4x1-weekmood__copy {
+  flex: 0 0 auto;
+  width: 72px;
+  min-width: 0;
+}
+
+.wg-4x1-weekmood__line1 {
+  margin: 0 0 2px;
+  font-size: 10px;
+  line-height: 1.25;
+  color: #3a3a42;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-weekmood__line2 {
+  margin: 0;
+  font-family: 'Outfit', 'DM Sans', sans-serif;
+  font-size: 8px;
+  line-height: 1.25;
+  color: rgba(130, 130, 138, 0.82);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x1-weekmood__week {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 26px;
+  padding: 2px 4px 2px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(210, 210, 218, 0.65);
+}
+
+.wg-4x1-weekmood__days {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+}
+
+.wg-4x1-weekmood__day {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 6.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
+  color: rgba(130, 130, 138, 0.78);
+  padding: 4px 0;
+  border-radius: 5px;
+}
+
+.wg-4x1-weekmood__day.is-active {
+  color: #4a4a52;
+  background: rgba(228, 228, 234, 0.95);
+}
+
+.wg-4x1-weekmood__paw {
+  flex: 0 0 9px;
+  width: 9px;
+  height: 7px;
+  border-radius: 50% 50% 42% 42%;
+  background: rgba(200, 200, 208, 0.42);
+  position: relative;
+  pointer-events: none;
+}
+
+.wg-4x1-weekmood__paw::before,
+.wg-4x1-weekmood__paw::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: inherit;
+  top: -1px;
+}
+
+.wg-4x1-weekmood__paw::before { left: -1px; }
+.wg-4x1-weekmood__paw::after { right: -1px; }
+
+/* ── 自定义布局 · 4×1 缩放 ── */
+.desk-custom__wg--filmstrip,
+.desk-custom__wg--wave,
+.desk-custom__wg--ticket,
+.desk-custom__wg--ticketphoto,
+.desk-custom__wg--orbit,
+.desk-custom__wg--ledger,
+.desk-custom__wg--mooddiary,
+.desk-custom__wg--weekmood {
+  --dc-wg-design-h: var(--dc-row-h, 78px);
+  width: 100%;
+  height: var(--dc-wg-design-h);
+  transform-origin: top center;
+  transform: scale(calc(100cqh / var(--dc-wg-design-h)));
+  background: transparent;
+}
+
+@supports not (container-type: size) {
+  .desk-custom__wg--filmstrip,
+  .desk-custom__wg--wave,
+  .desk-custom__wg--ticket,
+  .desk-custom__wg--ticketphoto,
+  .desk-custom__wg--orbit,
+  .desk-custom__wg--ledger,
+  .desk-custom__wg--mooddiary,
+  .desk-custom__wg--weekmood {
+    transform: none;
+    height: 100%;
+  }
+}
+
+/* ── 组件库预览 ── */
+.desk-custom-wg-picker__preview--widget {
+  padding: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(130,136,145,0.12);
+}
+
+.desk-custom-wg-picker__preview--widget .desk-custom__wg {
+  width: 100%;
+  height: 100%;
+  transform: none !important;
+  pointer-events: none;
+}
+
+.desk-custom-wg-picker__preview--widget .desk-custom__wg-remove {
+  display: none;
+}
+
+.ins-custom-wg-showcase__stage--4x1 {
+  aspect-ratio: 4 / 1;
+  min-height: 52px;
+}

@@ -1,0 +1,504 @@
+/* 自定义布局 · 2×1 小组件 · INS 韩系灰白 · 实底 · 对齐双列图标 */
+
+.wg-2x1 {
+  box-sizing: border-box;
+  font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+  color: #2a2a2e;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wg-2x1 *,
+.wg-2x1 *::before,
+.wg-2x1 *::after {
+  box-sizing: border-box;
+}
+
+/* ── 共享 · 实底卡片壳 ── */
+.wg-2x1-dial,
+.wg-2x1-play,
+.wg-2x1-chat,
+.wg-2x1-fold,
+.wg-2x1-cal,
+.wg-2x1-strip {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(30, 34, 42, 0.05);
+}
+
+/* ── 共享 · 图片占位 ── */
+.wg-2x1-play__cover,
+.wg-2x1-chat__ava,
+.wg-2x1-strip__photo {
+  background: linear-gradient(145deg, #ececef 0%, #d8d8de 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.wg-2x1-play__cover.has-custom-photo,
+.wg-2x1-chat__ava.has-custom-photo,
+.wg-2x1-strip__photo.has-custom-photo {
+  background-color: #e8e8ec;
+}
+
+/* ══════════════════════════════════════
+   1 · 涂鸦表盘
+   ══════════════════════════════════════ */
+.wg-2x1-dial {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 8px;
+  background: #ffffff;
+  border: 1px solid #e2e2e6;
+}
+
+.wg-2x1-dial__face {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+}
+
+.wg-2x1-dial__ring {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.wg-2x1-dial__meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.wg-2x1-dial__time {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: #1e1e22;
+}
+
+.wg-2x1-dial__date {
+  margin: 0;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a8a92;
+  line-height: 1.2;
+}
+
+.wg-2x1-dial__note {
+  margin: 0;
+  font-size: 8px;
+  color: #6a6a72;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ══════════════════════════════════════
+   2 · 封面音轨
+   ══════════════════════════════════════ */
+.wg-2x1-play {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 5px 8px;
+  background: #f0f0f2;
+  border: 1px solid #dedee2;
+  overflow: hidden;
+}
+
+.wg-2x1-play__top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.wg-2x1-play__cover {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(30, 34, 42, 0.08);
+}
+
+.wg-2x1-play__meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.wg-2x1-play__title {
+  margin: 0;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-2x1-play__artist {
+  margin: 0;
+  font-size: 7px;
+  color: #8a8a92;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-2x1-play__note {
+  display: none;
+}
+
+.wg-2x1-play__foot {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.wg-2x1-play__bar {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: #ffffff;
+  border: 1px solid #d0d0d6;
+  overflow: hidden;
+}
+
+.wg-2x1-play__bar-fill {
+  display: block;
+  width: 42%;
+  height: 100%;
+  background: linear-gradient(90deg, #9a9aa2, #5a5a62);
+}
+
+.wg-2x1-play__pct {
+  flex: 0 0 auto;
+  font-size: 7px;
+  font-weight: 600;
+  color: #5a5a62;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.wg-2x1-play__icon {
+  flex: 0 0 auto;
+  font-size: 8px;
+  color: #7a7a82;
+  line-height: 1;
+}
+
+/* ══════════════════════════════════════
+   3 · 对白条
+   ══════════════════════════════════════ */
+.wg-2x1-chat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  background: #ffffff;
+  border: 1px solid #e0e0e4;
+}
+
+.wg-2x1-chat__ava {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid #f0f0f2;
+  box-shadow: 0 1px 3px rgba(30, 34, 42, 0.06);
+}
+
+.wg-2x1-chat__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.wg-2x1-chat__bubble {
+  margin: 0;
+  padding: 5px 8px;
+  background: #ececef;
+  border-radius: 9px 9px 9px 3px;
+  font-size: 8px;
+  line-height: 1.25;
+  color: #3a3a40;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-2x1-chat__stamp {
+  font-size: 6px;
+  letter-spacing: 0.04em;
+  color: #a8a8b0;
+  line-height: 1;
+  padding-left: 3px;
+}
+
+/* ══════════════════════════════════════
+   4 · 文件夹签
+   ══════════════════════════════════════ */
+.wg-2x1-fold {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 9px 8px 5px;
+  background: #e4e4e8;
+  border: 1px solid #d4d4da;
+  border-radius: 0 10px 10px 10px;
+  overflow: hidden;
+}
+
+.wg-2x1-fold__tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 9px;
+  padding: 0 9px 0 7px;
+  background: #5a5a62;
+  border-radius: 5px 5px 0 0;
+  font-size: 6px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f0f0f2;
+  line-height: 9px;
+}
+
+.wg-2x1-fold__tab::after {
+  content: '';
+  position: absolute;
+  right: -5px;
+  top: 0;
+  border-style: solid;
+  border-width: 9px 0 0 5px;
+  border-color: transparent transparent transparent #5a5a62;
+}
+
+.wg-2x1-fold__inner {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.wg-2x1-fold__num {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #2a2a30;
+}
+
+.wg-2x1-fold__copy {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.wg-2x1-fold__label {
+  margin: 0;
+  font-size: 8px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #4a4a52;
+}
+
+.wg-2x1-fold__sub {
+  margin: 0;
+  font-size: 6px;
+  letter-spacing: 0.04em;
+  color: #8a8a92;
+  line-height: 1.2;
+}
+
+.wg-2x1-fold__deco {
+  flex: 0 0 auto;
+  font-size: 10px;
+  line-height: 1;
+  color: #8a8a92;
+}
+
+.wg-2x1-fold__photo {
+  display: none;
+}
+
+/* ══════════════════════════════════════
+   5 · 环扣月历
+   ══════════════════════════════════════ */
+.wg-2x1-cal {
+  display: flex;
+  flex-direction: column;
+  background: #ebebed;
+  border: 1px solid #d8d8de;
+  overflow: hidden;
+}
+
+.wg-2x1-cal__rings {
+  flex: 0 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: #f6f6f8;
+  border-bottom: 1px solid #dedee2;
+}
+
+.wg-2x1-cal__ring {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: 1.5px solid #b8b8c0;
+  background: #ffffff;
+}
+
+.wg-2x1-cal__sheet {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 2px 6px 4px;
+  background: #ffffff;
+  min-height: 0;
+}
+
+.wg-2x1-cal__month {
+  margin: 0;
+  font-family: 'Instrument Serif', 'Noto Serif SC', serif;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: #3a3a40;
+  line-height: 1.1;
+}
+
+.wg-2x1-cal__week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  width: 100%;
+}
+
+.wg-2x1-cal__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 1px 0;
+  border-radius: 3px;
+}
+
+.wg-2x1-cal__day.is-active {
+  background: #2a2a30;
+}
+
+.wg-2x1-cal__day.is-active .wg-2x1-cal__dow,
+.wg-2x1-cal__day.is-active .wg-2x1-cal__num {
+  color: #ffffff;
+}
+
+.wg-2x1-cal__dow {
+  font-size: 5px;
+  color: #a8a8b0;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.wg-2x1-cal__num {
+  font-size: 7px;
+  font-weight: 600;
+  color: #4a4a52;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.wg-2x1-cal__note {
+  display: none;
+}
+
+/* ══════════════════════════════════════
+   6 · 横排三联
+   ══════════════════════════════════════ */
+.wg-2x1-strip {
+  display: flex;
+  align-items: stretch;
+  gap: 3px;
+  padding: 4px;
+  background: #ffffff;
+  border: 1px solid #e2e2e6;
+}
+
+.wg-2x1-strip__cell {
+  flex: 1;
+  min-width: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ececef;
+  border: 1px solid #dedee2;
+}
+
+.wg-2x1-strip__photo {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── 组件库预览 ── */
+.desk-custom-wg-picker__preview--2x1 {
+  aspect-ratio: 2 / 1;
+}
+
+.desk-custom-wg-picker__preview--widget .desk-custom__wg--insclock,
+.desk-custom-wg-picker__preview--widget .desk-custom__wg--instune,
+.desk-custom-wg-picker__preview--widget .desk-custom__wg--insquote,
+.desk-custom-wg-picker__preview--widget .desk-custom__wg--insmood,
+.desk-custom-wg-picker__preview--widget .desk-custom__wg--insnote,
+.desk-custom-wg-picker__preview--widget .desk-custom__wg--inscard {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ins-custom-wg-showcase__stage--2x1 {
+  width: min(100%, 200px);
+  aspect-ratio: 2 / 1;
+  min-height: 44px;
+}
+
+.ins-custom-wg-showcase__stage--2x1 .desk-custom__wg--insclock,
+.ins-custom-wg-showcase__stage--2x1 .desk-custom__wg--instune,
+.ins-custom-wg-showcase__stage--2x1 .desk-custom__wg--insquote,
+.ins-custom-wg-showcase__stage--2x1 .desk-custom__wg--insmood,
+.ins-custom-wg-showcase__stage--2x1 .desk-custom__wg--insnote,
+.ins-custom-wg-showcase__stage--2x1 .desk-custom__wg--inscard {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

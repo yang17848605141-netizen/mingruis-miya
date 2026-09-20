@@ -1,0 +1,244 @@
+/* 应用内新消息弹窗 — iOS 果冻大圆角 · 简约 Ins 风 */
+.miya-msg-pop-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99990;
+  display: flex;
+  justify-content: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 10px) 16px 0;
+  pointer-events: none;
+}
+
+.miya-msg-pop-root[hidden] {
+  display: none !important;
+}
+
+.miya-msg-pop {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(100%, 360px);
+  padding: 12px 16px 12px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #111111;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  transform: translateY(-120%) scale(0.94);
+  opacity: 0;
+  transition:
+    transform 0.48s cubic-bezier(0.34, 1.45, 0.64, 1),
+    opacity 0.28s ease;
+}
+
+.miya-msg-pop.is-visible:active {
+  transform: scale(0.97);
+  transition-duration: 0.16s;
+}
+
+.miya-msg-pop.is-visible {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.miya-msg-pop.is-leaving {
+  transform: translateY(-110%) scale(0.96);
+  opacity: 0;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.24s ease;
+}
+
+.miya-msg-pop.is-swapping {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  transition-duration: 0.16s;
+}
+
+.miya-msg-pop__avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #F0F0F0;
+  border: none;
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+}
+
+.miya-msg-pop__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-right: 2px;
+}
+
+.miya-msg-pop__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.miya-msg-pop__name {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #111111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.miya-msg-pop__badge {
+  flex-shrink: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: #8E8E93;
+}
+
+.miya-msg-pop__text {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: #636366;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 天气关心弹窗 — 与消息弹窗同位置顶部长条，iOS 简约白拟态 */
+.miya-wx-care-pop-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99991;
+  display: flex;
+  justify-content: center;
+  padding: calc(env(safe-area-inset-top, 0px) + 12px) 18px 0;
+  pointer-events: none;
+}
+
+.miya-wx-care-pop-root[hidden] {
+  display: none !important;
+}
+
+.miya-wx-care-pop {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: min(100%, 340px);
+  padding: 13px 16px 13px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #0A0A0A;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow:
+    0 10px 28px rgba(15, 23, 42, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.95) inset;
+  backdrop-filter: blur(22px) saturate(1.35);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  transform: translateY(-120%);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
+}
+
+.miya-wx-care-pop.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.miya-wx-care-pop.is-leaving {
+  transform: translateY(-120%);
+  opacity: 0;
+  transition-duration: 0.26s;
+}
+
+.miya-wx-care-pop.is-swapping {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition-duration: 0.18s;
+}
+
+.miya-wx-care-pop__avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #EEF1F5;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.miya-wx-care-pop__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.miya-wx-care-pop__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.miya-wx-care-pop__name {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #111111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.miya-wx-care-pop__badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: #8B919A;
+}
+
+.miya-wx-care-pop__text {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #5C636C;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

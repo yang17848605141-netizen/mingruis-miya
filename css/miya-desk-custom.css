@@ -1,0 +1,1275 @@
+/* 自定义主屏 · 多页网格 + 小组件 */
+
+.desk-custom-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  /* 仅横滑翻页；含 pan-y 时安卓顶部易被竖滑/过度滚动抢走点击 */
+  touch-action: pan-x;
+  overscroll-behavior-y: none;
+  position: relative;
+}
+
+.desk-custom-viewport[hidden] {
+  display: none !important;
+}
+
+html.is-custom-edit-mode .desk-custom-viewport {
+  overflow: hidden;
+  touch-action: pan-x;
+}
+
+html.is-custom-dragging .desk-custom-viewport {
+  overflow: hidden;
+  touch-action: none;
+}
+
+.desk-custom-viewport.is-swiping {
+  touch-action: none;
+}
+
+.desk-custom-track {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  /* auto：避免 smooth + snap 导致翻页发卡、要滑两次 */
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: none;
+  touch-action: pan-x;
+}
+
+/* 仅在真正拖拽时锁手势；编辑模式仍可左右滑翻页 */
+html.is-custom-dragging .desk-custom-track,
+.desk-custom-track.is-dragging {
+  touch-action: none;
+  scroll-snap-type: none;
+}
+
+/* 编辑模式：空格子允许横滑翻页；图标/小组件保持 none 以便拖拽 */
+html.is-custom-edit-mode:not(.is-custom-dragging) .desk-custom__cell:not(.desk-custom__cell--occupied) {
+  touch-action: pan-x;
+}
+
+.desk-custom-track.is-programmatic {
+  scroll-behavior: auto;
+}
+
+.desk-custom-track::-webkit-scrollbar {
+  display: none;
+}
+
+.desk-custom-track.is-programmatic {
+  scroll-behavior: auto;
+}
+
+.desk-custom__page {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 100%;
+  width: 100%;
+  min-height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 14px calc(96px + env(safe-area-inset-bottom, 0px));
+  box-sizing: border-box;
+}
+
+.desk-custom__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  --dc-row-h: 78px;
+  --dc-row-gap: 6px;
+  --dc-col-gap: 2px;
+  --dc-icon-size: 58px;
+  /* 跨行/跨列组件设计高度 · 与网格槽位严格一致 */
+  --dc-cell-h-2: calc(2 * var(--dc-row-h) + var(--dc-row-gap));
+  --dc-cell-h-3: calc(3 * var(--dc-row-h) + 2 * var(--dc-row-gap));
+  --dc-cell-h-4: calc(4 * var(--dc-row-h) + 3 * var(--dc-row-gap));
+  grid-template-rows: repeat(7, minmax(var(--dc-row-h), auto));
+  gap: var(--dc-row-gap) var(--dc-col-gap);
+  align-content: start;
+  min-height: calc(7 * var(--dc-row-h) + 6 * var(--dc-row-gap));
+  /* 4×1 左右内缩：与首列/末列图标外缘对齐 */
+  --dc-icon-edge-inset: max(0px, calc((100% - 3 * var(--dc-col-gap)) / 8 - var(--dc-icon-size) / 2));
+}
+
+.desk-custom__item {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.desk-custom__item--app {
+  touch-action: pan-x;
+  position: relative;
+  z-index: 4;
+}
+
+.desk-custom__item--widget {
+  touch-action: none;
+  align-items: stretch;
+  justify-content: stretch;
+  container-type: size;
+  position: relative;
+  z-index: 6;
+  pointer-events: auto;
+}
+
+.desk-custom__item--widget > .desk-custom__wg {
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  pointer-events: auto;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* 浏览态：组件禁止浏览器抢手势（安卓顶部首行易被过度滚动取消点按）；翻页在空白处横滑 */
+html:not(.is-custom-edit-mode):not(.is-custom-dragging) .desk-custom__item--widget,
+html:not(.is-custom-edit-mode):not(.is-custom-dragging) .desk-custom__item--widget * {
+  touch-action: none;
+}
+
+/* 编辑/拖拽：图标与组件禁原生滚动，交给拖拽逻辑 */
+html.is-custom-edit-mode .desk-custom__item--app,
+html.is-custom-edit-mode .desk-custom__item--widget,
+html.is-custom-edit-mode .desk-custom__item--widget > .desk-custom__wg,
+html.is-custom-edit-mode .desk-custom__item--widget .desk-custom__wg *,
+html.is-custom-edit-mode .desk-custom__ic,
+html.is-custom-edit-mode .desk-custom__dock-ic,
+html.is-custom-dragging .desk-custom__item--app,
+html.is-custom-dragging .desk-custom__item--widget,
+html.is-custom-dragging .desk-custom__item--widget > .desk-custom__wg,
+html.is-custom-dragging .desk-custom__item--widget .desk-custom__wg *,
+html.is-custom-dragging .desk-custom__ic,
+html.is-custom-dragging .desk-custom__dock-ic {
+  touch-action: none;
+}
+
+/* 槽位容器：默认不接点击，避免安卓上与组件重叠时抢走命中 */
+.desk-custom__cell {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: var(--dc-row-h, 78px);
+  touch-action: pan-x;
+  -webkit-user-select: none;
+  user-select: none;
+  position: relative;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.desk-custom__cell--hidden {
+  pointer-events: none;
+}
+
+.desk-custom__cell--interactive {
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.desk-custom__cell--occupied {
+  pointer-events: none !important;
+  z-index: 0;
+}
+
+.desk-custom__cell--occupied.desk-custom__cell--edit-guide .desk-custom__empty {
+  opacity: 0.35;
+}
+
+.desk-custom__cell--hidden .desk-custom__empty {
+  display: none;
+}
+
+.desk-custom__cell .ic {
+  justify-self: center;
+}
+
+/* 自定义布局 · 图标略大（不影响固定布局） */
+.desk-custom__grid .desk-custom__ic .ic__box {
+  width: 58px;
+  height: 58px;
+  border-radius: 17px;
+  flex-shrink: 0;
+}
+
+.desk-custom__grid .desk-custom__ic {
+  flex-shrink: 0;
+}
+
+.desk-custom__grid .desk-custom__ic .ic__box svg {
+  width: 24px;
+  height: 24px;
+}
+
+.desk-custom__grid .desk-custom__ic .ic__lbl {
+  font-size: 10.5px;
+}
+
+.desk-custom__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-top: 2px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.88);
+  transition:
+    opacity 0.22s cubic-bezier(0.32, 0.72, 0, 1),
+    transform 0.22s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+html.is-custom-edit-mode .desk-custom__cell--empty .desk-custom__empty,
+html.is-custom-dragging .desk-custom__cell--empty .desk-custom__empty {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.desk-custom__empty-ring {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  border: 1.5px dashed rgba(90, 96, 108, 0.42);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  transition:
+    transform 0.18s cubic-bezier(0.32, 0.72, 0, 1),
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+html.is-custom-edit-mode .desk-custom__empty-ring,
+html.is-custom-dragging .desk-custom__empty-ring {
+  border-color: rgba(70, 78, 92, 0.55);
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.desk-custom__cell.is-drop-target .desk-custom__empty-ring {
+  transform: scale(1.06);
+  border-color: rgba(180, 150, 90, 0.65);
+  background: rgba(255, 252, 245, 0.42);
+  box-shadow: 0 0 0 3px rgba(180, 150, 90, 0.14);
+}
+
+html[data-miya-desk-layout="custom"] .desk-viewport {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+html[data-miya-desk-layout="custom"] .desk-pager {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0 0 10px;
+  padding: 0;
+  pointer-events: auto;
+  transform: translateY(-10px);
+}
+
+html[data-miya-desk-layout="custom"] .desk-pager__dot {
+  width: 4px;
+  height: 4px;
+  background: rgba(130, 136, 145, 0.22);
+}
+
+html[data-miya-desk-layout="custom"] .desk-pager__dot.is-active {
+  width: 11px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(90, 96, 105, 0.42);
+}
+
+html[data-miya-desk-layout="custom"] .foot {
+  padding: 28px 20px calc(4px + env(safe-area-inset-bottom, 0px));
+  gap: 0;
+}
+
+html[data-miya-desk-layout="custom"] .foot__dock--custom {
+  margin-top: -2px;
+}
+
+html.miya-custom-desk-icon-frameless .desk-custom__grid .ic__box.glass {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 自定义图标铺满圆角（与固定布局 frameless 一致） */
+html.miya-custom-desk-icon-frameless .has-custom-icon .miya-icon-bg {
+  background-size: cover;
+}
+
+/* 程序坞自定义图标去掉白底外框 */
+html.miya-custom-desk-icon-frameless .foot__dock--custom .has-custom-icon .foot__dock-btn,
+html.miya-custom-desk-icon-frameless .foot__dock--custom .foot__dock-btn.has-custom-icon {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 程序坞 · 自适应宽度 + 居中（间距/外框由 JS 写入 --dock-* 变量） */
+.foot__dock.foot__dock--custom {
+  width: fit-content;
+  max-width: min(320px, 92vw);
+  min-width: 0;
+  margin-inline: auto;
+  min-height: 72px;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--dock-gap, 18px);
+  padding: 11px var(--dock-pad-x, 20px) 8px;
+  box-sizing: border-box;
+  transition:
+    gap 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    padding 0.32s cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 0.28s ease,
+    transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.foot__dock-slot {
+  width: 58px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 72px;
+  touch-action: none;
+  contain: layout style;
+  transition:
+    width 0.28s cubic-bezier(0.32, 0.72, 0, 1),
+    min-height 0.28s cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 0.22s ease;
+}
+
+.foot__dock--custom.foot__dock--compact .foot__dock-slot--hidden {
+  display: none;
+}
+
+.foot__dock-slot__empty-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.88);
+  transition:
+    opacity 0.22s cubic-bezier(0.32, 0.72, 0, 1),
+    transform 0.22s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+html.is-custom-edit-mode .foot__dock-slot--empty .foot__dock-slot__empty-inner,
+html.is-custom-dragging .foot__dock-slot--empty .foot__dock-slot__empty-inner {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.foot__dock-slot__ring {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  border: 1.5px dashed rgba(70, 78, 92, 0.5);
+  background: rgba(255, 255, 255, 0.12);
+  transition:
+    transform 0.18s cubic-bezier(0.32, 0.72, 0, 1),
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+html.is-custom-edit-mode .foot__dock-slot--empty .foot__dock-slot__ring,
+html.is-custom-dragging .foot__dock-slot--empty .foot__dock-slot__ring {
+  border-color: rgba(130, 136, 145, 0.38);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.foot__dock-slot.is-drop-target .foot__dock-slot__ring {
+  transform: scale(1.08);
+  border-color: rgba(180, 150, 90, 0.72);
+  background: rgba(255, 252, 245, 0.55);
+  box-shadow: 0 0 0 3px rgba(180, 150, 90, 0.18);
+}
+
+.foot__dock--custom .desk-custom__dock-ic .foot__dock-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+}
+
+.foot__dock--custom .desk-custom__dock-ic .foot__dock-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.foot__dock--custom .desk-custom__dock-ic {
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html:not(.is-custom-edit-mode):not(.is-custom-dragging) .foot__dock--custom .desk-custom__dock-ic {
+  touch-action: pan-x pan-y;
+}
+
+.foot__dock--custom .desk-custom__dock-ic .foot__dock-lbl {
+  max-width: 58px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 长按 · 拖拽 · 编辑模式 */
+.desk-custom__ic,
+.desk-custom__dock-ic {
+  transition: transform 0.22s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.18s ease;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.desk-custom__ic.is-press-pending,
+.desk-custom__dock-ic.is-press-pending {
+  transform: scale(0.92);
+  transition: transform 0.32s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+.desk-custom__ic.is-drag-source,
+.desk-custom__dock-ic.is-drag-source {
+  opacity: 0;
+  transform: scale(0.84);
+  pointer-events: none;
+}
+
+.desk-custom__cell.is-drop-target .ic__box,
+.desk-custom__cell.is-drop-target .foot__dock-btn,
+.foot__dock-slot.is-drop-target .foot__dock-btn {
+  transform: scale(1.06);
+  box-shadow:
+    0 0 0 2px rgba(180, 150, 90, 0.48),
+    0 8px 20px rgba(180, 150, 90, 0.12);
+  transition: transform 0.16s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.16s ease;
+}
+
+html.is-custom-dragging .desk-custom__cell.is-drop-target .ic__box,
+html.is-custom-dragging .desk-custom__cell.is-drop-target .foot__dock-btn,
+html.is-custom-dragging .foot__dock-slot.is-drop-target .foot__dock-btn {
+  transition-duration: 0.1s;
+}
+
+.desk-custom__cell.is-drop-target .desk-custom__ic,
+.foot__dock-slot.is-drop-target .desk-custom__dock-ic {
+  animation: none;
+}
+
+/* 拖拽浮层 · 原地抬起 */
+.desk-custom-drag-ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10050;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  will-change: transform;
+  contain: layout style paint;
+  filter: drop-shadow(0 14px 28px rgba(30, 34, 42, 0.26));
+  transform-origin: top left;
+  transition: none;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.desk-custom-drag-ghost--app {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.desk-custom-drag-ghost--app > .desk-custom__ic,
+.desk-custom-drag-ghost--app > .desk-custom__dock-ic {
+  pointer-events: none;
+}
+
+.desk-custom-drag-ghost.is-snapping {
+  transition: transform 0.12s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.1s ease, filter 0.12s ease;
+  filter: drop-shadow(0 6px 16px rgba(30, 34, 42, 0.16));
+}
+
+.desk-custom-drag-ghost.is-dissolving {
+  opacity: 0;
+}
+
+.desk-custom-drag-ghost.is-cancelled {
+  transition: transform 0.12s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.12s ease;
+  opacity: 0;
+  transform: translate3d(var(--gx, 0), var(--gy, 0), 0) scale(0.88) !important;
+}
+
+.desk-custom-drag-ghost .ic__lbl,
+.desk-custom-drag-ghost .foot__dock-lbl {
+  opacity: 0.95;
+}
+
+html.is-custom-edit-mode,
+html.is-custom-dragging {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html.is-custom-edit-mode .desk-custom__ic:active .ic__box,
+html.is-custom-edit-mode .desk-custom__dock-ic:active .foot__dock-btn,
+html.is-custom-dragging .desk-custom__ic:active .ic__box,
+html.is-custom-dragging .desk-custom__dock-ic:active .foot__dock-btn {
+  transform: none;
+}
+
+/* 美化 · 布局模式切换 */
+.ins-layout-pick {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.ins-layout-pick__btn {
+  flex: 1;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--ins-shadow, 0 2px 12px rgba(0, 0, 0, 0.06));
+  cursor: pointer;
+  font-family: var(--ins-ui, inherit);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft, rgba(0, 0, 0, 0.65));
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ins-layout-pick__btn.is-active {
+  border-color: rgba(180, 150, 90, 0.55);
+  background: linear-gradient(145deg, rgba(255, 252, 245, 0.98) 0%, rgba(250, 244, 230, 0.95) 100%);
+  color: rgba(40, 36, 28, 0.88);
+  box-shadow: 0 4px 16px rgba(180, 150, 90, 0.14);
+}
+
+.ins-layout-pick__btn:active {
+  transform: scale(0.98);
+}
+
+.ins-atelier-panel.is-custom-layout-only[hidden],
+.ins-atelier-panel.is-fixed-layout-only[hidden] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desk-custom-drag-ghost.is-snapping {
+    transition-duration: 0.08s;
+  }
+
+  .desk-custom__empty,
+  .foot__dock-slot__empty-inner {
+    transition-duration: 0.08s;
+  }
+
+  .desk-custom-track {
+    transition-duration: 0.08s;
+  }
+}
+
+/* ── 编辑模式 · 添加小组件 ── */
+.desk-custom-add-wg {
+  position: absolute;
+  right: 18px;
+  bottom: calc(108px + env(safe-area-inset-bottom, 0px));
+  z-index: 12;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(255, 252, 245, 0.98), rgba(250, 244, 230, 0.95));
+  box-shadow: 0 6px 20px rgba(30, 34, 42, 0.16), 0 0 0 1px rgba(180, 150, 90, 0.28);
+  color: rgba(40, 36, 28, 0.88);
+  font-size: 28px;
+  line-height: 1;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.desk-custom-add-wg[hidden] {
+  display: none !important;
+}
+
+.desk-custom-add-wg:active {
+  transform: scale(0.94);
+}
+
+/* ── 小组件库弹层 ── */
+.desk-custom-wg-picker {
+  position: fixed;
+  inset: 0;
+  z-index: 10060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    calc(env(safe-area-inset-top, 0px) + 52px)
+    14px
+    calc(env(safe-area-inset-bottom, 0px) + 88px);
+  box-sizing: border-box;
+  background: rgba(20, 22, 26, 0.32);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.desk-custom-wg-picker[hidden] {
+  display: none !important;
+}
+
+.desk-custom-wg-picker__sheet {
+  width: min(100%, 420px);
+  max-height: min(calc(100% - 24px), 520px);
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 48px rgba(20, 22, 26, 0.18);
+}
+
+.desk-custom-wg-picker__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.desk-custom-wg-picker__head h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.desk-custom-wg-picker__close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.06);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.desk-custom-wg-picker__body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 14px 18px;
+}
+
+.desk-custom-wg-picker__section h4 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.desk-custom-wg-picker__section + .desk-custom-wg-picker__section {
+  margin-top: 16px;
+}
+
+.desk-custom-wg-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.desk-custom-wg-picker__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.desk-custom-wg-picker__item:active {
+  transform: scale(0.97);
+  border-color: rgba(180, 150, 90, 0.45);
+}
+
+.desk-custom-wg-picker__preview {
+  display: block;
+  width: 100%;
+  max-width: 72px;
+  border-radius: 8px;
+  background: rgba(240, 242, 246, 0.9);
+  border: 1.5px dashed rgba(130, 136, 145, 0.28);
+}
+
+.desk-custom-wg-picker__preview--4x1 { aspect-ratio: 4 / 1; }
+.desk-custom-wg-picker__preview--4x2 { aspect-ratio: 4 / 2; }
+.desk-custom-wg-picker__preview--4x3 { aspect-ratio: 4 / 3; }
+.desk-custom-wg-picker__preview--4x4 { aspect-ratio: 4 / 4; }
+.desk-custom-wg-picker__preview--2x2 { aspect-ratio: 2 / 2; }
+.desk-custom-wg-picker__preview--2x1 { aspect-ratio: 2 / 1; }
+.desk-custom-wg-picker__preview--v1 { background: rgba(245, 248, 252, 0.95); }
+.desk-custom-wg-picker__preview--v2 { background: rgba(252, 248, 242, 0.95); }
+.desk-custom-wg-picker__preview--v3 { background: rgba(248, 245, 252, 0.95); }
+.desk-custom-wg-picker__preview--v4 { background: rgba(242, 252, 248, 0.95); }
+.desk-custom-wg-picker__preview--v5 { background: rgba(252, 245, 248, 0.95); }
+
+.desk-custom-wg-picker__name {
+  font-size: 9px;
+  text-align: center;
+  color: var(--ink-soft);
+  line-height: 1.25;
+}
+
+/* ── 占位小组件 ── */
+.desk-custom__wg--blank {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 48px;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(130, 136, 145, 0.28);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.desk-custom__wg--blank-v1 { background: rgba(245, 248, 252, 0.55); }
+.desk-custom__wg--blank-v2 { background: rgba(252, 248, 242, 0.55); }
+.desk-custom__wg--blank-v3 { background: rgba(248, 245, 252, 0.55); }
+.desk-custom__wg--blank-v4 { background: rgba(242, 252, 248, 0.55); }
+.desk-custom__wg--blank-v5 { background: rgba(252, 245, 248, 0.55); }
+
+.desk-custom__wg-blank-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+
+/* ── 精选小组件 · 与固定布局同款，按网格等比缩放 ── */
+.desk-custom__item--widget > .desk-custom__wg {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.desk-custom__item--widget > .desk-custom__wg--polaroid {
+  overflow: visible;
+}
+
+.desk-custom__item--widget > .desk-custom__wg--photowall {
+  overflow: visible;
+}
+
+.desk-custom__item--widget > .desk-custom__wg--journal {
+  overflow: visible;
+}
+
+.desk-custom__item--widget > .desk-custom__wg--moment {
+  overflow: visible;
+}
+
+/* 自定义布局 · 去除小组件阴影（避免缩放裁切出现灰色方角） */
+html[data-miya-desk-layout="custom"] .desk-custom__wg,
+html[data-miya-desk-layout="custom"] .desk-custom__wg * {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+html[data-miya-desk-layout="custom"] .desk-custom__wg [class*="__shadow"] {
+  display: none !important;
+}
+
+html[data-miya-desk-layout="custom"] .desk-custom__wg .wg-4x1-ticket,
+html[data-miya-desk-layout="custom"] .desk-custom__wg .wg-4x1-ticketphoto {
+  filter: none !important;
+}
+
+/* 4 列宽小组件 · 左右对齐首末列软件图标 */
+.desk-custom__item--widget:has(> .desk-custom__wg--filmstrip),
+.desk-custom__item--widget:has(> .desk-custom__wg--wave),
+.desk-custom__item--widget:has(> .desk-custom__wg--ticket),
+.desk-custom__item--widget:has(> .desk-custom__wg--ticketphoto),
+.desk-custom__item--widget:has(> .desk-custom__wg--orbit),
+.desk-custom__item--widget:has(> .desk-custom__wg--ledger),
+.desk-custom__item--widget:has(> .desk-custom__wg--player),
+.desk-custom__item--widget:has(> .desk-custom__wg--dialogue),
+.desk-custom__item--widget:has(> .desk-custom__wg--magazine),
+.desk-custom__item--widget:has(> .desk-custom__wg--instprofile),
+.desk-custom__item--widget:has(> .desk-custom__wg--glassdeck),
+.desk-custom__item--widget:has(> .desk-custom__wg--avalink),
+.desk-custom__item--widget:has(> .desk-custom__wg--mooddiary),
+.desk-custom__item--widget:has(> .desk-custom__wg--weekmood),
+.desk-custom__item--widget:has(> .desk-custom__wg--profile),
+.desk-custom__item--widget:has(> .desk-custom__wg--photowall),
+.desk-custom__item--widget:has(> .desk-custom__wg--calendar),
+.desk-custom__item--widget:has(> .desk-custom__wg--journal),
+.desk-custom__item--widget:has(> .desk-custom__wg--moment),
+.desk-custom__item--widget:has(> .desk-custom__wg--instriple),
+.desk-custom__item--widget:has(> .desk-custom__wg--inspair),
+.desk-custom__item--widget:has(> .desk-custom__wg--inshome),
+.desk-custom__item--widget:has(> .desk-custom__wg--wxmoments),
+.desk-custom__item--widget:has(> .desk-custom__wg--scrolllyrics) {
+  padding-left: var(--dc-icon-edge-inset);
+  padding-right: var(--dc-icon-edge-inset);
+  box-sizing: border-box;
+}
+
+/* 2×1 · 左右缘对齐双列图标外框 · 行内垂直居中 */
+.desk-custom__item--widget:has(> .desk-custom__wg--insclock),
+.desk-custom__item--widget:has(> .desk-custom__wg--instune),
+.desk-custom__item--widget:has(> .desk-custom__wg--insquote),
+.desk-custom__item--widget:has(> .desk-custom__wg--insmood),
+.desk-custom__item--widget:has(> .desk-custom__wg--insnote),
+.desk-custom__item--widget:has(> .desk-custom__wg--inscard) {
+  --dc-2x1-edge-inset: max(0px, calc((100% - var(--dc-col-gap)) / 4 - var(--dc-icon-size) / 2));
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: var(--dc-2x1-edge-inset);
+  padding-right: var(--dc-2x1-edge-inset);
+  box-sizing: border-box;
+}
+
+.desk-custom__item--widget:has(> .desk-custom__wg--insclock) > .desk-custom__wg,
+.desk-custom__item--widget:has(> .desk-custom__wg--instune) > .desk-custom__wg,
+.desk-custom__item--widget:has(> .desk-custom__wg--insquote) > .desk-custom__wg,
+.desk-custom__item--widget:has(> .desk-custom__wg--insmood) > .desk-custom__wg,
+.desk-custom__item--widget:has(> .desk-custom__wg--insnote) > .desk-custom__wg,
+.desk-custom__item--widget:has(> .desk-custom__wg--inscard) > .desk-custom__wg {
+  width: 100%;
+  height: var(--dc-icon-size, 58px);
+  transform: none;
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.desk-custom__item--widget:has(> .desk-custom__wg--polaroid) {
+  overflow: visible;
+  z-index: 5;
+  align-items: center;
+  justify-content: center;
+}
+
+.desk-custom__item--widget:has(> .desk-custom__wg--postcard),
+.desk-custom__item--widget:has(> .desk-custom__wg--folder),
+.desk-custom__item--widget:has(> .desk-custom__wg--miniplayer),
+.desk-custom__item--widget:has(> .desk-custom__wg--framephoto),
+.desk-custom__item--widget:has(> .desk-custom__wg--avalink) {
+  overflow: visible;
+  z-index: 5;
+  align-items: center;
+  justify-content: center;
+}
+
+.desk-custom__item--widget:has(> .desk-custom__wg--photowall) {
+  overflow: visible;
+  z-index: 5;
+}
+
+.desk-custom__wg--profile.wg-profile {
+  width: 100%;
+  height: 100%;
+  transform: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.desk-custom__wg--profile.wg-profile .wg-profile__cover {
+  flex: 1 1 0;
+  min-height: 120px;
+  height: auto;
+}
+
+.desk-custom__wg--profile.wg-profile .wg-profile__body {
+  flex-shrink: 0;
+}
+
+.desk-custom__wg--memo.wg-memo {
+  --dc-wg-design-h: calc(var(--dc-cell-h-2, 162px) + 16px);
+  width: 100%;
+  height: var(--dc-wg-design-h);
+  transform-origin: top center;
+  transform: scale(calc(100cqh / var(--dc-wg-design-h)));
+  background: transparent;
+  padding: 8px 0 4px;
+}
+
+.desk-custom__wg--memo .wg-memo__pair,
+.desk-custom__wg--memo .wg-memo__days {
+  max-width: none;
+}
+
+.desk-custom__wg--polaroid.wg-polaroid {
+  --dc-wg-design-h: calc(var(--dc-cell-h-2, 162px) - 11px);
+  --dc-wg-design-w: 148px;
+  width: var(--dc-wg-design-w);
+  height: var(--dc-wg-design-h);
+  transform-origin: center center;
+  transform: scale(min(calc(100cqh / var(--dc-wg-design-h)), calc(100cqw / var(--dc-wg-design-w))));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  margin: 0 auto;
+}
+
+.desk-custom__wg--polaroid .wg-polaroid__stack {
+  width: 148px;
+  height: 138px;
+  max-width: none;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.desk-custom__wg--polaroid .wg-polaroid__card--1 {
+  animation: none !important;
+}
+
+@supports not (container-type: size) {
+  .desk-custom__wg--profile.wg-profile,
+  .desk-custom__wg--memo.wg-memo {
+    transform: none;
+    height: 100%;
+  }
+
+  .desk-custom__wg--polaroid.wg-polaroid {
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+
+  .desk-custom__wg--polaroid .wg-polaroid__stack {
+    width: 100%;
+    max-width: 148px;
+    height: 132px;
+  }
+}
+
+@media (max-height: 700px) {
+  .desk-custom__wg--profile.wg-profile .wg-profile__cover {
+    min-height: 100px;
+  }
+}
+
+/* ── 编辑模式 · 小组件删除 ── */
+.desk-custom__item.is-drag-source {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+.desk-custom__item--widget.is-press-pending {
+  transform: scale(0.96);
+}
+
+.desk-custom__wg-remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 3;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(30, 34, 42, 0.72);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html.is-custom-edit-mode .desk-custom__wg-remove {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── 小组件 · 点击编辑 ── */
+html:not(.is-custom-edit-mode):not(.is-custom-dragging) .desk-custom__item--widget > .desk-custom__wg:not(.desk-custom__wg--blank) {
+  cursor: pointer;
+}
+
+html.is-custom-wg-editing .desk-custom-viewport {
+  pointer-events: none;
+}
+
+/* ── 小组件编辑面板 ── */
+.desk-custom-wg-editor {
+  position: fixed;
+  inset: 0;
+  z-index: 10070;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    calc(env(safe-area-inset-top, 0px) + 52px)
+    14px
+    calc(env(safe-area-inset-bottom, 0px) + 14px);
+  box-sizing: border-box;
+  background: rgba(20, 22, 26, 0.36);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+.desk-custom-wg-editor__sheet,
+.desk-custom-wg-editor__sheet * {
+  pointer-events: auto;
+}
+
+.desk-custom-wg-editor[hidden] {
+  display: none !important;
+}
+
+.desk-custom-wg-editor__sheet {
+  width: min(100%, 380px);
+  max-height: min(calc(100% - 24px), 520px);
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 48px rgba(20, 22, 26, 0.22);
+}
+
+.desk-custom-wg-editor__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.desk-custom-wg-editor__head h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.desk-custom-wg-editor__close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.06);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.desk-custom-wg-editor__body {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.desk-custom-wg-editor__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.desk-custom-wg-editor__label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.desk-custom-wg-editor__input,
+.desk-custom-wg-editor__textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.desk-custom-wg-editor__img-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.desk-custom-wg-editor__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.desk-custom-wg-editor__choices .ins-chip {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 0;
+  justify-content: center;
+}
+
+.desk-custom-wg-editor__img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 96px;
+  border: 1.5px dashed rgba(130, 136, 145, 0.32);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.desk-custom-wg-editor__img.has-image {
+  border-style: solid;
+  border-color: rgba(180, 150, 90, 0.35);
+}
+
+.desk-custom-wg-editor__img-ph {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+
+.desk-custom-wg-editor__img.has-image .desk-custom-wg-editor__img-ph {
+  display: none;
+}
+
+.desk-custom-wg-editor__img-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.desk-custom-wg-editor__foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 16px 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* ── 美化 · 自定义组件预览 ── */
+.ins-custom-wg-showcase {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.ins-custom-wg-showcase__card {
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(155deg, rgba(255, 252, 248, 0.96) 0%, rgba(248, 244, 236, 0.92) 100%);
+  box-shadow: 0 8px 24px rgba(30, 34, 42, 0.06);
+}
+
+.ins-custom-wg-showcase__name {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(40, 36, 28, 0.72);
+}
+
+.ins-custom-wg-showcase__stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(240, 242, 246, 0.55);
+  container-type: size;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.ins-custom-wg-showcase__stage--4x3 {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 220px;
+}
+
+.ins-custom-wg-showcase__stage--4x4 {
+  width: 100%;
+  aspect-ratio: 4 / 4;
+  max-height: 260px;
+}
+
+.ins-custom-wg-showcase__stage--2x2 {
+  width: min(100%, 200px);
+  aspect-ratio: 2 / 2;
+}
+
+.ins-custom-wg-showcase__stage--2x1 {
+  width: min(100%, 200px);
+  aspect-ratio: 2 / 1;
+}
+
+.ins-custom-wg-showcase__stage .desk-custom__wg {
+  pointer-events: none;
+}
+
+.ins-custom-wg-showcase__stage .desk-custom__wg-remove {
+  display: none !important;
+}
+
+.ins-archive-list--clickable .ins-archive-item--clickable {
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.ins-archive-list--clickable .ins-archive-item--clickable:active {
+  background: rgba(180, 150, 90, 0.08);
+}

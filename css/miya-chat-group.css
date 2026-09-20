@@ -1,0 +1,869 @@
+/* 群聊 · 建群 / 列表 / 房间 */
+
+.mq-grp-create-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 18px;
+  border: 1px solid var(--mc-ink-15, rgba(26, 22, 18, 0.12));
+  border-radius: 999px;
+  background: var(--mc-paper, #faf8f5);
+  color: var(--mc-ink, #1a1612);
+  font-family: var(--mc-font-sans, 'Jost', sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.mq-grp-create-btn:hover {
+  background: #fff;
+  border-color: var(--mc-accent, #8b7355);
+}
+
+.mq-grp-create-btn__icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--mc-ink, #1a1612);
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.mq-grp-picker {
+  position: absolute;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(12, 10, 8, 0.42);
+  backdrop-filter: blur(6px);
+  animation: mq-grp-fade 0.22s ease;
+}
+
+.mq-grp-picker__sheet {
+  position: relative;
+  width: 100%;
+  max-height: 88%;
+  overflow: auto;
+  padding: 20px 18px calc(24px + env(safe-area-inset-bottom));
+  border-radius: 20px 20px 0 0;
+  background: var(--mc-paper, #faf8f5);
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.12);
+  animation: mq-grp-slide 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mq-grp-picker__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(26, 22, 18, 0.06);
+  color: var(--mc-ink-60, rgba(26, 22, 18, 0.6));
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mq-grp-picker__head {
+  padding-right: 36px;
+  margin-bottom: 16px;
+}
+
+.mq-grp-picker__kicker {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mc-accent, #8b7355);
+  margin-bottom: 6px;
+}
+
+.mq-grp-picker__title {
+  margin: 0 0 6px;
+  font-family: var(--mc-font-serif, 'Cormorant Garamond', serif);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--mc-ink, #1a1612);
+}
+
+.mq-grp-picker__hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--mc-ink-60, rgba(26, 22, 18, 0.55));
+}
+
+.mq-grp-picker__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.mq-grp-pick-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--mc-ink-08, rgba(26, 22, 18, 0.08));
+  border-radius: 12px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.18s, background 0.18s;
+  animation: mq-grp-row 0.32s ease both;
+  animation-delay: calc(var(--mq-i, 0) * 40ms);
+}
+
+.mq-grp-pick-row:hover {
+  border-color: var(--mc-accent-40, rgba(139, 115, 85, 0.4));
+}
+
+.mq-grp-pick-row.is-selected {
+  border-color: var(--mc-accent, #8b7355);
+  background: rgba(139, 115, 85, 0.06);
+}
+
+.mq-grp-pick-mark {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--mc-ink-20, rgba(26, 22, 18, 0.2));
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.mq-grp-pick-row.is-selected .mq-grp-pick-mark {
+  border-color: var(--mc-accent, #8b7355);
+  background: var(--mc-accent, #8b7355);
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.mq-grp-pick-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.mq-grp-pick-ava {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ede8e0, #d8d0c4);
+  font-family: var(--mc-font-serif, serif);
+  font-size: 18px;
+  color: #7a7268;
+  flex-shrink: 0;
+}
+
+.mq-grp-pick-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mq-grp-pick-name {
+  font-size: 15px;
+  color: var(--mc-ink, #1a1612);
+}
+
+.mq-grp-pick-sub {
+  font-size: 12px;
+  color: var(--mc-ink-50, rgba(26, 22, 18, 0.5));
+}
+
+.mq-grp-picker-empty {
+  padding: 28px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--mc-ink-60);
+  line-height: 1.6;
+}
+
+.mq-grp-picker-empty span {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.mq-grp-picker__title-field {
+  margin-bottom: 14px;
+}
+
+.mq-grp-picker__title-field label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mc-ink-50);
+  margin-bottom: 6px;
+}
+
+.mq-grp-picker__input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--mc-ink-10);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 15px;
+  color: var(--mc-ink);
+}
+
+.mq-grp-picker__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.mq-grp-picker__back,
+.mq-grp-picker__go {
+  flex: 1;
+  padding: 13px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.mq-grp-picker__back {
+  background: rgba(26, 22, 18, 0.06);
+  color: var(--mc-ink-70);
+}
+
+.mq-grp-picker__go {
+  background: var(--mc-ink, #1a1612);
+  color: #fff;
+  letter-spacing: 0.06em;
+}
+
+/* 列表群标记 */
+.qq-chat-item__grp-tag {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--mc-ink, #1a1612);
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+}
+
+.qq-chat-item__ava-wrap--group {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.mq-grp-list-stack {
+  position: relative;
+  width: 52px;
+  height: 52px;
+}
+
+.mq-grp-list-ava {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.mq-grp-list-ava:nth-child(1) { left: 0; top: 0; z-index: 3; }
+.mq-grp-list-ava:nth-child(2) { right: 0; top: 4px; z-index: 2; }
+.mq-grp-list-ava:nth-child(3) { left: 10px; bottom: 0; z-index: 1; }
+
+/* 房间 */
+.qq-room--group .qq-room__head-status {
+  letter-spacing: 0.04em;
+}
+
+.qq-room__head-avatar--group {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.mq-grp-head-stack {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.mq-grp-head-ava {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1.5px solid #fff;
+}
+
+.mq-grp-head-ava:nth-child(1) { left: 0; top: 0; z-index: 3; }
+.mq-grp-head-ava:nth-child(2) { right: 0; top: 2px; z-index: 2; }
+.mq-grp-head-ava:nth-child(3) { left: 8px; bottom: 0; z-index: 1; }
+
+.qq-room__sender-tag {
+  display: inline-block;
+  margin-bottom: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(26, 22, 18, 0.06);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--mc-accent, #8b7355);
+}
+
+/* 群聊 · 每条消息等距且收紧（覆盖单聊 first/mid 疏密差） */
+.qq-room--group .qq-room__row,
+.qq-room--group .qq-room__row--first,
+.qq-room--group .qq-room__row--mid,
+.qq-room--group .qq-room__row--last {
+  margin-bottom: 3px;
+}
+#qq-room.qq-room--group:not(.mq-has-custom-css) .qq-room__row,
+#qq-room.qq-room--group:not(.mq-has-custom-css) .qq-room__row--first,
+#qq-room.qq-room--group:not(.mq-has-custom-css) .qq-room__row--mid,
+#qq-room.qq-room--group:not(.mq-has-custom-css) .qq-room__row--last,
+#mq-bf-preview-room.qq-room--group:not(.mq-has-custom-css) .qq-room__row,
+#mq-bf-preview-room.qq-room--group:not(.mq-has-custom-css) .qq-room__row--first,
+#mq-bf-preview-room.qq-room--group:not(.mq-has-custom-css) .qq-room__row--mid,
+#mq-bf-preview-room.qq-room--group:not(.mq-has-custom-css) .qq-room__row--last {
+  margin-bottom: 3px;
+}
+.qq-room--group .qq-room__sys {
+  margin: 4px 0;
+}
+
+/* 我方/对方头衔：气泡上方原位，尽量紧凑 */
+.qq-room--group .qq-room__bubble-title-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1px;
+  line-height: 1.2;
+}
+
+/* 群聊 · 成员头像 + 名字纵排（头像列不参与撑高，避免短气泡被名字/头衔角色标拉出大缝） */
+.qq-room--group .qq-room__row--group-member {
+  position: relative;
+  align-items: flex-start;
+  padding-left: 44px;
+  gap: 0;
+  box-sizing: border-box;
+}
+
+.qq-room--group .qq-room__sender-col {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 40px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.qq-room--group .qq-room__sender-col .qq-room__bubble-ava {
+  width: 32px;
+  height: 32px;
+  pointer-events: auto;
+}
+
+.qq-room--group .qq-room__sender-tag {
+  display: block;
+  margin-bottom: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 9px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--mc-ink-faint, rgba(26, 22, 18, 0.52));
+  text-align: center;
+  max-width: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qq-room--group .qq-room__sender-col--ghost {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.qq-room--group .qq-room__row--card.qq-room__row--group-member {
+  align-items: flex-start;
+}
+
+/* 群聊等待指示与单聊同款，与气泡左缘对齐 */
+.qq-room--group .qq-room__typing-row {
+  margin-left: 44px;
+}
+
+.qq-room__tool-reply-label {
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  white-space: nowrap;
+  color: var(--mc-ink-50);
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
+.qq-room__compose-btn--ai {
+  position: relative;
+}
+
+/* 群设置 */
+.mi-set-hero--group .mi-set-hero__badge {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--mc-ink, #1a1612);
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+
+.mi-grp-avatar-pick {
+  margin: 12px 0;
+}
+
+.mi-grp-avatar-frame {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 10px;
+}
+
+.mi-grp-avatar-img,
+.mi-grp-avatar-collage {
+  display: block;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.mi-grp-avatar-img {
+  object-fit: cover;
+}
+
+.mq-grp-set-stack {
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+.mq-grp-set-ava {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.mq-grp-set-ava:nth-child(1) { left: 0; top: 0; }
+.mq-grp-set-ava:nth-child(2) { right: 0; top: 6px; }
+.mq-grp-set-ava:nth-child(3) { left: 14px; bottom: 0; }
+
+.mi-btn--danger {
+  color: #b44;
+  border-color: rgba(180, 68, 68, 0.25);
+}
+
+@keyframes mq-grp-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes mq-grp-slide {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes mq-grp-row {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mi-grp-sum-console {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+
+.mi-field--inline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 72px;
+}
+
+.mi-grp-sum-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mi-grp-sum-clip {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--mc-ink-10, rgba(26, 22, 18, 0.08));
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.mi-grp-sum-clip--mega {
+  border-color: rgba(139, 115, 85, 0.22);
+}
+
+.mi-grp-sum-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.mi-grp-sum-head strong {
+  font-weight: 600;
+}
+
+.mi-grp-sum-tag {
+  font-size: 10px;
+  opacity: 0.65;
+}
+
+.mi-grp-sum-acts {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 4px;
+}
+
+.mi-grp-sum-body {
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.mi-grp-sum-edit .mi-input--area {
+  width: 100%;
+  min-height: 96px;
+  margin-bottom: 8px;
+}
+
+.mi-btn--xs {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+/* 群聊设置 · 成员卡片 */
+.mi-grp-member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mi-grp-member-card {
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(26, 22, 18, 0.06);
+}
+
+.mi-grp-member-card__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.mi-grp-member-card__name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.mi-grp-member-card__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.mi-grp-role-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  background: rgba(139, 115, 85, 0.12);
+  color: var(--mc-accent, #8b7355);
+}
+
+.mi-grp-role-badge--owner {
+  background: rgba(231, 76, 60, 0.12);
+  color: #c0392b;
+}
+
+.mi-grp-role-badge--admin {
+  background: rgba(52, 152, 219, 0.12);
+  color: #2980b9;
+}
+
+.mi-grp-role-badge--user {
+  background: rgba(39, 174, 96, 0.12);
+  color: #27ae60;
+}
+
+.mi-grp-title-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mi-grp-color-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mi-grp-color-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(26, 22, 18, 0.12);
+  background: var(--sw, #8b7355);
+  cursor: pointer;
+  padding: 0;
+}
+
+.mi-grp-color-swatch.is-active {
+  box-shadow: 0 0 0 2px var(--mc-accent, #8b7355);
+  transform: scale(1.08);
+}
+
+.mi-grp-wb-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mi-grp-wb-subhead {
+  margin: 14px 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--mc-ink-dim, #888);
+}
+
+.mi-grp-wb-subhead:first-of-type {
+  margin-top: 4px;
+}
+
+.mi-grp-wb-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.mi-grp-wb-row__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mi-grp-wb-row__name {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mi-grp-wb-row__sub {
+  font-size: 11px;
+  color: var(--mc-ink-dim, #888);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.st-foot-btn--warn {
+  color: #c0392b;
+}
+
+.st-foot-btn.is-active {
+  background: rgba(139, 115, 85, 0.14);
+}
+
+/* 邀请成员浮层 */
+.mi-grp-invite-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(18, 14, 10, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.mi-grp-invite-sheet.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mi-grp-invite-sheet__panel {
+  width: min(100%, 420px);
+  max-height: 70vh;
+  overflow: auto;
+  background: #f7f3ec;
+  border-radius: 18px 18px 0 0;
+  padding: 16px;
+}
+
+.mi-grp-invite-sheet__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mi-grp-invite-sheet__head h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.mi-grp-invite-sheet__close {
+  border: none;
+  background: none;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: rgba(26, 22, 18, 0.5);
+}
+
+.mi-grp-invite-sheet__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 聊天页 · 群头衔与角色 */
+.qq-room__bubble-title-row {
+  display: flex;
+  margin-bottom: 3px;
+}
+
+.qq-room__bubble-title-row--me {
+  justify-content: flex-end;
+}
+
+.qq-room--group .qq-room__bubble-title {
+  max-width: 100%;
+  font-size: 9px;
+  line-height: 1.2;
+  padding: 0 5px;
+  box-sizing: border-box;
+}
+
+.qq-room__sender-badges {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  max-width: 48px;
+}
+
+.qq-room__member-title {
+  display: inline-block;
+  max-width: 48px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 8px;
+  line-height: 1.2;
+  color: var(--grp-title-color, #8b7355);
+  background: color-mix(in srgb, var(--grp-title-color, #8b7355) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--grp-title-color, #8b7355) 35%, transparent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qq-room__role-badge {
+  display: inline-block;
+  padding: 0 4px;
+  border-radius: 3px;
+  font-size: 7px;
+  line-height: 1.4;
+  color: #8b7355;
+  background: rgba(139, 115, 85, 0.1);
+}
+
+.qq-room__role-badge--owner {
+  color: #c0392b;
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.qq-room__role-badge--admin {
+  color: #2980b9;
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.qq-room__sys--title-change {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: rgba(26, 22, 18, 0.62);
+  font-size: 12px;
+}
+
+.qq-room__sys-title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 10px;
+  background: rgba(139, 115, 85, 0.12);
+  color: var(--mc-accent, #8b7355);
+}

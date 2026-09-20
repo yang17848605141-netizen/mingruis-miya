@@ -1,0 +1,66 @@
+/* ═══════════════════════════════════════════════════════════
+   miya-ios-no-blue — 全局禁止 iOS WebKit 默认蓝字
+   放在所有样式表最后加载；全屏子应用（论坛/聊天等）均生效
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 链接：不做系统蓝 ── */
+body a,
+body a:any-link {
+  color: inherit;
+  text-decoration: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+/* ── 按钮/控件：继承父级 color，断开 iOS 默认蓝 ── */
+body button,
+body input:is([type="button"], [type="submit"], [type="reset"]),
+body select,
+body textarea,
+body [role="button"],
+body summary,
+body label {
+  color: inherit;
+  -webkit-text-fill-color: currentColor;
+}
+
+/* ── iOS：WebKit 常忽略 color、仍渲成系统蓝 ── */
+html.is-ios body button,
+html.is-ios body input,
+html.is-ios body optgroup,
+html.is-ios body option,
+html.is-ios body select,
+html.is-ios body textarea,
+html.is-ios body [role="button"],
+html.is-ios body label,
+html.is-ios body a,
+html.is-ios body a:any-link {
+  -webkit-text-fill-color: currentColor;
+}
+
+html.is-ios body button,
+html.is-ios body input:is([type="button"], [type="submit"], [type="reset"]),
+html.is-ios body select {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+html.is-ios body a:any-link {
+  color: inherit;
+}
+
+html.is-ios body input:-webkit-autofill,
+html.is-ios body input:-webkit-autofill-strong-password,
+html.is-ios body input:-webkit-autofill-and-obscured,
+html.is-ios body textarea:-webkit-autofill {
+  -webkit-text-fill-color: currentColor;
+}
+
+/* 表单控件强调色不用系统蓝 */
+body {
+  accent-color: rgba(55, 58, 62, 0.88);
+}
+
+html.is-ios body [role="button"],
+html.is-ios body button {
+  -webkit-touch-callout: none;
+}

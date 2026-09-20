@@ -1,0 +1,872 @@
+/* 主屏分页 · 四页滑动 */
+
+.desk-shell {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.desk-viewport {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.desk-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+}
+
+.desk-track::-webkit-scrollbar {
+  display: none;
+}
+
+.desk-track.is-programmatic {
+  scroll-behavior: auto;
+}
+
+.desk--p1,
+.desk--p2,
+.desk--p3,
+.desk--p4 {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.desk-pager {
+  display: none;
+}
+
+.desk-pager__dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(130, 136, 145, 0.28);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, width 0.2s ease;
+}
+
+.desk-pager__dot.is-active {
+  width: 18px;
+  border-radius: 4px;
+  background: rgba(90, 96, 105, 0.55);
+}
+
+/* ══════════════════════════════════════
+   第二页 · 底片匣 · 分区式手帐
+   ══════════════════════════════════════ */
+
+.desk--p2 {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 14px calc(92px + env(safe-area-inset-bottom, 0px));
+}
+
+.desk--p2::-webkit-scrollbar { display: none; }
+
+/* ── 手帐底纸 ── */
+.p2f-board {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 18px 16px 22px;
+  border-radius: 6px;
+  background: linear-gradient(168deg, rgba(252, 248, 240, 0.98) 0%, rgba(244, 236, 224, 0.96) 100%);
+  box-shadow:
+    0 16px 40px rgba(90, 78, 62, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.p2f-board__art {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.p2f-board__art.has-custom-art {
+  opacity: 1;
+}
+
+.p2f-board:has(.p2f-board__art.has-custom-art) {
+  background: transparent;
+  box-shadow: 0 16px 40px rgba(90, 78, 62, 0.1);
+}
+
+.p2f-board__grain {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+.p2f-board:has(.p2f-board__art.has-custom-art) .p2f-board__grain {
+  display: none;
+}
+
+.p2f-board > *:not(.p2f-board__art):not(.p2f-board__grain) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── 刊头行 ── */
+.p2f-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(190, 175, 150, 0.28);
+}
+
+.p2f-head__brand {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.p2f-head__tape {
+  position: absolute;
+  top: -10px;
+  left: -4px;
+  width: 72px;
+  height: 12px;
+  background: rgba(255, 215, 185, 0.55);
+  transform: rotate(-3deg);
+  opacity: 0.8;
+}
+
+.p2f-head__vol {
+  margin: 0 0 4px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 10px;
+  font-style: italic;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.p2f-head__title {
+  margin: 0;
+  font-family: "Noto Serif SC", serif;
+  font-size: clamp(26px, 7vw, 30px);
+  font-weight: 300;
+  letter-spacing: 0.32em;
+  color: rgba(52, 46, 40, 0.82);
+  line-height: 1.1;
+}
+
+.p2f-head__sub {
+  margin: 6px 0 0;
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.p2f-head__meta {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 日期 */
+.p2f-datechip {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 252, 245, 0.95);
+  border: 1px solid rgba(200, 185, 160, 0.4);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(100, 85, 65, 0.08);
+}
+
+.p2f-datechip__day {
+  font-family: "Bebas Neue", serif;
+  font-size: 20px;
+  line-height: 1;
+  color: rgba(60, 52, 44, 0.85);
+}
+
+.p2f-datechip__meta {
+  margin-top: 1px;
+  font-size: 5px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+/* 胶卷罐 */
+.p2f-canister {
+  width: 44px;
+}
+
+.p2f-canister__lid {
+  position: relative;
+  height: 16px;
+  background: linear-gradient(180deg, #3a3a3e, #2a2a2e);
+  border-radius: 4px 4px 1px 1px;
+  overflow: hidden;
+}
+
+.p2f-canister__art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.p2f-canister__art.has-custom-art { opacity: 0.85; }
+
+.p2f-canister__lbl {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: rgba(255, 220, 180, 0.75);
+}
+
+.p2f-canister__body {
+  height: 28px;
+  margin-top: -1px;
+  background: linear-gradient(90deg, #35353a, #45454a, #35353a);
+  border-radius: 1px 1px 6px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.p2f-canister__slot {
+  width: 26px;
+  height: 2px;
+  background: rgba(20, 20, 24, 0.55);
+  border-radius: 1px;
+}
+
+/* 分区胶带（仅一条，不漂浮） */
+.p2f-tape-deco {
+  position: absolute;
+  top: 52px;
+  right: 24px;
+  width: 56px;
+  height: 14px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.p2f-tape-deco__art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.p2f-tape-deco__art.has-custom-art { opacity: 0.75; }
+
+.p2f-tape-deco__strip {
+  position: absolute;
+  inset: 0;
+  background: rgba(200, 225, 245, 0.5);
+  transform: rotate(2deg);
+}
+
+/* ── 通用分区 ── */
+.p2f-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── 拍立得横排 ── */
+.p2f-zone--polaroids {
+  padding-top: 2px;
+}
+
+.p2f-polaroids {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  perspective: 800px;
+}
+
+.p2f-polaroid {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transform-style: preserve-3d;
+}
+
+.p2f-polaroid--1 { transform: rotate(-1.5deg); }
+.p2f-polaroid--2 { transform: rotate(0deg); margin-top: 6px; }
+.p2f-polaroid--3 { transform: rotate(1.5deg); }
+
+.p2f-polaroid.is-flipped { z-index: 2; }
+
+.p2f-polaroid__inner {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.34, 1.1, 0.48, 1);
+}
+
+.p2f-polaroid.is-flipped .p2f-polaroid__inner {
+  transform: rotateY(180deg);
+}
+
+.p2f-polaroid__face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #faf8f4;
+  padding: 6px 6px 18px;
+  border: 1px solid rgba(210, 200, 185, 0.5);
+  box-shadow: 0 6px 18px rgba(80, 70, 55, 0.1);
+}
+
+.p2f-polaroid__face--front { position: relative; }
+
+.p2f-polaroid__face--back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  background: linear-gradient(168deg, #fffef8, #f8f4ec);
+}
+
+.p2f-polaroid__photo {
+  position: relative;
+  aspect-ratio: 1;
+  background: linear-gradient(145deg, #e8e4dc, #d8d4cc);
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.p2f-polaroid__art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.p2f-polaroid__art.has-custom-art { opacity: 1; }
+
+.p2f-polaroid__leak {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 180, 120, 0.18), transparent 50%);
+  pointer-events: none;
+}
+
+.p2f-polaroid__cap {
+  margin: 0;
+  font-family: "Great Vibes", cursive;
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  color: rgba(70, 62, 52, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.p2f-polaroid__note {
+  margin: 0;
+  font-family: "Great Vibes", cursive;
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: center;
+  color: rgba(80, 68, 55, 0.75);
+}
+
+/* ── 胶卷条 ── */
+.p2f-zone--reel {
+  gap: 0;
+}
+
+.p2f-reel-wrap {
+  width: 100%;
+}
+
+.p2f-reel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 0 2px;
+}
+
+.p2f-reel__badge {
+  font-size: 7px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.p2f-reel__xray {
+  font-size: 6px;
+  letter-spacing: 0.18em;
+  color: rgba(200, 80, 70, 0.5);
+  font-weight: 500;
+}
+
+.p2f-reel__perfs {
+  height: 8px;
+  background: repeating-linear-gradient(90deg, #1a1a1e 0, #1a1a1e 5px, transparent 5px, transparent 10px);
+  opacity: 0.85;
+}
+
+.p2f-reel__viewport {
+  overflow: hidden;
+  background: #141418;
+  touch-action: pan-x;
+}
+
+.p2f-reel__track {
+  display: flex;
+  transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+}
+
+.p2f-reel__track.is-dragging {
+  transition: none;
+}
+
+.p2f-reel__frame {
+  position: relative;
+  flex: 0 0 33.333%;
+  aspect-ratio: 3 / 2;
+  background: #222228;
+  border-left: 1px solid rgba(255, 255, 255, 0.04);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.p2f-reel__art {
+  position: absolute;
+  inset: 3px;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.p2f-reel__art.has-custom-art { opacity: 1; }
+
+.p2f-reel__frame:not(:has(.p2f-reel__art.has-custom-art))::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent);
+}
+
+.p2f-reel__tc {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  font-family: "Bebas Neue", monospace;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 220, 160, 0.5);
+}
+
+/* ── 便签 + 印章 ── */
+.p2f-zone--notes {
+  flex-direction: row;
+  align-items: stretch;
+  gap: 12px;
+}
+
+.p2f-memo {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  padding: 14px 12px;
+  background: rgba(255, 252, 235, 0.92);
+  border: 1px solid rgba(215, 200, 160, 0.4);
+  border-radius: 2px;
+  box-shadow: 0 4px 14px rgba(100, 85, 60, 0.08);
+  overflow: hidden;
+}
+
+.p2f-memo__art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.p2f-memo__art.has-custom-art { opacity: 0.45; }
+
+.p2f-memo__text {
+  position: relative;
+  margin: 0 0 6px;
+  font-family: "Noto Serif SC", serif;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(65, 58, 48, 0.82);
+}
+
+.p2f-memo__scribble {
+  position: relative;
+  margin: 0;
+  font-family: "Great Vibes", cursive;
+  font-size: 12px;
+  color: rgba(100, 88, 70, 0.58);
+}
+
+.p2f-aside {
+  flex-shrink: 0;
+  width: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.p2f-stamp-cluster {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+
+.p2f-stamp-cluster__art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.p2f-stamp-cluster__art.has-custom-art { opacity: 0.7; }
+
+.p2f-stamp-cluster__ring {
+  position: absolute;
+  inset: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(168, 72, 62, 0.38);
+  border-radius: 50%;
+}
+
+.p2f-stamp-cluster__ring em {
+  font-style: normal;
+  font-family: "Noto Serif SC", serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(168, 72, 62, 0.52);
+  letter-spacing: 0.1em;
+}
+
+.p2f-ticket-stack {
+  position: relative;
+  width: 56px;
+  height: 32px;
+  background: rgba(255, 250, 240, 0.9);
+  border: 1px solid rgba(200, 185, 160, 0.38);
+  box-shadow: 0 3px 8px rgba(90, 75, 55, 0.08);
+}
+
+.p2f-ticket-stack__art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+}
+
+.p2f-ticket-stack__art.has-custom-art { opacity: 0.8; }
+
+.p2f-ticket-stack__no {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+/* ── 应用 · 2×2 网格 ── */
+.p2f-zone--apps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding-top: 4px;
+  border-top: 1px dashed rgba(190, 175, 150, 0.3);
+  position: relative;
+  z-index: 2;
+}
+
+.desk--p2 .tile {
+  position: relative;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+  min-height: 64px;
+}
+
+.desk--p2 .tile:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+.desk--p2 .tile.has-custom-tile-art .tile__glyph,
+.desk--p2 .tile.has-custom-tile-art .tile__name,
+.desk--p2 .tile.has-custom-tile-art .tile__hint,
+.desk--p2 .tile.has-custom-tile-art .tile__neon {
+  position: relative;
+  z-index: 2;
+}
+
+.desk--p2 .miya-tile-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.desk--p2 .tile--couple {
+  padding: 10px 12px;
+  background: rgba(255, 252, 245, 0.92);
+  border: 1px solid rgba(255, 185, 198, 0.38);
+  border-radius: 3px;
+  box-shadow: 0 4px 12px rgba(255, 160, 175, 0.1);
+}
+
+.desk--p2 .tile--couple .tile__glyph {
+  font-family: "Noto Serif SC", serif;
+  font-size: 18px;
+  color: rgba(90, 55, 62, 0.82);
+  line-height: 1;
+}
+
+.desk--p2 .tile--couple .tile__name {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+}
+
+.desk--p2 .tile--couple .tile__hint {
+  display: block;
+  margin-top: 2px;
+  font-size: 6px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+.desk--p2 .tile--themeshop {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(200, 208, 218, 0.45);
+  border-radius: 3px;
+  box-shadow: 0 4px 12px rgba(100, 110, 125, 0.08);
+}
+
+.desk--p2 .tile--themeshop .tile__swatch {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+
+.desk--p2 .tile--themeshop .tile__swatch span {
+  flex: 1;
+  height: 18px;
+  border-radius: 2px;
+}
+
+.desk--p2 .tile--themeshop .tile__swatch span:nth-child(1) {
+  background: linear-gradient(135deg, #f8e8ee, #e8c8d8);
+}
+
+.desk--p2 .tile--themeshop .tile__swatch span:nth-child(2) {
+  background: linear-gradient(135deg, #e8eef8, #c8d8e8);
+}
+
+.desk--p2 .tile--themeshop .tile__swatch span:nth-child(3) {
+  background: linear-gradient(135deg, #f8f4e8, #e8dcc8);
+}
+
+.desk--p2 .tile--themeshop .tile__name {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+.desk--p2 .tile--themeshop .tile__hint {
+  display: block;
+  margin-top: 2px;
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  color: var(--ink-faint);
+}
+
+.desk--p2 .tile--cstore {
+  padding: 10px;
+  background: linear-gradient(145deg, rgba(28, 30, 36, 0.94), rgba(16, 18, 22, 0.97));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(30, 32, 38, 0.18);
+}
+
+.desk--p2 .tile--cstore .tile__neon {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  color: rgba(255, 220, 180, 0.88);
+  text-shadow: 0 0 6px rgba(255, 200, 140, 0.45);
+}
+
+.desk--p2 .tile--cstore .tile__name {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.desk--p2 .tile--cstore .tile__hint {
+  display: block;
+  margin-top: 2px;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.desk--p2 .tile--rift {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 3px;
+  box-shadow: 0 4px 14px rgba(100, 110, 125, 0.08);
+  overflow: hidden;
+}
+
+.desk--p2 .tile--rift .tile__portal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.desk--p2 .tile--rift .tile__portal span {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(160, 175, 210, 0.28);
+}
+
+.desk--p2 .tile--rift .tile__portal span:nth-child(1) { width: 20px; height: 20px; }
+.desk--p2 .tile--rift .tile__portal span:nth-child(2) { width: 36px; height: 36px; }
+.desk--p2 .tile--rift .tile__portal span:nth-child(3) { width: 52px; height: 52px; }
+
+.desk--p2 .tile--rift .tile__name {
+  position: relative;
+  z-index: 1;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--ink-soft);
+}
+
+.desk--p2 .tile--rift .tile__hint {
+  position: relative;
+  z-index: 1;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+
+/* 可编辑文字 */
+.desk--p2 [data-miya-copy].is-editing {
+  outline: 1px dashed rgba(180, 160, 130, 0.55);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (max-height: 700px) {
+  .p2f-board { gap: 16px; padding: 14px 14px 18px; }
+  .p2f-polaroids { gap: 8px; }
+  .p2f-zone--apps { gap: 8px; }
+  .desk--p2 .tile { min-height: 58px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p2f-polaroid__inner,
+  .p2f-reel__track {
+    transition: none !important;
+  }
+}

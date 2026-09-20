@@ -1,0 +1,625 @@
+/* 深入 · 角色手机 短信 — 运营商回执收信台 · 整洁对齐 */
+.dp-sms {
+  --sm-bg: #f6f7fa;
+  --sm-paper: #ffffff;
+  --sm-ink: #222326;
+  --sm-ink-soft: rgba(34, 35, 38, 0.58);
+  --sm-ink-faint: rgba(34, 35, 38, 0.32);
+  --sm-line: rgba(34, 35, 38, 0.08);
+  --sm-rail: #eceef3;
+  --sm-accent: #6888a8;
+  --sm-serif: "Noto Serif SC", "New York", serif;
+  --sm-sans: "Inter", "SF Pro Text", "Noto Sans SC", -apple-system, sans-serif;
+  --sm-mono: "SF Mono", "Menlo", monospace;
+  --sm-pad-x: 18px;
+  /* iOS 11.0–11.2 用 constant；部分 WebView env 会回落成 0，后面再用 max 兜底 */
+  --sm-safe-t: constant(safe-area-inset-top);
+  --sm-safe-t: env(safe-area-inset-top, 0px);
+  --sm-safe-b: constant(safe-area-inset-bottom);
+  --sm-safe-b: env(safe-area-inset-bottom, 0px);
+  position: fixed;
+  inset: 0;
+  z-index: 540;
+  display: flex;
+  flex-direction: row;
+  background:
+    linear-gradient(90deg, var(--sm-rail) 0, var(--sm-rail) 48px, transparent 48px),
+    var(--sm-bg);
+  color: var(--sm-ink);
+  font-family: var(--sm-sans);
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.34s ease;
+  box-sizing: border-box;
+}
+
+.dp-sms[hidden] { display: none !important; }
+.dp-sms.is-open { opacity: 1; pointer-events: auto; }
+
+/* ── 左栏 ── */
+.dp-sms__rail {
+  position: relative;
+  z-index: 12;
+  flex-shrink: 0;
+  width: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(16px + var(--sm-safe-t)) 0 calc(16px + var(--sm-safe-b));
+  background: var(--sm-rail);
+  border-right: 0.5px solid var(--sm-line);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.dp-sms__rail-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dp-sms__rail-mark {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: var(--sm-serif);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: var(--sm-ink);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.dp-sms__rail-sub {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  margin-top: 10px;
+  font-size: 7px;
+  letter-spacing: 0.22em;
+  color: var(--sm-ink-faint);
+  text-transform: uppercase;
+  flex-shrink: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dp-sms__rail-exit {
+  -webkit-tap-highlight-color: transparent;
+  flex: 0 0 auto;
+  border: none;
+  background: transparent;
+  padding: 10px 2px;
+  margin-top: 8px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--sm-ink-soft);
+  cursor: pointer;
+}
+
+.dp-sms__rail-exit:active { color: var(--sm-ink); }
+
+/* ── 主区 ── */
+.dp-sms__main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--sm-bg);
+}
+
+.dp-sms__grain {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* 运营商条 */
+.dp-sms__carrier {
+  position: relative;
+  z-index: 8;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: calc(10px + var(--sm-safe-t)) var(--sm-pad-x) 10px;
+  border-bottom: 0.5px solid var(--sm-line);
+  background: rgba(255, 255, 255, 0.88);
+  box-sizing: border-box;
+}
+
+.dp-sms__carrier-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.dp-sms__carrier-sim {
+  font-family: var(--sm-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--sm-ink-soft);
+}
+
+.dp-sms__carrier-tag {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--sm-ink-faint);
+  text-transform: uppercase;
+}
+
+.dp-sms__sync {
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: transparent;
+  padding: 4px 0 4px 10px;
+  font-family: var(--sm-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--sm-accent);
+  cursor: pointer;
+  border-left: 0.5px solid var(--sm-line);
+}
+
+.dp-sms__sync:active:not(:disabled) { opacity: 0.6; }
+.dp-sms__sync:disabled { opacity: 0.35; cursor: default; }
+
+.dp-sms__sync-glyph {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.dp-sms__sync.is-spinning .dp-sms__sync-glyph {
+  animation: smSyncSpin 1.1s linear infinite;
+}
+
+@keyframes smSyncSpin { to { transform: rotate(360deg); } }
+
+/* 状态条 */
+.dp-sms__ticker {
+  flex-shrink: 0;
+  padding: 8px var(--sm-pad-x);
+  background: rgba(234, 242, 252, 0.95);
+  border-bottom: 0.5px solid rgba(104, 136, 168, 0.12);
+  font-family: var(--sm-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: #5a7898;
+  text-align: center;
+}
+
+.dp-sms__ticker[hidden] { display: none !important; }
+.dp-sms__ticker.is-success { background: rgba(236, 246, 240, 0.96); color: #4a8068; }
+.dp-sms__ticker.is-error { background: rgba(252, 238, 236, 0.96); color: #a06860; }
+
+/* ── 滚动 ── */
+.dp-sms__scroll {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#dp-sms-list-view {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(24px + var(--sm-safe-b));
+  scrollbar-width: none;
+}
+
+#dp-sms-list-view::-webkit-scrollbar { display: none; }
+
+/* ── 标题 ── */
+.dp-sms__mast {
+  padding: 20px var(--sm-pad-x) 16px;
+  border-bottom: 0.5px solid var(--sm-line);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.dp-sms__mast-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dp-sms__mast-title {
+  margin: 0;
+  font-family: var(--sm-serif);
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+}
+
+.dp-sms__mast-title em {
+  font-style: normal;
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--sm-ink-faint);
+  margin-bottom: 4px;
+  font-family: var(--sm-sans);
+  font-weight: 400;
+}
+
+.dp-sms__mast-stats {
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px;
+}
+
+.dp-sms__mast-chip {
+  font-family: var(--sm-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--sm-ink-soft);
+  padding: 4px 8px;
+  border: 0.5px solid var(--sm-line);
+  border-radius: 6px;
+  background: var(--sm-paper);
+  white-space: nowrap;
+}
+
+.dp-sms__mast-desc {
+  margin: 10px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--sm-ink-soft);
+}
+
+/* ── 列表 ── */
+.dp-sms__stream {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px var(--sm-pad-x) 8px;
+}
+
+.dp-sms__slip {
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.dp-sms__slip-sheet {
+  padding: 12px 14px;
+  background: var(--sm-paper);
+  border: 0.5px solid var(--sm-line);
+  border-radius: 10px;
+  border-left-width: 2px;
+  transition: background 0.15s ease;
+}
+
+.dp-sms__slip:active .dp-sms__slip-sheet {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.dp-sms__slip.tone-pearl .dp-sms__slip-sheet { border-left-color: #c8ccd4; }
+.dp-sms__slip.tone-blush .dp-sms__slip-sheet { border-left-color: #dcc4c0; }
+.dp-sms__slip.tone-sage .dp-sms__slip-sheet { border-left-color: #b8d0bc; }
+.dp-sms__slip.tone-sky .dp-sms__slip-sheet { border-left-color: #b0cce0; }
+.dp-sms__slip.tone-sand .dp-sms__slip-sheet { border-left-color: #d8c8ac; }
+.dp-sms__slip.tone-lilac .dp-sms__slip-sheet { border-left-color: #c8bcd8; }
+.dp-sms__slip.tone-mint .dp-sms__slip-sheet { border-left-color: #b0dcc8; }
+.dp-sms__slip.tone-dust .dp-sms__slip-sheet { border-left-color: #c8c4bc; }
+.dp-sms__slip.tone-rose .dp-sms__slip-sheet { border-left-color: #d8b4bc; }
+.dp-sms__slip.tone-cream .dp-sms__slip-sheet { border-left-color: #e4dcd0; }
+.dp-sms__slip.tone-mauve .dp-sms__slip-sheet { border-left-color: #d0b8d0; }
+.dp-sms__slip.tone-olive .dp-sms__slip-sheet { border-left-color: #c0ccb0; }
+
+.dp-sms__slip-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.dp-sms__slip-seq {
+  flex-shrink: 0;
+  width: 22px;
+  padding-top: 2px;
+  font-family: var(--sm-mono);
+  font-size: 9px;
+  color: var(--sm-ink-faint);
+  text-align: center;
+}
+
+.dp-sms__slip-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.dp-sms__slip-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.dp-sms__slip-name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+.dp-sms__slip-badge {
+  flex-shrink: 0;
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: 0.5px solid var(--sm-line);
+  color: var(--sm-ink-faint);
+  background: rgba(34, 35, 38, 0.02);
+}
+
+.dp-sms__slip-badge.cat-spam { color: #a07068; }
+.dp-sms__slip-badge.cat-verify { color: #7a6898; }
+.dp-sms__slip-badge.cat-family { color: #8a7868; }
+.dp-sms__slip-badge.cat-work { color: #5a7898; }
+.dp-sms__slip-badge.cat-personal { color: #688898; }
+.dp-sms__slip-badge.cat-service { color: #688878; }
+
+.dp-sms__slip-num {
+  display: block;
+  font-family: var(--sm-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--sm-ink-faint);
+}
+
+.dp-sms__slip-time {
+  flex-shrink: 0;
+  font-size: 9px;
+  color: var(--sm-ink-faint);
+  letter-spacing: 0.02em;
+  padding-top: 3px;
+  white-space: nowrap;
+}
+
+.dp-sms__slip-body {
+  margin: 8px 0 0 32px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--sm-ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.dp-sms__slip-unread {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #d89088;
+}
+
+/* ── 空状态 ── */
+.dp-sms__empty {
+  padding: 32px var(--sm-pad-x) 48px;
+}
+
+.dp-sms__empty[hidden] { display: none !important; }
+
+.dp-sms__empty-frame {
+  padding: 28px 20px;
+  border: 0.5px solid var(--sm-line);
+  border-radius: 10px;
+  background: var(--sm-paper);
+  text-align: center;
+}
+
+.dp-sms__empty-frame p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--sm-ink-soft);
+}
+
+.dp-sms__empty-hint {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--sm-mono);
+  font-size: 10px;
+  color: var(--sm-accent);
+}
+
+/* ── 详情 ── */
+.dp-sms__detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dp-sms__detail[hidden] { display: none !important; }
+
+.dp-sms.is-detail .dp-sms__carrier { display: none; }
+.dp-sms.is-detail .dp-sms__ticker { display: none !important; }
+
+.dp-sms__transcript-head {
+  flex-shrink: 0;
+  padding: calc(12px + var(--sm-safe-t)) var(--sm-pad-x) 14px;
+  border-bottom: 0.5px solid var(--sm-line);
+  background: rgba(255, 255, 255, 0.92);
+  box-sizing: border-box;
+}
+
+.dp-sms__transcript-back {
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  border: none;
+  background: none;
+  padding: 0;
+  margin-bottom: 10px;
+  font-family: var(--sm-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--sm-accent);
+  cursor: pointer;
+}
+
+.dp-sms__transcript-back:active { opacity: 0.6; }
+
+.dp-sms__transcript-title {
+  margin: 0 0 4px;
+  font-family: var(--sm-serif);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.dp-sms__transcript-sub {
+  font-family: var(--sm-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--sm-ink-faint);
+}
+
+.dp-sms__transcript-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px var(--sm-pad-x) calc(24px + var(--sm-safe-b));
+  scrollbar-width: none;
+}
+
+.dp-sms__transcript-scroll::-webkit-scrollbar { display: none; }
+
+.dp-sms__transcript-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dp-sms__line {
+  padding: 10px 12px;
+  background: var(--sm-paper);
+  border: 0.5px solid var(--sm-line);
+  border-radius: 8px;
+}
+
+.dp-sms__line.is-out {
+  margin-left: 16px;
+  border-left: 2px solid rgba(104, 136, 168, 0.4);
+}
+
+.dp-sms__line-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.dp-sms__line-tag {
+  font-family: var(--sm-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--sm-ink-faint);
+}
+
+.dp-sms__line.is-out .dp-sms__line-tag { color: var(--sm-accent); }
+
+.dp-sms__line-time {
+  font-size: 9px;
+  color: var(--sm-ink-faint);
+  letter-spacing: 0.04em;
+}
+
+.dp-sms__line-content {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* ── Toast ── */
+.dp-sms__toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + var(--sm-safe-b));
+  transform: translateX(-50%) translateY(8px);
+  z-index: 600;
+  padding: 9px 18px;
+  border-radius: 6px;
+  background: var(--sm-ink);
+  color: #fff;
+  font-size: 11px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.24s ease, transform 0.24s ease;
+}
+
+.dp-sms__toast.is-show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── iOS：灵动岛 / 底部横条兜底（部分机型 env 为 0 或偏小）── */
+html.is-ios .dp-sms__rail {
+  padding-top: max(54px, calc(16px + var(--sm-safe-t)));
+  padding-bottom: max(34px, calc(16px + var(--sm-safe-b)));
+}
+
+html.is-ios .dp-sms__carrier {
+  padding-top: max(52px, calc(10px + var(--sm-safe-t)));
+}
+
+html.is-ios .dp-sms__transcript-head {
+  padding-top: max(52px, calc(12px + var(--sm-safe-t)));
+}
+
+html.is-ios #dp-sms-list-view {
+  padding-bottom: max(40px, calc(24px + var(--sm-safe-b)));
+}
+
+html.is-ios .dp-sms__transcript-scroll {
+  padding-bottom: max(40px, calc(24px + var(--sm-safe-b)));
+}
+
+html.is-ios .dp-sms__toast {
+  bottom: max(34px, calc(20px + var(--sm-safe-b)));
+}
+
+@media (max-height: 720px) {
+  .dp-sms__rail-sub { display: none; }
+}

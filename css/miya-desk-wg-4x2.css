@@ -1,0 +1,1168 @@
+/* 自定义布局 · 4×2 小组件 · 五种独立风格 */
+
+.wg-4x2 {
+  box-sizing: border-box;
+  font-family: 'Noto Sans SC', 'DM Sans', sans-serif;
+  color: #2a2a2e;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wg-4x2 *,
+.wg-4x2 *::before,
+.wg-4x2 *::after {
+  box-sizing: border-box;
+}
+
+/* ── 共享 · 图片占位 ── */
+.wg-4x2-player__cover,
+.wg-4x2-dialogue__ava,
+.wg-4x2-mag__photo,
+.wg-4x2-ins__avatar,
+.wg-4x2-ins__post,
+.wg-4x2-glass__photo,
+.wg-4x2-avalink__photo {
+  background: linear-gradient(145deg, #f2f2f5 0%, #e6e6ea 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.wg-4x2-player__cover.has-custom-photo,
+.wg-4x2-dialogue__ava.has-custom-photo,
+.wg-4x2-mag__photo.has-custom-photo,
+.wg-4x2-ins__avatar.has-custom-photo,
+.wg-4x2-ins__post.has-custom-photo,
+.wg-4x2-glass__photo.has-custom-photo,
+.wg-4x2-avalink__photo.has-custom-photo {
+  background-color: transparent;
+}
+
+/* ── 1 · 音轨舱 · 音乐播放器 ── */
+.wg-4x2-player {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  padding: 12px 16px 12px 14px;
+  background: linear-gradient(160deg, #fff 0%, #f8f8fa 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgba(30,34,42,0.06);
+}
+
+.wg-4x2-player__disc-wrap {
+  position: relative;
+  flex: 0 0 88px;
+  width: 88px;
+  height: 88px;
+}
+
+.wg-4x2-player__cover {
+  position: relative;
+  z-index: 2;
+  width: 72px;
+  height: 72px;
+  margin: 8px 0 0 4px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(30,34,42,0.14);
+}
+
+.wg-4x2-player__disc {
+  position: absolute;
+  top: 6px;
+  right: 0;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, #3a3a42 0 8px, transparent 8px 9px),
+    repeating-radial-gradient(circle at center, #2e2e34 0 2px, #383840 2px 4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  opacity: 0.92;
+}
+
+.wg-4x2-player__disc::after {
+  content: '';
+  position: absolute;
+  inset: 28%;
+  border-radius: 50%;
+  background: #f0f0f3;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.5) inset;
+}
+
+.wg-4x2-player__panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wg-4x2-player__track {
+  margin: 0;
+  font-family: 'Outfit', 'Noto Sans SC', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x2-player__artist {
+  margin: 0 0 6px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #9a9aa3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x2-player__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 22px;
+  margin-bottom: 8px;
+  opacity: 0.55;
+}
+
+.wg-4x2-player__bars span {
+  flex: 1;
+  max-width: 4px;
+  border-radius: 2px;
+  background: #c8c8d0;
+}
+
+.wg-4x2-player__bars span:nth-child(1) { height: 40%; }
+.wg-4x2-player__bars span:nth-child(2) { height: 72%; }
+.wg-4x2-player__bars span:nth-child(3) { height: 55%; }
+.wg-4x2-player__bars span:nth-child(4) { height: 88%; }
+.wg-4x2-player__bars span:nth-child(5) { height: 48%; }
+.wg-4x2-player__bars span:nth-child(6) { height: 65%; }
+.wg-4x2-player__bars span:nth-child(7) { height: 35%; }
+.wg-4x2-player__bars span:nth-child(8) { height: 78%; }
+.wg-4x2-player__bars span:nth-child(9) { height: 52%; }
+.wg-4x2-player__bars span:nth-child(10) { height: 42%; }
+.wg-4x2-player__bars span:nth-child(11) { height: 68%; }
+.wg-4x2-player__bars span:nth-child(12) { height: 58%; }
+
+.wg-4x2-player__progress {
+  position: relative;
+  height: 3px;
+  border-radius: 999px;
+  background: #ececef;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.wg-4x2-player__progress-fill {
+  display: block;
+  width: 38%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #bbb, #888);
+}
+
+.wg-4x2-player__ctrl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wg-4x2-player__time {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: #aaa;
+  font-variant-numeric: tabular-nums;
+}
+
+.wg-4x2-player__play {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: #2a2a2e;
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  padding: 0 0 0 2px;
+  pointer-events: none;
+  box-shadow: 0 3px 10px rgba(30,34,42,0.18);
+}
+
+/* ── 2 · 对白轴 · 双人对话 ── */
+.wg-4x2-dialogue {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 8px 12px 16px;
+  background: #fefefe;
+  border-radius: 18px 18px 18px 6px;
+  box-shadow: 0 4px 20px rgba(30,34,42,0.05);
+  overflow: hidden;
+}
+
+.wg-4x2-dialogue.has-custom-bg {
+  background-color: #fefefe;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.wg-4x2-dialogue.has-custom-bg::before {
+  opacity: 0.55;
+}
+
+.wg-4x2-dialogue.has-custom-bg .wg-4x2-dialogue__bubble--a {
+  background: rgba(243, 243, 246, 0.92);
+}
+
+.wg-4x2-dialogue::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f0f0f3, #e8e8ec, #f0f0f3);
+}
+
+.wg-4x2-dialogue__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.wg-4x2-dialogue__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  max-width: 100%;
+}
+
+.wg-4x2-dialogue__row--a {
+  align-self: flex-start;
+  padding-right: 16%;
+}
+
+.wg-4x2-dialogue__row--b {
+  align-self: flex-end;
+  flex-direction: row;
+  padding-left: 16%;
+}
+
+.wg-4x2-dialogue__ava {
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(30,34,42,0.1);
+}
+
+.wg-4x2-dialogue__ava--b {
+  border-radius: 8px;
+}
+
+.wg-4x2-dialogue__bubble {
+  margin: 0;
+  padding: 5px 9px;
+  font-size: 10px;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  border-radius: 12px 12px 12px 3px;
+  max-width: calc(100% - 30px);
+  word-break: break-word;
+}
+
+.wg-4x2-dialogue__bubble--a {
+  background: #f3f3f6;
+  color: #3a3a42;
+}
+
+.wg-4x2-dialogue__bubble--b {
+  background: #2a2a2e;
+  color: #f8f8fa;
+  border-radius: 12px 12px 3px 12px;
+  font-family: 'LXGW WenKai SC', 'Noto Serif SC', serif;
+}
+
+.wg-4x2-dialogue__time {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: #c0c0c8;
+  text-transform: uppercase;
+}
+
+/* ── 3 · 刊面包 · 杂志封面 ── */
+.wg-4x2-mag {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 6px 24px rgba(30,34,42,0.07);
+}
+
+.wg-4x2-mag__hero {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+  overflow: hidden;
+}
+
+.wg-4x2-mag__photo {
+  width: 100%;
+  height: 100%;
+  min-height: 90px;
+}
+
+.wg-4x2-mag__tag {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  padding: 3px 8px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #666;
+}
+
+.wg-4x2-mag__foot {
+  flex: 0 0 auto;
+  padding: 6px 16px 12px;
+  margin-top: -8px;
+}
+
+.wg-4x2-mag__headline {
+  margin: 0 0 2px;
+  font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x2-mag__sub {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── 4 · INS主页 · 仿 Instagram 个人页 ── */
+.wg-4x2-ins {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 8px 14px 6px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 8px 28px rgba(30,34,42,0.06);
+  overflow: hidden;
+}
+
+.wg-4x2-ins__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.wg-4x2-ins__username {
+  font-family: 'Outfit', 'Noto Sans SC', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x2-ins__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+  padding: 2px 0;
+}
+
+.wg-4x2-ins__menu span {
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #2a2a2e;
+}
+
+.wg-4x2-ins__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+.wg-4x2-ins__avatar-wrap {
+  position: relative;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+}
+
+.wg-4x2-ins__avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(30,34,42,0.08);
+}
+
+.wg-4x2-ins__ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  z-index: -1;
+  opacity: 0.85;
+}
+
+.wg-4x2-ins__ring::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.wg-4x2-ins__stats {
+  flex: 1;
+  margin: 0;
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: #5a5a62;
+  word-break: break-word;
+}
+
+.wg-4x2-ins__bio {
+  margin: 0 0 8px;
+  font-size: 10px;
+  line-height: 1.4;
+  color: #3a3a42;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wg-4x2-ins__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  flex: 1;
+  min-height: 0;
+}
+
+.wg-4x2-ins__post {
+  border-radius: 2px;
+  min-height: 36px;
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.04);
+}
+
+.wg-4x2-ins__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 5px;
+  padding-top: 4px;
+  border-top: 1px solid #efefef;
+}
+
+.wg-4x2-ins__tab {
+  width: 18px;
+  height: 2px;
+  border-radius: 1px;
+  background: #ddd;
+}
+
+.wg-4x2-ins__tab.is-active {
+  background: #2a2a2e;
+}
+
+/* ── 5 · 浮光拼贴 · 透明 INS 装饰拼贴 ── */
+.wg-4x2-glass {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 6px 8px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.wg-4x2-glass__cluster {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 2px 0;
+}
+
+.wg-4x2-glass__orb {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(200,200,210,0.55);
+  pointer-events: none;
+}
+
+.wg-4x2-glass__orb--1 {
+  width: 110px;
+  height: 110px;
+  top: -20px;
+  right: -16px;
+  transform: rotate(12deg);
+}
+
+.wg-4x2-glass__orb--2 {
+  width: 64px;
+  height: 64px;
+  bottom: 8px;
+  left: -10px;
+  border-style: dotted;
+  opacity: 0.7;
+}
+
+.wg-4x2-glass__spark {
+  position: absolute;
+  font-size: 11px;
+  color: rgba(180,180,190,0.75);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.wg-4x2-glass__spark--1 {
+  top: 10px;
+  left: 18%;
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.wg-4x2-glass__spark--2 {
+  top: 28px;
+  right: 12%;
+  font-size: 10px;
+}
+
+.wg-4x2-glass__spark--3 {
+  bottom: 22px;
+  right: 28%;
+  font-size: 9px;
+  opacity: 0.5;
+}
+
+.wg-4x2-glass__tape {
+  position: absolute;
+  top: 4px;
+  left: calc(82px + 5px);
+  width: 34px;
+  height: 12px;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(220,220,228,0.6);
+  transform: translateX(-50%) rotate(-8deg);
+  box-shadow: 0 1px 4px rgba(30,34,42,0.04);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.wg-4x2-glass__dash {
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  width: 28px;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, #ccc 0 4px, transparent 4px 8px);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.wg-4x2-glass__frame {
+  position: relative;
+  flex: 0 0 auto;
+  width: 82px;
+  padding: 5px 5px 14px;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.9);
+  border-radius: 2px;
+  transform: rotate(-4deg);
+  box-shadow: 0 8px 24px rgba(30,34,42,0.08);
+  z-index: 2;
+}
+
+.wg-4x2-glass__photo {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 1px;
+}
+
+.wg-4x2-glass__corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: rgba(180,180,190,0.45);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.wg-4x2-glass__corner--tl {
+  top: 3px;
+  left: 3px;
+  border-width: 1px 0 0 1px;
+}
+
+.wg-4x2-glass__corner--br {
+  bottom: 12px;
+  right: 3px;
+  border-width: 0 1px 1px 0;
+}
+
+.wg-4x2-glass__panel {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-top: 4px;
+  min-height: 112px;
+  padding: 10px 14px 12px;
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.85);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(30,34,42,0.05);
+  z-index: 3;
+}
+
+.wg-4x2-glass__tag {
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(230,230,238,0.8);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: lowercase;
+  color: #888;
+}
+
+.wg-4x2-glass__quote {
+  margin: 0 0 8px;
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.35;
+  color: #3a3a42;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wg-4x2-glass__sticker {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: #fff;
+  border: 1px dashed rgba(200,200,210,0.7);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #aaa;
+  transform: rotate(-1deg);
+}
+
+.wg-4x2-glass__dotline {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, #ccc 0 2px, transparent 2px 5px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ── 6 · 双头像连线 · 耳机线 + 心电 ── */
+.wg-4x2-avalink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 8px 10px;
+  background: transparent;
+  overflow: visible;
+}
+
+.wg-4x2-avalink__stage {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  height: 118px;
+}
+
+.wg-4x2-avalink__wire {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: #2a2a2e;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wg-4x2-avalink__ava {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 84px;
+  height: 84px;
+  margin-top: -42px;
+  padding: 5px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.95),
+    0 8px 26px rgba(30, 34, 42, 0.12);
+}
+
+.wg-4x2-avalink__ava--1 { left: 0; }
+.wg-4x2-avalink__ava--2 { right: 0; }
+
+.wg-4x2-avalink__photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.wg-4x2-avalink__photo.has-custom-photo {
+  filter: saturate(0.82) contrast(1.04);
+}
+
+/* ══════════════════════════════════════
+   滚动歌词 · 白色 iPod · 4×2
+   ══════════════════════════════════════ */
+.wg-4x2--scrolllyrics {
+  background: transparent;
+}
+
+.wg-4x2-lyrics {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.wg-4x2-lyrics *,
+.wg-4x2-lyrics *::before,
+.wg-4x2-lyrics *::after {
+  box-sizing: border-box;
+}
+
+.wg-4x2-lyrics__device {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 6px 10px 6px 8px;
+  border-radius: 16px;
+  background: linear-gradient(168deg, #ffffff 0%, #f4f4f6 55%, #ececef 100%);
+  border: 1px solid rgba(220, 220, 228, 0.9);
+  box-shadow: none;
+}
+
+.wg-4x2-lyrics__screen {
+  flex: 0 0 56%;
+  max-width: 56%;
+  height: calc(100% - 6px);
+  min-width: 0;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 7px 4px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f0f0f4 0%, #e8e8ec 100%);
+  border: 1px solid rgba(210, 210, 218, 0.65);
+  font-family: 'PingFang SC', 'Noto Sans SC', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wg-4x2-lyrics__wheel-zone {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 56%;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 2px;
+  pointer-events: none;
+}
+
+.wg-4x2-lyrics__wheel {
+  position: relative;
+  flex: 0 0 auto;
+  width: auto;
+  height: 78%;
+  max-height: 100%;
+  max-width: 72%;
+  aspect-ratio: 1;
+  margin: 0;
+  pointer-events: auto;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #e4e4e8 0%, #d0d0d6 100%);
+  border: 1px solid rgba(200, 200, 208, 0.8);
+  box-shadow:
+    inset 0 1px 3px rgba(255, 255, 255, 0.7),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.wg-4x2-lyrics__title {
+  flex-shrink: 0;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(100, 102, 110, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.wg-4x2-lyrics__lines {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.wg-4x2-lyrics__prev,
+.wg-4x2-lyrics__next,
+.wg-4x2-lyrics__dim {
+  margin: 0;
+  font-size: 8px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: rgba(120, 122, 130, 0.42);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x2-lyrics__curr {
+  margin: 0;
+  padding: 1px 0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: #1a1a1e;
+  white-space: pre-line;
+  overflow: hidden;
+}
+
+.wg-4x2-lyrics__next {
+  color: rgba(120, 122, 130, 0.55);
+}
+
+.wg-4x2-lyrics__wheel-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28%;
+  height: 28%;
+  margin: -14% 0 0 -14%;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #f0f0f4 0%, #dcdce2 100%);
+  border: 1px solid rgba(200, 200, 208, 0.6);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.wg-4x2-lyrics__wheel-menu,
+.wg-4x2-lyrics__wheel-prev,
+.wg-4x2-lyrics__wheel-next,
+.wg-4x2-lyrics__wheel-play {
+  position: absolute;
+  font-size: 4.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(80, 82, 90, 0.72);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.wg-4x2-lyrics__wheel-menu {
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  letter-spacing: 0.1em;
+}
+
+.wg-4x2-lyrics__wheel-prev {
+  left: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 5.5px;
+  letter-spacing: -0.08em;
+}
+
+.wg-4x2-lyrics__wheel-next {
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 5.5px;
+  letter-spacing: -0.08em;
+}
+
+.wg-4x2-lyrics__wheel-play {
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 5.5px;
+}
+
+.wg-4x2-lyrics__pause-bars {
+  display: inline-block;
+  width: 4px;
+  height: 5px;
+  background:
+    linear-gradient(90deg, rgba(80,82,90,0.72) 0 35%, transparent 35% 65%, rgba(80,82,90,0.72) 65% 100%);
+}
+
+/* ── 色系：灰白色（默认，沿用基础样式） ── */
+
+/* ── 色系：淡蓝色 ── */
+.wg-4x2-lyrics--blue .wg-4x2-lyrics__device {
+  background: linear-gradient(168deg, #eef6ff 0%, #e3f0ff 55%, #d6e8fa 100%);
+  border-color: rgba(180, 205, 230, 0.85);
+}
+
+.wg-4x2-lyrics--blue .wg-4x2-lyrics__screen {
+  background: linear-gradient(180deg, #e8f2fc 0%, #dceefa 100%);
+  border-color: rgba(170, 200, 228, 0.65);
+}
+
+.wg-4x2-lyrics--blue .wg-4x2-lyrics__wheel {
+  background: linear-gradient(145deg, #d4e4f4 0%, #b8cfe8 100%);
+  border-color: rgba(160, 190, 220, 0.75);
+}
+
+.wg-4x2-lyrics--blue .wg-4x2-lyrics__wheel-center {
+  background: linear-gradient(145deg, #e8f2fc 0%, #c8dcef 100%);
+  border-color: rgba(160, 190, 220, 0.55);
+}
+
+/* ── 色系：黑色 ── */
+.wg-4x2-lyrics--black .wg-4x2-lyrics__device {
+  background: linear-gradient(168deg, #3a3a42 0%, #2a2a32 55%, #1e1e24 100%);
+  border-color: rgba(70, 70, 80, 0.85);
+  box-shadow: none;
+}
+
+.wg-4x2-lyrics--black .wg-4x2-lyrics__screen {
+  background: linear-gradient(180deg, #141418 0%, #0e0e12 100%);
+  border-color: rgba(60, 60, 70, 0.75);
+}
+
+.wg-4x2-lyrics--black .wg-4x2-lyrics__title {
+  color: rgba(180, 182, 192, 0.58);
+}
+
+.wg-4x2-lyrics--black .wg-4x2-lyrics__prev,
+.wg-4x2-lyrics--black .wg-4x2-lyrics__next,
+.wg-4x2-lyrics--black .wg-4x2-lyrics__dim {
+  color: rgba(130, 132, 142, 0.42);
+}
+
+.wg-4x2-lyrics--black .wg-4x2-lyrics__curr {
+  color: #f0f0f4;
+}
+
+.wg-4x2-lyrics--black .wg-4x2-lyrics__next {
+  color: rgba(150, 152, 162, 0.52);
+}
+
+.wg-4x2-lyrics--black .wg-4x2-lyrics__wheel {
+  background: linear-gradient(145deg, #484852 0%, #32323a 100%);
+  border-color: rgba(90, 90, 100, 0.75);
+  box-shadow:
+    inset 0 1px 3px rgba(255, 255, 255, 0.12),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.22);
+}
+
+.wg-4x2-lyrics--black .wg-4x2-lyrics__wheel-center {
+  background: linear-gradient(145deg, #565660 0%, #404048 100%);
+  border-color: rgba(100, 100, 110, 0.55);
+}
+
+.wg-4x2-lyrics--black .wg-4x2-lyrics__wheel-menu,
+.wg-4x2-lyrics--black .wg-4x2-lyrics__wheel-prev,
+.wg-4x2-lyrics--black .wg-4x2-lyrics__wheel-next,
+.wg-4x2-lyrics--black .wg-4x2-lyrics__wheel-play {
+  color: rgba(210, 212, 220, 0.78);
+}
+
+.wg-4x2-lyrics--black .wg-4x2-lyrics__pause-bars {
+  background:
+    linear-gradient(90deg, rgba(210,212,220,0.78) 0 35%, transparent 35% 65%, rgba(210,212,220,0.78) 65% 100%);
+}
+
+/* ── 色系：淡粉色 ── */
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__device {
+  background: linear-gradient(168deg, #fff0f6 0%, #fce4ef 55%, #f8d8e8 100%);
+  border-color: rgba(230, 180, 200, 0.85);
+}
+
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__screen {
+  background: linear-gradient(180deg, #fce8f2 0%, #f8dce8 100%);
+  border-color: rgba(220, 170, 190, 0.6);
+}
+
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__title {
+  color: rgba(130, 95, 110, 0.62);
+}
+
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__prev,
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__next,
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__dim {
+  color: rgba(140, 105, 120, 0.42);
+}
+
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__curr {
+  color: #3a2430;
+}
+
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__next {
+  color: rgba(140, 105, 120, 0.55);
+}
+
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__wheel {
+  background: linear-gradient(145deg, #ecd0dc 0%, #d8b8c8 100%);
+  border-color: rgba(210, 170, 188, 0.75);
+}
+
+.wg-4x2-lyrics--pink .wg-4x2-lyrics__wheel-center {
+  background: linear-gradient(145deg, #f8e8f0 0%, #e8ccd8 100%);
+  border-color: rgba(210, 170, 188, 0.55);
+}
+
+/* ── 色系：淡黄色 ── */
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__device {
+  background: linear-gradient(168deg, #fffbf0 0%, #faf3dc 55%, #f5ebc8 100%);
+  border-color: rgba(220, 200, 150, 0.85);
+}
+
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__screen {
+  background: linear-gradient(180deg, #faf4e0 0%, #f5ecd0 100%);
+  border-color: rgba(210, 190, 140, 0.6);
+}
+
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__title {
+  color: rgba(120, 100, 60, 0.62);
+}
+
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__prev,
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__next,
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__dim {
+  color: rgba(130, 110, 70, 0.42);
+}
+
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__curr {
+  color: #3a3020;
+}
+
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__next {
+  color: rgba(130, 110, 70, 0.55);
+}
+
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__wheel {
+  background: linear-gradient(145deg, #e8dcc8 0%, #d8ccb0 100%);
+  border-color: rgba(200, 180, 140, 0.75);
+}
+
+.wg-4x2-lyrics--yellow .wg-4x2-lyrics__wheel-center {
+  background: linear-gradient(145deg, #f8f0dc 0%, #e8dcc0 100%);
+  border-color: rgba(200, 180, 140, 0.55);
+}
+
+/* ── 自定义布局 · 4×2 缩放 ── */
+.desk-custom__wg--player,
+.desk-custom__wg--dialogue,
+.desk-custom__wg--magazine,
+.desk-custom__wg--instprofile,
+.desk-custom__wg--glassdeck,
+.desk-custom__wg--avalink,
+.desk-custom__wg--scrolllyrics {
+  --dc-wg-design-h: var(--dc-cell-h-2, 162px);
+  width: 100%;
+  height: var(--dc-wg-design-h);
+  transform-origin: top center;
+  transform: scale(calc(100cqh / var(--dc-wg-design-h)));
+  background: transparent;
+}
+
+.desk-custom__wg--avalink.wg-4x2--avalink {
+  padding: 0;
+}
+
+@supports not (container-type: size) {
+  .desk-custom__wg--player,
+  .desk-custom__wg--dialogue,
+  .desk-custom__wg--magazine,
+  .desk-custom__wg--instprofile,
+  .desk-custom__wg--glassdeck,
+  .desk-custom__wg--avalink,
+  .desk-custom__wg--scrolllyrics {
+    transform: none;
+    height: 100%;
+  }
+}
+
+.ins-custom-wg-showcase__stage--4x2 {
+  aspect-ratio: 4 / 2;
+  min-height: 88px;
+}

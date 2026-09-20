@@ -1,0 +1,756 @@
+/* miya · 设置 & 世界书 — 克制编辑风 · 纸白 · 炭灰 · 单点强调 */
+
+.ins-vault--folio {
+  --vf-paper: #f7f6f3;
+  --vf-paper-2: #efeeea;
+  --vf-ink: #1c1c1a;
+  --vf-muted: rgba(28, 28, 26, 0.46);
+  --vf-faint: rgba(28, 28, 26, 0.24);
+  --vf-line: rgba(28, 28, 26, 0.09);
+  --vf-line-strong: rgba(28, 28, 26, 0.16);
+  --vf-shadow: 0 8px 24px rgba(20, 20, 18, 0.04);
+  --vf-rule: rgba(28, 28, 26, 0.055);
+  --vf-accent: #4a4a46;
+  --vf-accent-soft: rgba(74, 74, 70, 0.08);
+  --vf-script: "Great Vibes", cursive;
+  --vf-editorial: "Italiana", "Cormorant Garamond", serif;
+  --vf-display: "Cormorant Garamond", "Noto Serif SC", serif;
+  --vf-ui: "Jost", "Noto Sans SC", sans-serif;
+  background: var(--vf-paper);
+}
+
+/* ── 纸面纹理 · 极淡 ── */
+.ins-vault--folio::before,
+.ins-vault--folio::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  z-index: 6;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--vf-faint) 0 4px,
+    transparent 4px 12px
+  );
+  opacity: 0.35;
+}
+
+.ins-vault--folio::before { left: 0; }
+.ins-vault--folio::after { right: 0; }
+
+.ins-vault--folio .ins-vault-veil {
+  overflow: hidden;
+}
+
+.ins-vault--folio .ins-vault-veil::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    var(--vf-rule) 31px,
+    var(--vf-rule) 32px
+  );
+  opacity: 0.45;
+}
+
+.ins-vault-glow,
+.ins-vault-orb--a,
+.ins-vault-orb--b {
+  display: none;
+}
+
+.ins-vault-grain {
+  opacity: 0.04;
+}
+
+.ins-vault-arch,
+.ins-vault-ticker,
+.ins-vault-rule--v {
+  display: none;
+}
+
+/* ── 顶栏 ── */
+.ins-vault--folio .ins-vault-topbar {
+  position: relative;
+  z-index: 5;
+  flex-shrink: 0;
+  margin: 0;
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 18px 8px;
+  border: none;
+  border-bottom: 1px solid var(--vf-line-strong);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: none;
+}
+
+.ins-vault-topmeta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ins-vault-topfolio {
+  font-size: 8px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--vf-faint);
+}
+
+.ins-vault--folio .ins-vault-toptitle {
+  font-family: var(--vf-display);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  line-height: 1.15;
+  color: var(--vf-ink);
+}
+
+.ins-vault-topglyph {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--vf-editorial);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--vf-muted);
+  border: 1px solid var(--vf-line-strong);
+  background: rgba(255, 255, 255, 0.6);
+  transform: none;
+}
+
+.ins-vault--folio .ins-vault-topback {
+  width: 32px;
+  height: 32px;
+  border-radius: 0;
+  border-color: var(--vf-line-strong);
+  background: transparent;
+  box-shadow: none;
+  font-size: 15px;
+  color: var(--vf-ink);
+}
+
+/* ── 刊头 ── */
+.ins-vault-mast {
+  position: relative;
+  margin: 0 0 20px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--vf-line-strong);
+}
+
+.ins-vault-mast--compact {
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+
+.ins-vault-mast__vol {
+  margin: 0 0 6px;
+  font-size: 8px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--vf-faint);
+  font-weight: 300;
+}
+
+.ins-vault-mast__row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ins-vault-mast__display {
+  margin: 0;
+  font-family: var(--vf-display);
+  font-size: clamp(28px, 7vw, 36px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: var(--vf-ink);
+}
+
+.ins-vault-mast__script {
+  font-family: var(--vf-script);
+  font-size: clamp(20px, 5vw, 26px);
+  line-height: 1;
+  color: var(--vf-faint);
+  transform: none;
+}
+
+.ins-vault-mast__sub {
+  margin: 10px 0 0;
+  padding: 0;
+  border: none;
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--vf-faint);
+  font-weight: 300;
+}
+
+.ins-vault-mast__sub span {
+  color: inherit;
+}
+
+/* ── 设置 · 分区 ── */
+.ins-vault--folio .ins-vault-home {
+  padding: 14px 18px calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+.ins-vault-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ins-st-folio {
+  position: relative;
+}
+
+.ins-st-folio__head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+.ins-st-folio__no {
+  font-family: var(--vf-editorial);
+  font-size: 18px;
+  line-height: 1;
+  color: var(--vf-faint);
+  letter-spacing: 0.02em;
+}
+
+.ins-st-folio__label {
+  margin: 0;
+  font-family: var(--vf-display);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--vf-ink);
+}
+
+.ins-st-folio__body {
+  padding: 14px 14px 16px;
+  border: 1px solid var(--vf-line-strong);
+  background:
+    repeating-linear-gradient(
+      transparent,
+      transparent 27px,
+      var(--vf-rule) 27px,
+      var(--vf-rule) 28px
+    ),
+    rgba(255, 255, 255, 0.65);
+  box-shadow: var(--vf-shadow);
+  transform: none;
+  margin: 0;
+}
+
+.ins-st-row--2 {
+  gap: 8px;
+}
+
+.ins-st-folio .ins-st-cell {
+  border: 1px solid var(--vf-line);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: none;
+  backdrop-filter: none;
+  min-height: 48px;
+  padding: 12px 14px;
+  transform: none;
+  transition: background 0.18s ease;
+}
+
+.ins-st-folio .ins-st-cell:active {
+  transform: none;
+  background: rgba(255, 255, 255, 1);
+}
+
+.ins-st-folio .ins-st-cell strong {
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  color: var(--vf-ink);
+}
+
+.ins-st-folio .ins-st-chevron {
+  color: var(--vf-faint);
+}
+
+.ins-st-cell--wide {
+  margin-top: 8px;
+  border: 1px solid var(--vf-line) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: none !important;
+}
+
+.ins-st-folio .ins-st-toggle {
+  padding: 12px 2px;
+  border-bottom-color: var(--vf-line);
+}
+
+.ins-st-folio .ins-st-toggle strong {
+  font-family: var(--vf-ui);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--vf-ink);
+}
+
+.ins-st-folio .ins-chip {
+  border-radius: 0;
+  letter-spacing: 0.16em;
+  border-color: var(--vf-line-strong);
+  color: var(--vf-muted);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* ── 抽屉表单 ── */
+.ins-vault--folio .ins-vault-drawer {
+  top: calc(env(safe-area-inset-top, 0px) + 52px);
+}
+
+.ins-vault--folio .ins-vault-panel {
+  padding: 10px 18px calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+.ins-vault--folio .ins-form-block {
+  padding: 16px 14px 20px;
+  border: 1px solid var(--vf-line-strong);
+  background:
+    repeating-linear-gradient(
+      transparent,
+      transparent 27px,
+      var(--vf-rule) 27px,
+      var(--vf-rule) 28px
+    ),
+    rgba(255, 255, 255, 0.72);
+  box-shadow: var(--vf-shadow);
+}
+
+.ins-vault--folio .ins-text-input,
+.ins-vault--folio .ins-select,
+.ins-vault--folio .ins-textarea {
+  border-radius: 0;
+  border-color: var(--vf-line-strong);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: none;
+}
+
+.ins-vault--folio .ins-text-input:focus,
+.ins-vault--folio .ins-select:focus,
+.ins-vault--folio .ins-textarea:focus {
+  outline: none;
+  border-color: var(--vf-accent);
+}
+
+.ins-vault--folio .ins-field-label {
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--vf-muted);
+}
+
+.ins-vault--folio .ins-field-label--section {
+  font-family: var(--vf-display);
+  font-size: 17px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: var(--vf-ink);
+  border-bottom: 1px solid var(--vf-line);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.ins-vault--folio .ins-chip--gold {
+  background: var(--vf-accent);
+  border-color: var(--vf-accent);
+  color: #fff;
+}
+
+.ins-vault--folio .ins-chip--rose {
+  border-color: var(--vf-line-strong);
+  color: var(--vf-muted);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.ins-vault--folio .ins-icon-btn {
+  border-color: var(--vf-line-strong);
+  color: var(--vf-ink);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.ins-vault--folio .ins-range {
+  accent-color: var(--vf-accent);
+}
+
+/* ═══════════════ 世界书 ═══════════════ */
+.miya-worldbook-app.ins-vault--folio {
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ins-wb-stage {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ins-wb-strip-head {
+  flex-shrink: 0;
+  padding: 8px 18px 0;
+  border-bottom: 1px solid var(--vf-line-strong);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.ins-wb-group-bar {
+  padding: 0;
+  margin-bottom: 6px;
+}
+
+.ins-vault--folio .ins-wb-group-rail {
+  padding: 0 0 4px;
+  gap: 6px;
+}
+
+.ins-vault--folio .ins-wb-group-chip {
+  border-radius: 0;
+  border-color: var(--vf-line);
+  background: rgba(255, 255, 255, 0.75);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  padding: 7px 11px;
+  box-shadow: none;
+  transform: none;
+  color: var(--vf-muted);
+}
+
+.ins-vault--folio .ins-wb-group-chip.is-active {
+  color: #fff;
+  background: var(--vf-accent);
+  border-color: var(--vf-accent);
+}
+
+.ins-vault--folio .ins-wb-group-chip--add {
+  color: var(--vf-ink);
+  border-color: var(--vf-line-strong);
+}
+
+.ins-wb-toolbar {
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.ins-vault--folio .ins-wb-search {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--vf-line);
+  border-radius: 0;
+  background: transparent;
+  padding: 8px 0;
+  font-family: var(--vf-ui);
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+  color: var(--vf-ink);
+}
+
+.ins-vault--folio .ins-wb-search::placeholder {
+  color: var(--vf-faint);
+}
+
+.ins-vault--folio .ins-wb-search:focus {
+  outline: none;
+  border-bottom-color: var(--vf-accent);
+}
+
+.ins-wb-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.ins-vault--folio .ins-wb-filter {
+  flex: 0 0 auto;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  padding: 8px 12px 8px 0;
+  margin: 0 4px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--vf-faint);
+  box-shadow: none;
+}
+
+.ins-vault--folio .ins-wb-filter.is-active {
+  color: var(--vf-ink);
+  background: transparent;
+  border-bottom-color: var(--vf-accent);
+}
+
+.ins-vault--folio .ins-wb-stats {
+  margin: 0 0 0 auto;
+  padding: 8px 0;
+  border: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  color: var(--vf-faint);
+}
+
+.ins-vault--folio .ins-wb-stats em {
+  font-family: var(--vf-editorial);
+  font-size: 18px;
+  font-style: normal;
+  color: var(--vf-ink);
+}
+
+.ins-vault--folio .ins-wb-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 18px calc(20px + env(safe-area-inset-bottom, 0px));
+}
+
+.ins-vault--folio .ins-wb-list {
+  gap: 10px;
+}
+
+/* ── 卡片 ── */
+.ins-vault--folio .ins-wb-card {
+  position: relative;
+  padding: 12px 14px 10px;
+  margin: 0;
+  border: 1px solid var(--vf-line-strong);
+  border-radius: 0;
+  box-shadow: var(--vf-shadow);
+  overflow: hidden;
+  transform: none;
+  transition: background 0.18s ease;
+  background:
+    repeating-linear-gradient(
+      transparent,
+      transparent 23px,
+      var(--vf-rule) 23px,
+      var(--vf-rule) 24px
+    ),
+    rgba(255, 255, 255, 0.78);
+}
+
+.ins-vault--folio .ins-wb-card::before,
+.ins-vault--folio .ins-wb-card::after {
+  display: none;
+}
+
+.ins-vault--folio .ins-wb-card:active {
+  transform: none;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.ins-wb-card__idx {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  padding: 0;
+  font-family: var(--vf-editorial);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--vf-faint);
+  background: none;
+  border: none;
+}
+
+.ins-wb-card__corner {
+  display: none;
+}
+
+.ins-vault--folio .ins-wb-card-title {
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  padding-right: 28px;
+  margin-bottom: 4px;
+  color: var(--vf-ink);
+}
+
+.ins-vault--folio .ins-wb-scope {
+  border-radius: 0;
+  letter-spacing: 0.18em;
+  font-size: 8px;
+  border: 1px solid var(--vf-line);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.ins-vault--folio .ins-wb-scope--global,
+.ins-vault--folio .ins-wb-scope--local {
+  color: var(--vf-muted);
+  background: transparent;
+}
+
+.ins-vault--folio .ins-wb-card-keys {
+  color: var(--vf-faint);
+  margin-bottom: 0;
+}
+
+.ins-vault--folio .ins-wb-card-foot {
+  border-top: 1px solid var(--vf-line);
+  padding-top: 8px;
+  margin-top: 8px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--vf-faint);
+}
+
+.ins-vault--folio .ins-wb-link {
+  letter-spacing: 0.16em;
+  font-weight: 300;
+  color: var(--vf-muted);
+}
+
+.ins-vault--folio .ins-wb-empty {
+  padding: 32px 12px;
+  text-align: center;
+  color: var(--vf-muted);
+}
+
+.ins-vault--folio .ins-wb-empty::before {
+  display: none;
+}
+
+.ins-vault--folio .ins-wb-empty strong {
+  font-size: 22px;
+  color: var(--vf-ink);
+}
+
+.ins-vault--folio .ins-wb-group-head-title {
+  font-size: 17px;
+  letter-spacing: 0.06em;
+  color: var(--vf-ink);
+}
+
+.ins-vault--folio .ins-wb-group-head-meta {
+  font-size: 12px;
+  color: var(--vf-faint);
+}
+
+.ins-vault--folio .ins-wb-group-op {
+  border-radius: 0;
+  border-color: var(--vf-line);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--vf-muted);
+}
+
+.ins-vault--folio .ins-wb-group-op--del {
+  color: var(--vf-muted);
+}
+
+/* ── 编辑器 ── */
+.ins-vault--folio .ins-wb-editor {
+  background: var(--vf-paper);
+}
+
+.ins-vault--folio .ins-wb-scope-opt {
+  border-radius: 0;
+  border-color: var(--vf-line);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.ins-vault--folio .ins-wb-scope-opt.is-active {
+  border-color: var(--vf-accent);
+  background: var(--vf-accent-soft);
+  box-shadow: none;
+}
+
+.ins-vault--folio .ins-wb-editor-foot {
+  border-top: 1px solid var(--vf-line-strong);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.ins-vault--folio .ins-wb-add-btn {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 0 !important;
+  font-family: var(--vf-editorial) !important;
+  font-size: 18px !important;
+  margin-top: 0 !important;
+  box-shadow: none !important;
+  color: var(--vf-ink) !important;
+  border-color: var(--vf-line-strong) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ── 控件 ── */
+.ins-vault--folio .ins-toggle {
+  border-radius: 99px;
+  border-color: var(--vf-line-strong);
+  background: rgba(28, 28, 26, 0.08);
+}
+
+.ins-vault--folio .ins-toggle.is-on {
+  background: var(--vf-accent);
+  border-color: var(--vf-accent);
+}
+
+.ins-vault--folio .ins-chip--gold,
+.ins-vault--folio .ins-chip--rose {
+  border-radius: 0;
+}
+
+.ins-vault--folio .ins-form-divider {
+  background: var(--vf-line);
+  margin: 18px 0;
+}
+
+.ins-vault--folio .ins-meter-bar {
+  border-radius: 0;
+  height: 3px;
+  background: rgba(28, 28, 26, 0.08);
+}
+
+.ins-vault--folio .ins-meter-bar i {
+  border-radius: 0;
+  background: var(--vf-accent);
+}
+
+.ins-vault--folio .ins-wb-role-card {
+  border-radius: 0;
+  border-color: var(--vf-line);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.ins-vault--folio .ins-wb-role-card.is-selected {
+  border-color: var(--vf-accent);
+  background: var(--vf-accent-soft);
+  box-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ins-vault--folio .ins-vault-panel.is-active {
+    animation: none;
+  }
+}

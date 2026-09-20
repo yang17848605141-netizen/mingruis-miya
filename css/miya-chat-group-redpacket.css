@@ -1,0 +1,601 @@
+/* 群红包 · INS 奶油软刊风 */
+
+.grp-rp-card {
+  position: relative;
+  display: block;
+  width: min(252px, 72vw);
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(201, 184, 150, 0.22);
+  border-radius: var(--soft-r-lg, 20px);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: var(--soft-ink, #7a6e64);
+  background: linear-gradient(165deg, #fff 0%, #faf7f3 52%, #f5efe8 100%);
+  box-shadow: var(--soft-shadow, 0 4px 22px rgba(0, 0, 0, 0.04), 0 1px 4px rgba(0, 0, 0, 0.03));
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.25s ease;
+}
+
+.grp-rp-card:active:not(.grp-rp-card--done) {
+  transform: scale(0.985);
+}
+
+.grp-rp-card.is-ready {
+  box-shadow:
+    var(--soft-shadow-float, 0 8px 32px rgba(0, 0, 0, 0.06)),
+    0 0 0 1px rgba(237, 155, 98, 0.12);
+}
+
+.grp-rp-card__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.grp-rp-card__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 55% at 92% 0%, rgba(237, 155, 98, 0.14), transparent 58%),
+    radial-gradient(ellipse 70% 45% at 0% 100%, rgba(201, 184, 150, 0.12), transparent 52%);
+}
+
+.grp-rp-card__line {
+  position: absolute;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(201, 184, 150, 0.28), transparent);
+}
+
+.grp-rp-card__line--a {
+  width: 118%;
+  top: 42%;
+  left: -9%;
+  transform: rotate(-7deg);
+  opacity: 0.55;
+}
+
+.grp-rp-card__line--b {
+  width: 96%;
+  bottom: 30%;
+  right: -4%;
+  transform: rotate(5deg);
+  opacity: 0.35;
+}
+
+.grp-rp-card__head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid rgba(201, 184, 150, 0.16);
+}
+
+.grp-rp-card__kicker {
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--soft-ink-3, #c9b6a6);
+}
+
+.grp-rp-card__mode {
+  flex-shrink: 0;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+  border: 1px solid rgba(201, 184, 150, 0.32);
+  border-radius: var(--soft-r-pill, 999px);
+  color: var(--soft-coral, #ed9b62);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.grp-rp-card__hero {
+  position: relative;
+  z-index: 1;
+  padding: 16px 16px 12px;
+  text-align: center;
+}
+
+.grp-rp-card__seal {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+}
+
+.grp-rp-card__seal-ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(201, 184, 150, 0.38);
+  border-radius: 50%;
+}
+
+.grp-rp-card__seal-ring::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed rgba(201, 184, 150, 0.22);
+  border-radius: 50%;
+}
+
+.grp-rp-card__seal-char {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--soft-serif, Georgia, serif);
+  font-size: 18px;
+  color: var(--soft-coral, #ed9b62);
+}
+
+.grp-rp-card__amt {
+  margin: 0 0 8px;
+  font-family: var(--soft-serif, Georgia, serif);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--soft-ink, #7a6e64);
+}
+
+.grp-rp-card__amt small {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--soft-font, inherit);
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  color: var(--soft-ink-3, #c9b6a6);
+}
+
+.grp-rp-card__note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--soft-ink-2, #9a8f86);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.grp-rp-card__target {
+  margin: 6px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--soft-coral, #ed9b62);
+}
+
+.grp-rp-card__foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 16px;
+  border-top: 1px solid rgba(201, 184, 150, 0.14);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--soft-ink-3, #c9b6a6);
+}
+
+.grp-rp-card__from {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grp-rp-card__progress {
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.grp-rp-card__cta {
+  position: relative;
+  z-index: 1;
+  margin: 0 14px 14px;
+  padding: 10px 12px;
+  border-radius: var(--soft-r-pill, 999px);
+  border: 1px solid rgba(201, 184, 150, 0.28);
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-align: center;
+  color: var(--soft-ink-2, #9a8f86);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.grp-rp-card.is-ready .grp-rp-card__cta {
+  border-color: rgba(237, 155, 98, 0.42);
+  background: linear-gradient(135deg, rgba(240, 222, 210, 0.55), rgba(255, 255, 255, 0.92));
+  color: var(--soft-coral, #ed9b62);
+}
+
+.grp-rp-card--done {
+  opacity: 0.78;
+  filter: saturate(0.82);
+}
+
+.grp-rp-card--done .grp-rp-card__cta {
+  opacity: 0.55;
+}
+
+.grp-rp-card.is-locked .grp-rp-card__mode {
+  color: var(--soft-ink-3, #c9b6a6);
+}
+
+/* 聊天行：红包不套气泡 */
+.qq-room__row--grp-rp {
+  align-items: flex-end;
+}
+
+.qq-room__row--grp-rp .qq-room__bubble-stack {
+  max-width: min(252px, 72vw);
+}
+
+.qq-room__row--grp-rp .qq-room__bubble-title-row {
+  margin-bottom: 4px;
+}
+
+.qq-room__row--grp-rp .grp-rp-card {
+  margin-top: 2px;
+}
+
+/* 发送面板 */
+.grp-rp-sheet__panel {
+  max-height: 88vh;
+}
+
+.grp-rp-sheet__head {
+  text-align: center;
+  padding: 8px 20px 4px;
+}
+
+.grp-rp-sheet__kicker {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--soft-ink-3, #c9b6a6);
+}
+
+.grp-rp-sheet__title {
+  margin: 4px 0 0;
+  font-family: var(--soft-serif, Georgia, serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--soft-ink, #7a6e64);
+}
+
+.grp-rp-sheet__bal {
+  text-align: center;
+  margin: 0 20px 8px;
+}
+
+.grp-rp-sheet__modes {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px 12px;
+}
+
+.grp-rp-mode {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--soft-r, 16px);
+  border: 1px solid var(--soft-line, rgba(0, 0, 0, 0.06));
+  background: var(--soft-bg-3, #fafafa);
+  font-size: 13px;
+  color: var(--soft-ink-2, #9a8f86);
+  cursor: pointer;
+}
+
+.grp-rp-mode.is-active {
+  border-color: rgba(201, 184, 150, 0.45);
+  background: #fff;
+  color: var(--soft-ink, #7a6e64);
+  box-shadow: var(--soft-shadow, 0 4px 22px rgba(0, 0, 0, 0.04));
+}
+
+.grp-rp-sheet__body {
+  padding: 0 20px 8px;
+}
+
+.grp-rp-field {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.grp-rp-field__label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--soft-ink-3, #c9b6a6);
+  margin-bottom: 6px;
+}
+
+.grp-rp-field__input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--soft-line, rgba(0, 0, 0, 0.06));
+  border-radius: 14px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.grp-rp-field__prefix {
+  padding: 0 4px 0 14px;
+  font-size: 15px;
+  color: var(--soft-ink-3, #c9b6a6);
+}
+
+.grp-rp-field__input {
+  width: 100%;
+  border: 0;
+  padding: 12px 14px 12px 4px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--soft-ink, #7a6e64);
+  background: transparent;
+  outline: none;
+}
+
+.grp-rp-field:not(:has(.grp-rp-field__input-wrap)) .grp-rp-field__input,
+.grp-rp-field__input#grp-rp-count,
+.grp-rp-field__input#grp-rp-note {
+  border: 1px solid var(--soft-line, rgba(0, 0, 0, 0.06));
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #fff;
+}
+
+.grp-rp-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.grp-rp-target {
+  padding: 8px 14px;
+  border-radius: var(--soft-r-pill, 999px);
+  border: 1px solid var(--soft-line, rgba(0, 0, 0, 0.06));
+  background: #fff;
+  font-size: 12px;
+  color: var(--soft-ink-2, #9a8f86);
+  cursor: pointer;
+}
+
+.grp-rp-target.is-active {
+  border-color: rgba(237, 155, 98, 0.5);
+  color: var(--soft-coral, #ed9b62);
+  background: rgba(240, 222, 210, 0.35);
+}
+
+.grp-rp-sheet__actions {
+  padding: 8px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grp-rp-sheet__send {
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: var(--soft-r-pill, 999px);
+  background: linear-gradient(135deg, #f0ded2, #e8d4c4);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--soft-ink, #7a6e64);
+  cursor: pointer;
+}
+
+/* 领取弹层：须高于 .qq-room.is-open(120)，否则会藏在群聊底下，退出后才看见 */
+.grp-rp-open {
+  position: fixed;
+  inset: 0;
+  z-index: 12050;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(122, 110, 100, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: grp-rp-fade-in 0.28s ease both;
+}
+
+@keyframes grp-rp-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.grp-rp-open__panel {
+  position: relative;
+  width: min(268px, 84vw);
+  padding: 32px 24px 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(201, 184, 150, 0.28);
+  background: linear-gradient(165deg, #fff 0%, #faf7f3 55%, #f5efe8 100%);
+  box-shadow: var(--soft-shadow-float, 0 8px 32px rgba(0, 0, 0, 0.06));
+  text-align: center;
+  overflow: hidden;
+  animation: grp-rp-pop 0.45s cubic-bezier(0.34, 1.35, 0.64, 1) both;
+}
+
+@keyframes grp-rp-pop {
+  from { transform: scale(0.88) translateY(8px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.grp-rp-open__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.grp-rp-open__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(237, 155, 98, 0.12), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(201, 184, 150, 0.1), transparent 55%);
+}
+
+.grp-rp-open__kicker {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--soft-ink-3, #c9b6a6);
+  margin-bottom: 16px;
+}
+
+.grp-rp-open__seal {
+  position: relative;
+  z-index: 1;
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 14px;
+  border: 1px solid rgba(201, 184, 150, 0.35);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--soft-serif, Georgia, serif);
+  font-size: 20px;
+  color: var(--soft-coral, #ed9b62);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.grp-rp-open__amt {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-family: var(--soft-serif, Georgia, serif);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--soft-coral, #ed9b62);
+  margin-bottom: 8px;
+}
+
+.grp-rp-open__amt small {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--soft-font, inherit);
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  color: var(--soft-ink-3, #c9b6a6);
+}
+
+.grp-rp-open__note {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 22px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--soft-ink-2, #9a8f86);
+}
+
+.grp-rp-open__close {
+  position: relative;
+  z-index: 1;
+  padding: 10px 32px;
+  border-radius: var(--soft-r-pill, 999px);
+  border: 1px solid rgba(201, 184, 150, 0.38);
+  background: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--soft-ink, #7a6e64);
+  cursor: pointer;
+}
+
+/* 领取详情 */
+.grp-rp-detail__head {
+  text-align: center;
+  padding: 12px 20px;
+}
+
+.grp-rp-detail__head h3 {
+  margin: 0 0 4px;
+  font-family: var(--soft-serif, Georgia, serif);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--soft-ink, #7a6e64);
+}
+
+.grp-rp-detail__head p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--soft-ink-3, #c9b6a6);
+}
+
+.grp-rp-detail__list {
+  list-style: none;
+  margin: 0;
+  padding: 8px 20px 16px;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.grp-rp-detail__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--soft-line, rgba(0, 0, 0, 0.06));
+  font-size: 13px;
+}
+
+.grp-rp-detail__who {
+  color: var(--soft-ink, #7a6e64);
+}
+
+.grp-rp-detail__amt {
+  font-family: var(--soft-serif, Georgia, serif);
+  color: var(--soft-coral, #ed9b62);
+}
+
+.grp-rp-detail__empty {
+  text-align: center;
+  color: var(--soft-ink-3, #c9b6a6);
+  padding: 20px 0;
+}
+
+.qq-room__sys--grp-rp {
+  font-size: 12px;
+  color: var(--soft-ink-3, #c9b6a6);
+  letter-spacing: 0.02em;
+}
+
+.qq-room__sys--grp-rp .qq-room__sys-rp-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 184, 150, 0.35);
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+  vertical-align: middle;
+  color: var(--soft-gold, #c9b896);
+}
+
+.qq-room__tool-icon--gold {
+  color: var(--soft-coral, #ed9b62);
+}

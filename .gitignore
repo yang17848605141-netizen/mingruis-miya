@@ -1,0 +1,8 @@
+# 开源版不上传登录系统（含密钥、QQ 名单、找回码）
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# 本地杂项
+.cursor/

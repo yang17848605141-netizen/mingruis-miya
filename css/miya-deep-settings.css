@@ -1,0 +1,501 @@
+/* 深入 · 角色手机设置 — 极简扁平杂志风 · 莫兰迪 */
+
+.dp-settings {
+  --dps-bg: #f2f0ec;
+  --dps-bg-soft: #eae7e2;
+  --dps-card: rgba(255, 255, 255, 0.62);
+  --dps-ink: #4a4845;
+  --dps-ink-soft: rgba(74, 72, 69, 0.58);
+  --dps-ink-faint: rgba(74, 72, 69, 0.28);
+  --dps-line: rgba(74, 72, 69, 0.1);
+  --dps-accent: #b5aea4;
+  --dps-sage: #a8b0a4;
+  --dps-dust: #c4bbb0;
+  --dps-serif: "Cormorant Garamond", "Noto Serif SC", serif;
+  --dps-sans: "Jost", "Inter", "Noto Sans SC", sans-serif;
+  --dps-mono: "DM Sans", "Inter", monospace;
+
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  background: var(--dps-bg);
+  color: var(--dps-ink);
+  font-family: var(--dps-sans);
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dp-settings[hidden] { display: none !important; }
+
+.dp-settings.is-open {
+  transform: translateY(0);
+}
+
+.dp-settings__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 8% 12%, rgba(200, 190, 178, 0.22) 0%, transparent 48%),
+    radial-gradient(ellipse at 92% 78%, rgba(168, 176, 164, 0.16) 0%, transparent 42%),
+    linear-gradient(165deg, var(--dps-bg) 0%, var(--dps-bg-soft) 100%);
+  pointer-events: none;
+}
+
+.dp-settings__deco {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+.dp-settings__deco--vert {
+  top: 18%;
+  right: 14px;
+  writing-mode: vertical-rl;
+  font-family: var(--dps-mono);
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  color: var(--dps-ink-faint);
+  opacity: 0.7;
+}
+
+.dp-settings__deco--arc {
+  top: 72px;
+  left: -28px;
+  width: 120px;
+  height: 120px;
+  border: 1px solid var(--dps-line);
+  border-radius: 50%;
+  opacity: 0.55;
+}
+
+.dp-settings__deco--dots {
+  bottom: 22%;
+  left: 18px;
+  width: 48px;
+  height: 48px;
+  background-image: radial-gradient(circle, var(--dps-ink-faint) 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.45;
+}
+
+.dp-settings__deco--spark {
+  font-size: 10px;
+  color: var(--dps-dust);
+  opacity: 0.55;
+  line-height: 1;
+}
+
+.dp-settings__deco--spark-1 { top: 28%; right: 22%; }
+.dp-settings__deco--spark-2 { top: 54%; left: 12%; font-size: 7px; }
+.dp-settings__deco--spark-3 { bottom: 34%; right: 16%; font-size: 8px; }
+
+.dp-settings__head {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: start;
+  gap: 8px;
+  padding: calc(12px + var(--dp-safe-t, 0px)) 20px 0 16px;
+}
+
+.dp-settings__back {
+  margin-top: 4px;
+  border: none;
+  background: none;
+  padding: 4px 0;
+  font-family: var(--dps-sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--dps-ink-soft);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dp-settings__back:active { opacity: 0.45; }
+
+.dp-settings__mast {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.dp-settings__kicker {
+  display: block;
+  font-family: var(--dps-mono);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  color: var(--dps-ink-faint);
+  margin-bottom: 6px;
+}
+
+.dp-settings__title {
+  margin: 0;
+  font-family: var(--dps-serif);
+  font-size: clamp(28px, 7.5vw, 36px);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--dps-ink);
+}
+
+.dp-settings__title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--dps-accent);
+}
+
+.dp-settings__issue {
+  margin-top: 6px;
+  font-family: var(--dps-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--dps-ink-faint);
+  text-align: right;
+  padding-top: 8px;
+}
+
+.dp-settings__scroll {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 20px 20px 28px;
+}
+
+.dp-settings__scroll::-webkit-scrollbar { display: none; }
+
+.dp-settings__for {
+  margin: 0 0 28px;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--dps-ink-soft);
+  line-height: 1.6;
+}
+
+.dp-settings__for strong {
+  font-weight: 500;
+  color: var(--dps-ink);
+  letter-spacing: 0.04em;
+}
+
+.dp-settings__hint {
+  margin: 0 0 32px;
+  padding-left: 12px;
+  border-left: 1px solid var(--dps-line);
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--dps-ink-faint);
+  max-width: 88%;
+}
+
+/* ── 表单区块 ── */
+.dp-settings__section {
+  margin-bottom: 36px;
+}
+
+.dp-settings__section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.dp-settings__section-no {
+  font-family: var(--dps-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--dps-sage);
+  flex: 0 0 auto;
+}
+
+.dp-settings__section-title {
+  margin: 0;
+  font-family: var(--dps-serif);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dps-ink);
+}
+
+.dp-settings__section-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--dps-line), transparent);
+  margin-bottom: 2px;
+}
+
+.dp-settings__card {
+  background: var(--dps-card);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 2px;
+  padding: 22px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dp-settings__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.dp-settings__label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dps-ink-faint);
+}
+
+.dp-settings__input,
+.dp-settings__select {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--dps-line);
+  background: transparent;
+  padding: 8px 0 10px;
+  font-family: var(--dps-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--dps-ink);
+  outline: none;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.dp-settings__input::placeholder {
+  color: var(--dps-ink-faint);
+  font-weight: 300;
+}
+
+.dp-settings__input:focus,
+.dp-settings__select:focus {
+  border-bottom-color: var(--dps-accent);
+}
+
+.dp-settings__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.dp-settings__row .dp-settings__input { flex: 1; min-width: 0; }
+
+.dp-settings__fetch {
+  flex: 0 0 auto;
+  border: 1px solid var(--dps-line);
+  background: transparent;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-family: var(--dps-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--dps-ink-soft);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dp-settings__fetch:active { opacity: 0.45; }
+
+/* ── 温度 ── */
+.dp-settings__temp-block {
+  display: grid;
+  grid-template-columns: 1fr 88px;
+  gap: 18px;
+  align-items: center;
+}
+
+.dp-settings__temp-val {
+  text-align: right;
+}
+
+.dp-settings__temp-num {
+  display: block;
+  font-family: var(--dps-serif);
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--dps-ink);
+}
+
+.dp-settings__temp-src {
+  display: block;
+  margin-top: 4px;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: var(--dps-ink-faint);
+}
+
+.dp-settings__range {
+  width: 100%;
+  height: 2px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--dps-line);
+  border-radius: 1px;
+  outline: none;
+}
+
+.dp-settings__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--dps-ink);
+  border: 2px solid var(--dps-bg);
+  box-shadow: 0 0 0 1px var(--dps-line);
+  cursor: pointer;
+}
+
+.dp-settings__range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--dps-ink);
+  border: 2px solid var(--dps-bg);
+  box-shadow: 0 0 0 1px var(--dps-line);
+  cursor: pointer;
+}
+
+/* ── 装饰信息卡 ── */
+.dp-settings__deco-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.dp-settings__stat {
+  padding: 16px 14px 14px;
+  background: rgba(255, 255, 255, 0.38);
+  border: 1px solid var(--dps-line);
+  border-radius: 2px;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dp-settings__stat--wide {
+  grid-column: 1 / -1;
+  min-height: auto;
+  padding: 18px 16px;
+}
+
+.dp-settings__stat-k {
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dps-ink-faint);
+}
+
+.dp-settings__stat-v {
+  margin-top: 8px;
+  font-family: var(--dps-serif);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--dps-ink);
+  line-height: 1.35;
+}
+
+.dp-settings__stat-v.is-ready { color: var(--dps-sage); }
+.dp-settings__stat-v.is-warn { color: var(--dps-dust); }
+
+.dp-settings__pulse {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.dp-settings__pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dps-ink-faint);
+  flex: 0 0 auto;
+}
+
+.dp-settings__pulse-dot.is-on {
+  background: var(--dps-sage);
+  box-shadow: 0 0 0 3px rgba(168, 176, 164, 0.25);
+  animation: dp-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes dp-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+.dp-settings__quote {
+  margin: 0;
+  font-family: var(--dps-serif);
+  font-size: 13px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--dps-ink-soft);
+}
+
+.dp-settings__quote cite {
+  display: block;
+  margin-top: 8px;
+  font-style: normal;
+  font-family: var(--dps-mono);
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: var(--dps-ink-faint);
+}
+
+/* ── 保存 ── */
+.dp-settings__foot {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  padding: 0 20px calc(16px + var(--dp-safe-b, 0px));
+}
+
+.dp-settings__save {
+  width: 100%;
+  border: 1px solid var(--dps-ink);
+  background: transparent;
+  padding: 14px 20px;
+  font-family: var(--dps-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--dps-ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.25s, color 0.25s;
+}
+
+.dp-settings__save:active {
+  background: var(--dps-ink);
+  color: var(--dps-bg);
+}
+
+.dp-settings__foot-note {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--dps-ink-faint);
+}

@@ -1,0 +1,608 @@
+/* Miya · 我的页 — 对齐相册 cream / INS 高级风（相册子页除外） */
+
+.mi-me-page:not(.mi-me-page--album) {
+  --alb-bg: #f5f1eb;
+  --alb-cream: #faf8f4;
+  --alb-white: #ffffff;
+  --alb-ink: #1a1a1a;
+  --alb-brown: #a68b6f;
+  --alb-brown-soft: #c4a882;
+  --alb-muted: #9a948c;
+  --alb-line: rgba(0, 0, 0, 0.06);
+  --alb-shadow: 0 12px 40px rgba(60, 45, 30, 0.08);
+  --alb-shadow-soft: 0 8px 24px rgba(60, 45, 30, 0.06);
+  --alb-r: 22px;
+  --alb-r-lg: 28px;
+  --alb-serif: "Cormorant Garamond", "Noto Serif SC", serif;
+  --alb-script: "Great Vibes", cursive;
+  --alb-sans: "Jost", "Noto Sans SC", sans-serif;
+
+  --mi-bg: var(--alb-bg);
+  --mi-white: var(--alb-white);
+  --mi-cream: var(--alb-cream);
+  --mi-ink: var(--alb-ink);
+  --mi-sub: var(--alb-muted);
+  --mi-line: var(--alb-line);
+  --mi-line-strong: rgba(0, 0, 0, 0.1);
+  --mi-accent: var(--alb-brown);
+  --mi-r: var(--alb-r);
+  --mi-font: var(--alb-sans);
+  --mi-display: var(--alb-serif);
+
+  font-family: var(--alb-sans);
+  color: var(--alb-ink);
+  background: var(--alb-bg);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-me-page__veil::after {
+  display: none;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-me-page__shimmer {
+  display: none;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-me-page__shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  background: var(--alb-bg);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-me-body {
+  flex: 1;
+  min-height: 0;
+  padding: 4px 20px calc(28px + env(safe-area-inset-bottom, 0px));
+}
+.mi-me-page:not(.mi-me-page--album) .mi-sheet--flat {
+  border-radius: var(--alb-r);
+  background: var(--alb-white);
+  box-shadow: var(--alb-shadow-soft);
+  padding: 18px 16px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-bf-wrap--dress .mi-bf-block--applied {
+  border-radius: var(--alb-r);
+  background: var(--alb-white);
+  box-shadow: var(--alb-shadow-soft);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-copy-bar {
+  border-radius: var(--alb-r);
+  background: var(--alb-white);
+  border: none;
+  box-shadow: var(--alb-shadow-soft);
+}
+
+/* ── 表情导入弹层 ── */
+.mi-emo-modal .mi-sheet-card {
+  border-radius: var(--alb-r-lg) var(--alb-r-lg) 0 0;
+  background: #faf8f4;
+  font-family: "Jost", "Noto Sans SC", sans-serif;
+}
+
+.mi-emo-modal .mi-sheet-card__title {
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+}
+
+
+/* ── 顶栏（复用相册 header） ── */
+.mi-me-page:not(.mi-me-page--album) .mi-me-header {
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-me-header__close {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-me-header__close--done {
+  width: auto;
+  min-width: 52px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-me-lead {
+  font-family: var(--alb-serif);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--alb-muted);
+  margin: 0 0 18px;
+  line-height: 1.55;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-empty-hint {
+  font-family: var(--alb-serif);
+  font-size: 15px;
+  color: var(--alb-muted);
+  padding: 32px 20px;
+}
+
+/* ── 按钮 / 输入 ── */
+.mi-me-page:not(.mi-me-page--album) .mi-btn {
+  border-radius: 999px;
+  font-family: var(--alb-sans);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-btn--dark {
+  background: var(--alb-ink);
+  color: #fff;
+  box-shadow: var(--alb-shadow-soft);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-btn--ghost {
+  background: var(--alb-white);
+  border-color: var(--alb-line);
+  color: var(--alb-ink);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-pill {
+  border-radius: 999px;
+  background: var(--alb-white);
+  border-color: var(--alb-line);
+  color: var(--alb-ink);
+  box-shadow: 0 2px 10px rgba(60, 45, 30, 0.04);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-pill--dark {
+  background: var(--alb-ink);
+  border-color: var(--alb-ink);
+  color: #fff;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-pill--ghost {
+  color: var(--alb-muted);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-input {
+  border-radius: 16px;
+  border-color: var(--alb-line);
+  background: var(--alb-white);
+  font-family: var(--alb-sans);
+  box-shadow: inset 0 1px 3px rgba(60, 45, 30, 0.03);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-input:focus {
+  border-color: rgba(166, 139, 111, 0.35);
+  box-shadow: 0 0 0 3px rgba(196, 168, 130, 0.12);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-field__label {
+  font-family: var(--alb-serif);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--alb-ink);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-pill-note {
+  font-size: 12px;
+  color: var(--alb-muted);
+  line-height: 1.5;
+}
+
+/* ── 人设卡片 ── */
+.mi-me-page:not(.mi-me-page--album) .mi-mask-list {
+  gap: 12px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-mask-card {
+  border-radius: var(--alb-r);
+  border: none;
+  background: var(--alb-white);
+  box-shadow: var(--alb-shadow-soft);
+  padding: 18px 16px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-mask-card::before {
+  display: none;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-mask-card.is-active {
+  box-shadow: var(--alb-shadow);
+  outline: 1.5px solid rgba(196, 168, 130, 0.35);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-mask-card__glow {
+  background: radial-gradient(circle, rgba(196, 168, 130, 0.18), transparent 70%);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-mask-card__body strong {
+  font-family: var(--alb-serif);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-mask-card__tag {
+  background: var(--alb-brown-soft);
+  color: var(--alb-white);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-ava--md {
+  border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(60, 45, 30, 0.1);
+}
+
+/* ── 编辑面具 ── */
+.mi-me-page:not(.mi-me-page--album) .mi-edit-top__ava img {
+  border-radius: 50%;
+  box-shadow: var(--alb-shadow-soft);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-edit-top__orbit {
+  border-color: rgba(196, 168, 130, 0.35);
+}
+
+/* ── 收藏 ── */
+.mi-me-page:not(.mi-me-page--album) .mi-fav-list {
+  gap: 12px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-fav-card {
+  border-radius: var(--alb-r);
+  border: none;
+  background: var(--alb-white);
+  box-shadow: var(--alb-shadow-soft);
+  padding: 16px 40px 16px 16px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-fav-card__meta {
+  font-family: var(--alb-serif);
+  font-size: 13px;
+  color: var(--alb-brown);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-fav-card__time {
+  color: var(--alb-muted);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-fav-card__text,
+.mi-me-page:not(.mi-me-page--album) .mi-fav-card__body {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-fav-card__del {
+  background: var(--alb-cream);
+  color: var(--alb-muted);
+}
+
+/* ── 装扮入口 ── */
+.mi-me-page:not(.mi-me-page--album) .mi-dress-hub {
+  gap: 14px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-dress-hub__item {
+  border-radius: var(--alb-r);
+  border: none;
+  background: var(--alb-white);
+  box-shadow: var(--alb-shadow-soft);
+  padding: 20px 18px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-dress-hub__num {
+  font-family: var(--alb-script);
+  font-size: 28px;
+  color: var(--alb-brown-soft);
+  line-height: 1;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-dress-hub__body strong {
+  font-family: var(--alb-serif);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-dress-hub__arrow {
+  color: var(--alb-brown-soft);
+  font-family: var(--alb-serif);
+}
+
+/* ── 自定义心声模版编辑器 ── */
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl__toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl .mi-btn {
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 999px;
+  line-height: 1.2;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl .mi-btn--block {
+  padding: 8px 12px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-guide {
+  margin: 4px 0 14px;
+  border-radius: var(--alb-r);
+  background: var(--alb-white);
+  box-shadow: var(--alb-shadow-soft);
+  overflow: hidden;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-guide__sum {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  font-family: var(--alb-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--alb-ink, #2c241c);
+  user-select: none;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-guide__sum::-webkit-details-marker {
+  display: none;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-guide__sum-r {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--alb-muted, #8a7e72);
+  flex-shrink: 0;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-guide[open] .mi-hv-tpl-guide__sum-r::after {
+  content: ' · 收起';
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-guide__body {
+  padding: 0 16px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-guide__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 12px;
+  margin-bottom: 10px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-guide__pre {
+  margin: 0;
+  padding: 14px;
+  max-height: min(52vh, 420px);
+  overflow: auto;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--alb-ink, #2c241c);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl__section {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: var(--alb-r);
+  background: var(--alb-white);
+  box-shadow: var(--alb-shadow-soft);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl__h {
+  margin: 0 0 12px;
+  font-family: var(--alb-serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--alb-ink, #2c241c);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-field {
+  position: relative;
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-field__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-field__idx {
+  font-size: 12px;
+  color: var(--alb-muted, #8a7e72);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-field__del {
+  border: none;
+  background: transparent;
+  color: var(--alb-muted, #8a7e72);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--alb-muted, #8a7e72);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl-input {
+  margin-top: 4px;
+  width: 100%;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl__ta {
+  min-height: 160px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl__preview {
+  margin-top: 12px;
+  min-height: 280px;
+  height: min(52vh, 420px);
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  overflow: hidden;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl__preview-inner {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl__preview-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  display: block;
+  border-radius: 8px;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-hv-tpl__vault-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+/* ── 钱包 ── */
+.mi-me-page:not(.mi-me-page--album) .mi-wcard {
+  --wcard-bg: linear-gradient(145deg, #3d3228 0%, #5c4a3a 42%, #2e2520 100%);
+  border-radius: var(--alb-r);
+  box-shadow: var(--alb-shadow);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-wcard.is-active {
+  box-shadow:
+    0 24px 48px rgba(60, 45, 30, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-wcard__chip {
+  background: linear-gradient(145deg, #e8dcc0 0%, #c4a882 38%, #d4c4a0 100%);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-wallet-note {
+  border-radius: var(--alb-r);
+  background: var(--alb-white);
+  border: none;
+  box-shadow: var(--alb-shadow-soft);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-wallet-note__icon {
+  border-radius: 50%;
+  background: var(--alb-cream);
+  border: none;
+  color: var(--alb-brown);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-wallet-note p {
+  color: var(--alb-muted);
+}
+
+/* ── 壁纸 ── */
+.mi-me-page:not(.mi-me-page--album) .mi-wall-lib-cell {
+  border-radius: 14px;
+  border: none;
+  box-shadow: var(--alb-shadow-soft);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-wall-lib-cell.is-active {
+  outline: 2px solid var(--alb-brown-soft);
+  box-shadow: var(--alb-shadow);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-wall-lib-cell__check {
+  background: var(--alb-brown);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-wall-manage-cell__del {
+  background: var(--alb-white);
+  color: var(--alb-muted);
+  box-shadow: var(--alb-shadow-soft);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-wall-manage__hint {
+  color: var(--alb-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ── 表情包 ── */
+.mi-me-page:not(.mi-me-page--album) .mi-emo-acc {
+  border-radius: var(--alb-r);
+  border: none;
+  background: var(--alb-white);
+  box-shadow: var(--alb-shadow-soft);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-emo-acc__head:active {
+  background: var(--alb-cream);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-emo-acc__name {
+  font-family: var(--alb-serif);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-emo-acc__chev {
+  border-color: var(--alb-line);
+  background: var(--alb-cream);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-emo-acc__body {
+  border-top-color: var(--alb-line);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-emo-cell {
+  border-radius: 14px;
+  border-color: var(--alb-line);
+  background-color: var(--alb-cream);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-emo-cell__del,
+.mi-me-page:not(.mi-me-page--album) .mi-emo-acc__grp-del {
+  background: var(--alb-brown);
+  border-color: var(--alb-white);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-sheet {
+  border-radius: var(--alb-r);
+  background: var(--alb-white);
+  box-shadow: var(--alb-shadow-soft);
+}
+
+.mi-me-page:not(.mi-me-page--album) .mi-toast {
+  background: rgba(26, 26, 26, 0.88);
+  font-family: var(--alb-sans);
+}

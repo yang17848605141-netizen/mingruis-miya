@@ -1,0 +1,555 @@
+/* ══════════════════════════════════════
+   第四页 · 雾笺 Soft Mist
+   朦胧半透明 · 悬笺散落 · 轻交互
+   ══════════════════════════════════════ */
+
+.desk--p4 {
+  --p4-haze: 0.55;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 0;
+  min-height: 100%;
+  min-height: calc(var(--app-height, 100dvh) - 140px);
+  background: transparent;
+  color: rgba(48, 52, 58, 0.86);
+}
+
+.desk--p4::-webkit-scrollbar { display: none; }
+
+/* 雾底 · 叠在壁纸之上，不遮死 */
+.p4-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.p4-veil__art {
+  position: absolute;
+  inset: -8%;
+  background:
+    radial-gradient(ellipse 70% 55% at 18% 12%, rgba(210, 220, 230, 0.28), transparent 62%),
+    radial-gradient(ellipse 55% 45% at 88% 78%, rgba(220, 214, 210, 0.22), transparent 58%);
+  background-size: cover;
+  background-position: center;
+  filter: blur(2px);
+  transform: scale(1.06);
+  opacity: calc(0.25 + var(--p4-haze) * 0.35);
+}
+
+.p4-veil__art.has-custom-art {
+  filter: blur(14px) saturate(0.75) brightness(1.05);
+  opacity: calc(0.35 + var(--p4-haze) * 0.4);
+}
+
+.p4-veil__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22) 0%, rgba(245, 246, 248, 0.08) 42%, rgba(255, 255, 255, 0.18) 100%);
+  opacity: calc(0.35 + (1 - var(--p4-haze)) * 0.35);
+}
+
+.p4-veil__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+.p4-glow {
+  position: absolute;
+  top: 18%;
+  right: -6%;
+  width: 42vw;
+  height: 42vw;
+  max-width: 168px;
+  max-height: 168px;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  background: radial-gradient(circle at 45% 40%, rgba(255, 255, 255, 0.55), rgba(220, 226, 232, 0.12) 62%, transparent 75%);
+  filter: blur(1px);
+}
+
+.p4-glow__art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  border-radius: 50%;
+}
+
+.p4-glow__art.has-custom-art {
+  opacity: 0.55;
+  filter: blur(6px);
+}
+
+.p4-stage {
+  position: relative;
+  z-index: 2;
+  min-height: calc(var(--app-height, 100dvh) - 140px);
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) 20px calc(100px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* 顶栏 */
+.p4-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 0 2px 8px;
+}
+
+.p4-top__brace {
+  margin: 0;
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  color: rgba(80, 86, 94, 0.55);
+}
+
+.p4-top__title {
+  margin: 0;
+  font-family: "Noto Serif SC", "ZCOOL XiaoWei", serif;
+  font-size: clamp(28px, 8vw, 34px);
+  font-weight: 300;
+  letter-spacing: 0.48em;
+  color: rgba(52, 56, 62, 0.78);
+  line-height: 1;
+}
+
+.p4-top__en {
+  margin: 2px 0 0;
+  font-family: "Outfit", "Noto Sans SC", sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.32em;
+  text-transform: lowercase;
+  color: rgba(110, 116, 124, 0.55);
+}
+
+/* 竖排装饰 · 已移除 */
+
+/* 悬笺 */
+.p4-hang {
+  position: relative;
+  margin: 28px 0 8px;
+  min-height: 132px;
+  padding-top: 28px;
+}
+
+.p4-hang__wire {
+  position: absolute;
+  top: 8px;
+  left: 2%;
+  width: 96%;
+  height: 28px;
+  overflow: visible;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.6));
+}
+
+.p4-tag {
+  position: absolute;
+  top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.22s ease, filter 0.22s ease;
+  will-change: transform;
+}
+
+.p4-tag:active {
+  filter: brightness(1.04);
+}
+
+.p4-tag--weather {
+  left: 4%;
+  transform: rotate(-5deg);
+}
+
+.p4-tag--weather:active {
+  transform: rotate(-5deg) translateY(-6px) scale(1.03);
+}
+
+.p4-tag--map {
+  left: 36%;
+  top: 18px;
+  transform: rotate(3.5deg);
+}
+
+.p4-tag--map:active {
+  transform: rotate(3.5deg) translateY(-6px) scale(1.03);
+}
+
+.p4-tag--apps {
+  right: 6%;
+  left: auto;
+  top: 30px;
+  transform: rotate(-2.5deg);
+}
+
+.p4-tag--apps:active {
+  transform: rotate(-2.5deg) translateY(-6px) scale(1.03);
+}
+
+.p4-tag__cord {
+  width: 1px;
+  height: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(180, 186, 194, 0.55));
+  margin-bottom: 0;
+}
+
+.p4-tag__glass {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 76px;
+  height: 92px;
+  padding: 10px 8px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  box-shadow:
+    0 10px 28px rgba(90, 100, 112, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.7) inset;
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  backdrop-filter: blur(16px) saturate(1.15);
+}
+
+.p4-tag__art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.p4-tag__art.has-custom-art {
+  opacity: 0.42;
+}
+
+.p4-tag__name,
+.p4-tag__meta {
+  position: relative;
+  z-index: 1;
+}
+
+.p4-tag__name {
+  font-family: "Noto Serif SC", "ZCOOL XiaoWei", serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  color: rgba(52, 56, 62, 0.82);
+}
+
+.p4-tag__meta {
+  font-family: "Outfit", "Noto Sans SC", sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  color: rgba(100, 108, 118, 0.62);
+}
+
+.p4-tag:has(.p4-tag__art.has-custom-art) .p4-tag__name,
+.p4-tag:has(.p4-tag__art.has-custom-art) .p4-tag__meta {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 6px rgba(20, 24, 30, 0.35);
+}
+
+/* 中段：剧场框 + 侧栏 */
+.p4-mid {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  margin-top: 18px;
+  flex: 1;
+  min-height: 200px;
+}
+
+.p4-frame {
+  position: relative;
+  flex: 1.15;
+  min-height: 210px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 16px 40px rgba(70, 80, 95, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.25) inset;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.p4-frame:active {
+  transform: scale(0.985) translateY(2px);
+  box-shadow: 0 8px 24px rgba(70, 80, 95, 0.1);
+}
+
+.p4-frame__art {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(160deg, rgba(60, 68, 78, 0.55) 0%, rgba(90, 98, 108, 0.35) 48%, rgba(140, 148, 158, 0.25) 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.p4-frame__art.has-custom-art {
+  /* keep cover image */
+}
+
+.p4-frame__rim {
+  position: absolute;
+  inset: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  pointer-events: none;
+}
+
+.p4-frame__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(20, 24, 30, 0.45) 0%, transparent 48%);
+  pointer-events: none;
+}
+
+.p4-frame__tag,
+.p4-frame__meta {
+  position: absolute;
+  z-index: 2;
+  left: 18px;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 8px rgba(10, 14, 20, 0.35);
+}
+
+.p4-frame__tag {
+  bottom: 34px;
+  font-family: "Noto Serif SC", serif;
+  font-size: 18px;
+  letter-spacing: 0.36em;
+}
+
+.p4-frame__meta {
+  bottom: 14px;
+  font-family: "Outfit", sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.p4-aside {
+  flex: 0.78;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.p4-verse {
+  margin: 8px 2px 0;
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+  font-size: 13px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  line-height: 1.65;
+  color: rgba(70, 76, 84, 0.72);
+}
+
+.p4-polar {
+  position: relative;
+  flex: 1;
+  min-height: 88px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 22px rgba(90, 100, 112, 0.08);
+}
+
+.p4-polar__art {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(145deg, rgba(180, 190, 200, 0.45), rgba(200, 195, 190, 0.3));
+  background-size: cover;
+  background-position: center;
+}
+
+.p4-polar__art.has-custom-art {
+  /* image */
+}
+
+.p4-polar__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(245, 246, 248, 0.35));
+  pointer-events: none;
+}
+
+.p4-chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 4px 16px rgba(90, 100, 112, 0.07);
+}
+
+.p4-chip__art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+}
+
+.p4-chip__art.has-custom-art {
+  opacity: 0.55;
+}
+
+.p4-chip__text {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: "Ma Shan Zheng", "Zhi Mang Xing", "Noto Serif SC", cursive;
+  font-size: 16px;
+  letter-spacing: 0.4em;
+  color: rgba(70, 74, 80, 0.7);
+}
+
+.p4-chip:has(.p4-chip__art.has-custom-art) .p4-chip__text {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 5px rgba(20, 24, 30, 0.3);
+}
+
+/* 底部雾感滑轨 · 可拖 */
+.p4-rail {
+  position: relative;
+  margin: 22px 8px 0;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  touch-action: none;
+  user-select: none;
+}
+
+.p4-rail__track {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(140, 148, 158, 0.45), rgba(255, 255, 255, 0.2));
+  border-radius: 1px;
+}
+
+.p4-rail__knob {
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  width: 12px;
+  height: 12px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(48, 52, 58, 0.78);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.35),
+    0 2px 8px rgba(40, 48, 58, 0.2);
+  cursor: grab;
+  -webkit-tap-highlight-color: transparent;
+  transition: box-shadow 0.18s ease, transform 0.12s ease;
+}
+
+.p4-rail__knob:active,
+.p4-rail.is-dragging .p4-rail__knob {
+  cursor: grabbing;
+  box-shadow:
+    0 0 0 6px rgba(255, 255, 255, 0.45),
+    0 4px 14px rgba(40, 48, 58, 0.25);
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.desk--p4 [data-miya-copy].is-editing {
+  outline: 1px dashed rgba(120, 128, 140, 0.4);
+  outline-offset: 2px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-height: 640px) {
+  .p4-hang {
+    margin-top: 16px;
+    min-height: 118px;
+  }
+
+  .p4-tag__glass {
+    width: 68px;
+    height: 82px;
+  }
+
+  .p4-mid {
+    min-height: 170px;
+    margin-top: 10px;
+  }
+
+  .p4-frame {
+    min-height: 170px;
+  }
+}
+
+@media (min-height: 740px) {
+  .p4-hang {
+    margin-top: 40px;
+    min-height: 148px;
+  }
+
+  .p4-tag__glass {
+    width: 84px;
+    height: 100px;
+    border-radius: 16px;
+  }
+
+  .p4-frame {
+    min-height: 240px;
+  }
+}

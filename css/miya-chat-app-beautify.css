@@ -1,0 +1,253 @@
+/* Miya Chat App · 美化编辑面板 */
+
+.cab-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.cab-theme-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 10px;
+  border: 1.5px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  background: #fff;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.cab-theme-card.is-active {
+  border-color: #1a1a1a;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.cab-theme-card__swatch {
+  width: 100%;
+  height: 28px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+
+.cab-theme-card__swatch--default-orange {
+  background: linear-gradient(135deg, #fff 40%, #f0ded2 70%, #ed9b62);
+}
+
+.cab-theme-card__swatch--ins-white {
+  background: linear-gradient(135deg, #fff 60%, #f5f5f5 100%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.cab-theme-card__swatch--fresh-green {
+  background: linear-gradient(135deg, #f0f4f2 40%, #a3c1ad 75%, #8fb38d);
+}
+
+.cab-theme-card strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cab-theme-card small {
+  font-size: 10px;
+  color: #9a948c;
+  line-height: 1.35;
+}
+
+.cab-preview-stage {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f5f1eb;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.cab-preview {
+  position: relative;
+  min-height: 280px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.cab-preview__tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: #faf8f4;
+}
+
+.cab-preview__tab {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 11px;
+  padding: 8px 4px;
+  color: #9a948c;
+  cursor: pointer;
+}
+
+.cab-preview__tab.is-active {
+  color: #1a1a1a;
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 #1a1a1a;
+}
+
+.cab-preview__screen {
+  padding: 14px 16px 20px;
+  min-height: 220px;
+}
+
+.cab-mock__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cab-mock__title {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.cab-preview.chat-bf-theme-ins-white .cab-mock__title {
+  font-size: 24px;
+}
+
+.cab-mock__btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #000;
+  color: #fff;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+}
+
+.cab-preview.chat-bf-theme-default-orange .cab-mock__btn {
+  background: rgba(201, 184, 150, 0.35);
+  color: #7a6e64;
+}
+
+.cab-mock__search {
+  height: 36px;
+  border-radius: 12px;
+  background: #f5f5f5;
+  color: #999;
+  font-size: 13px;
+  line-height: 36px;
+  padding: 0 14px;
+  margin-bottom: 12px;
+}
+
+.cab-mock__thread {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.cab-mock__thread--pin {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  padding: 10px 12px;
+  margin-bottom: 6px;
+}
+
+.cab-mock__ava {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e8e8e8;
+  flex-shrink: 0;
+}
+
+.cab-mock__ava--lg {
+  width: 52px;
+  height: 52px;
+}
+
+.cab-mock__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cab-mock__body small {
+  font-size: 11px;
+  color: #999;
+}
+
+.cab-mock__badge {
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #000;
+  color: #fff;
+  font-size: 10px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.cab-preview.chat-bf-theme-default-orange .cab-mock__badge {
+  background: #eb9558;
+  border-radius: 9px;
+}
+
+.cab-deco-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.cab-deco-form__nums {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.cab-deco-form__nums label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 10px;
+  color: #9a948c;
+}
+
+.cab-deco-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cab-deco-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.cab-deco-row__thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #eee center/cover no-repeat;
+  flex-shrink: 0;
+}
+
+.cab-deco-row__meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: #6b6560;
+}

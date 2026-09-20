@@ -1,0 +1,1989 @@
+/* miya · 设置 — 暖色玻璃刊面 */
+
+.miya-settings-app {
+  --st-bg: #F5F3EF;
+  --st-bg-warm: #F0EDE7;
+  --st-card-bg: rgba(255, 255, 255, 0.72);
+  --st-card-bg-hover: rgba(255, 255, 255, 0.88);
+  --st-text-primary: #1A1A1A;
+  --st-text-secondary: #6B6B6B;
+  --st-text-tertiary: #999999;
+  --st-text-muted: #B8B5B0;
+  --st-accent: #007AFF;
+  --st-accent-soft: rgba(0, 122, 255, 0.08);
+  --st-accent-warm: #E85D4C;
+  --st-accent-warm-soft: rgba(232, 93, 76, 0.08);
+  --st-border: rgba(0, 0, 0, 0.04);
+  --st-border-strong: rgba(0, 0, 0, 0.08);
+  --st-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --st-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03);
+  --st-shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(0, 0, 0, 0.04);
+  --st-shadow-float: 0 30px 80px rgba(0, 0, 0, 0.1), 0 12px 30px rgba(0, 0, 0, 0.05);
+  font-family: 'Noto Serif SC', 'Inter', serif;
+  color: var(--st-text-primary);
+  background: var(--st-bg) !important;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  /* 必须保持 fixed 全屏；relative 会覆盖 miya-apps.css 导致容器随内容坍缩（日志 drawerH=3） */
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* ─── Ambient ─── */
+.miya-settings-app .st-ambient-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.miya-settings-app .st-ambient-bg::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(0, 122, 255, 0.04) 0%, transparent 70%);
+  animation: stAmbientDrift 20s ease-in-out infinite;
+}
+
+.miya-settings-app .st-ambient-bg::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -15%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(232, 93, 76, 0.03) 0%, transparent 70%);
+  animation: stAmbientDrift 25s ease-in-out infinite reverse;
+}
+
+@keyframes stAmbientDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.05); }
+  66% { transform: translate(-20px, 30px) scale(0.95); }
+}
+
+.miya-settings-app .st-deco-ornament {
+  position: absolute;
+  font-family: 'Playfair Display', serif;
+  color: var(--st-text-muted);
+  opacity: 0.06;
+  font-size: 120px;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Navbar ─── */
+.miya-settings-app .st-navbar {
+  position: relative;
+  z-index: 5;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: calc(env(safe-area-inset-top, 0px) + 10px) 20px 10px;
+  background: linear-gradient(180deg, rgba(245, 243, 239, 0.96) 0%, rgba(245, 243, 239, 0) 100%);
+}
+
+.miya-settings-app .st-navback {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px 8px 8px;
+  border: 1px solid var(--st-border-strong);
+  border-radius: 14px;
+  background: var(--st-card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--st-text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: var(--st-shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.miya-settings-app .st-navback:active {
+  transform: scale(0.97);
+}
+
+.miya-settings-app .st-navback svg {
+  flex-shrink: 0;
+}
+
+.miya-settings-app .st-navtitle {
+  flex: 1;
+  margin: 0;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.miya-settings-app .st-navspacer {
+  width: 72px;
+  flex-shrink: 0;
+}
+
+/* ─── Scroll / Container ─── */
+.miya-settings-app .st-scroll {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
+  padding: 0 0 calc(40px + env(safe-area-inset-bottom, 0px));
+}
+
+.miya-settings-app .st-container {
+  position: relative;
+  max-width: 100%;
+  overflow-x: hidden;
+  padding: 0 20px 24px;
+}
+
+/* ─── Header ─── */
+.miya-settings-app .st-header {
+  padding-top: 8px;
+  padding-bottom: 28px;
+  position: relative;
+}
+
+.miya-settings-app .st-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--st-text-tertiary);
+  margin-bottom: 16px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.miya-settings-app .st-header--topnav,
+.miya-worldbook-app .st-header--topnav {
+  padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
+}
+
+.miya-settings-app .st-panel-topbar {
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 20px 0;
+}
+
+.miya-settings-app .st-header-badge::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--st-text-muted);
+}
+
+.miya-settings-app .st-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 8vw, 38px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--st-text-primary);
+  margin-bottom: 10px;
+}
+
+.miya-settings-app .st-header h2 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--st-text-secondary);
+}
+
+.miya-settings-app .st-header h2 .st-header-script,
+.miya-worldbook-app .st-header h2 .st-header-script {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(38px, 10vw, 46px);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--st-text-secondary);
+  letter-spacing: 1px;
+  line-height: 1.15;
+}
+
+.miya-settings-app .st-header-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--st-text-tertiary);
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+}
+
+/* ─── Section Labels ─── */
+.miya-settings-app .st-section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--st-text-tertiary);
+  margin: 32px 0 14px 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.miya-settings-app .st-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--st-border-strong), transparent);
+  margin-left: 4px;
+}
+
+/* ─── Cards ─── */
+.miya-settings-app .st-card {
+  background: var(--st-card-bg);
+  border-radius: 24px;
+  padding: 4px 12px;
+  margin-bottom: 12px;
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+  border: 1px solid var(--st-border);
+  box-shadow: var(--st-shadow-md);
+  transition: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.miya-settings-app .st-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  pointer-events: none;
+}
+
+.miya-settings-app .st-card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 6px;
+  position: relative;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.miya-settings-app .st-card-row:active,
+.miya-settings-app .st-io-card:active,
+.miya-settings-app .st-feature-card--clickable:active {
+  opacity: 0.72;
+}
+
+.miya-settings-app .st-card-row + .st-card-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 52px;
+  right: 0;
+  height: 1px;
+  background: var(--st-border);
+}
+
+.miya-settings-app .st-card-row-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.miya-settings-app .st-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.miya-settings-app .st-card-icon::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 14px;
+  background: inherit;
+  opacity: 0.15;
+  filter: blur(8px);
+}
+
+.miya-settings-app .st-card-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.8;
+  position: relative;
+  z-index: 1;
+}
+
+.miya-settings-app .st-card-icon--blue { background: var(--st-accent-soft); color: var(--st-accent); }
+.miya-settings-app .st-card-icon--warm { background: var(--st-accent-warm-soft); color: var(--st-accent-warm); }
+.miya-settings-app .st-card-icon--gray { background: rgba(0, 0, 0, 0.04); color: var(--st-text-secondary); }
+.miya-settings-app .st-card-icon--green { background: rgba(52, 199, 89, 0.08); color: #34C759; }
+
+.miya-settings-app .st-card-label {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--st-text-primary);
+  letter-spacing: 0.3px;
+}
+
+.miya-settings-app .st-card-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--st-text-tertiary);
+  margin-top: 2px;
+  letter-spacing: 0.2px;
+}
+
+.miya-settings-app .st-chevron {
+  color: var(--st-text-muted);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.miya-settings-app .st-card-row--static {
+  cursor: default;
+}
+
+.miya-settings-app .st-card-row--static:hover .st-chevron {
+  color: var(--st-text-muted);
+  transform: none;
+}
+
+.miya-settings-app button.st-card-row:hover .st-chevron {
+  color: var(--st-accent);
+  transform: translateX(2px);
+}
+
+/* ─── Feature Cards ─── */
+.miya-settings-app .st-feature-card {
+  background: var(--st-card-bg);
+  border-radius: 28px;
+  padding: 24px 20px;
+  margin-bottom: 14px;
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+  border: 1px solid var(--st-border);
+  box-shadow: var(--st-shadow-lg);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.miya-settings-app .st-feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  pointer-events: none;
+}
+
+.miya-settings-app .st-feature-card--clickable {
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.miya-settings-app .st-feature-card--clickable:active {
+  transform: scale(0.995);
+}
+
+.miya-settings-app .st-deco-number {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--st-text-muted);
+  opacity: 0.08;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.miya-settings-app .st-feature-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.miya-settings-app .st-feature-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--st-text-primary);
+  letter-spacing: -0.3px;
+  line-height: 1.3;
+}
+
+.miya-settings-app .st-feature-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--st-text-secondary);
+}
+
+.miya-settings-app .st-feature-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--st-text-tertiary);
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+}
+
+.miya-settings-app .st-feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+/* ─── Nested card in feature ─── */
+.miya-settings-app .st-inner-card {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  padding: 4px 10px;
+  border: 1px solid var(--st-border);
+  margin-top: 4px;
+}
+
+/* ─── IO Cards ─── */
+.miya-settings-app .st-io-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 16px;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: var(--st-card-bg);
+  border-radius: 24px;
+  margin-bottom: 12px;
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+  border: 1px solid var(--st-border);
+  box-shadow: var(--st-shadow-md);
+  transition: none;
+  position: relative;
+  overflow: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+}
+
+.miya-settings-app .st-io-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+}
+
+.miya-settings-app .st-io-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--st-shadow-lg);
+  background: var(--st-card-bg-hover);
+}
+
+.miya-settings-app .st-io-card:active {
+  transform: translateY(0) scale(0.995);
+}
+
+.miya-settings-app .st-io-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.miya-settings-app .st-io-icon--export {
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.08), rgba(90, 200, 250, 0.08));
+  color: var(--st-accent);
+}
+
+.miya-settings-app .st-io-icon--import {
+  background: linear-gradient(135deg, rgba(52, 199, 89, 0.08), rgba(48, 209, 88, 0.08));
+  color: #34C759;
+}
+
+.miya-settings-app .st-io-icon::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 18px;
+  background: inherit;
+  opacity: 0.12;
+  filter: blur(10px);
+}
+
+.miya-settings-app .st-io-icon svg {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.miya-settings-app .st-io-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--st-text-primary);
+}
+
+.miya-settings-app .st-io-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--st-text-tertiary);
+  margin-top: 3px;
+}
+
+.miya-settings-app .st-io-arrow {
+  margin-left: auto;
+  color: var(--st-text-muted);
+  transition: transform 0.3s ease;
+}
+
+.miya-settings-app .st-io-card:hover .st-io-arrow {
+  transform: translateX(4px);
+  color: var(--st-accent);
+}
+
+/* ─── Stats Grid ─── */
+.miya-settings-app .st-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.miya-settings-app .st-stat-item {
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 20px;
+  padding: 16px 12px;
+  text-align: center;
+  border: 1px solid var(--st-border);
+  transition: all 0.3s ease;
+}
+
+.miya-settings-app .st-stat-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--st-text-primary);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.miya-settings-app .st-stat-value em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--st-text-secondary);
+  font-size: 0.65em;
+}
+
+.miya-settings-app .st-stat-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--st-text-tertiary);
+  letter-spacing: 0.5px;
+}
+
+.miya-settings-app .st-stat-bar {
+  width: 100%;
+  height: 3px;
+  background: var(--st-border);
+  border-radius: 2px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.miya-settings-app .st-stat-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--st-accent), #5AC8FA);
+  transition: width 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+  width: 0;
+}
+
+.miya-settings-app .st-stat-bar-fill--warm {
+  background: linear-gradient(90deg, #FF9500, #FFCC00);
+}
+
+.miya-settings-app .st-stat-bar-fill--green {
+  background: linear-gradient(90deg, #34C759, #30D158);
+}
+
+/* ─── Toggle ─── */
+.miya-settings-app .ins-toggle {
+  position: relative;
+  width: 52px;
+  height: 30px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  flex-shrink: 0;
+  border: none;
+  outline: none;
+  background: var(--st-border-strong);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.miya-settings-app .ins-toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.miya-settings-app .ins-toggle.is-on {
+  background: linear-gradient(135deg, var(--st-accent), #5AC8FA);
+  border-color: transparent;
+}
+
+.miya-settings-app .ins-toggle.is-on::after {
+  transform: translateX(22px);
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+}
+
+/* ─── Action Buttons ─── */
+.miya-settings-app .st-btn-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.miya-settings-app .st-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  border: 1px solid var(--st-border);
+  background: var(--st-card-bg);
+  color: var(--st-text-primary);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.miya-settings-app .st-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--st-shadow-md);
+  background: var(--st-card-bg-hover);
+}
+
+.miya-settings-app .st-action-btn:active {
+  transform: translateY(0);
+}
+
+.miya-settings-app .st-action-btn--primary {
+  background: linear-gradient(135deg, var(--st-accent), #5AC8FA);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.25);
+}
+
+.miya-settings-app .st-action-btn--primary:hover {
+  box-shadow: 0 6px 24px rgba(0, 122, 255, 0.35);
+}
+
+/* ─── Notification Preview ─── */
+.miya-settings-app .st-notify-demo {
+  margin-top: 12px;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.015);
+  border-radius: 20px;
+  border: 1px solid var(--st-border);
+}
+
+.miya-settings-app .st-notify-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--st-shadow-sm);
+  margin-bottom: 8px;
+}
+
+.miya-settings-app .st-notify-item:last-child {
+  margin-bottom: 0;
+}
+
+.miya-settings-app .st-notify-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #E8E4DF, #D5D0CA);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.miya-settings-app .st-notify-avatar svg {
+  width: 16px;
+  height: 16px;
+  color: var(--st-text-secondary);
+}
+
+.miya-settings-app .st-notify-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.miya-settings-app .st-notify-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--st-text-primary);
+}
+
+.miya-settings-app .st-notify-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--st-text-tertiary);
+  margin-top: 2px;
+}
+
+.miya-settings-app .st-notify-time {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--st-text-muted);
+  flex-shrink: 0;
+}
+
+/* ─── Footer ─── */
+.miya-settings-app .st-footer {
+  margin-top: 36px;
+  text-align: center;
+  padding-bottom: 16px;
+}
+
+.miya-settings-app .st-footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--st-text-muted);
+  letter-spacing: 1px;
+}
+
+.miya-settings-app .st-footer-version {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: var(--st-text-muted);
+  margin-top: 6px;
+  letter-spacing: 1px;
+}
+
+/* ─── Drawer Panels ─── */
+/* 设置已打开时抽屉参与布局但不挡触摸，避免首次进入子页 cold layout */
+.miya-settings-app.is-open:not(.has-panel):not(.is-panel-returning) .ins-vault-drawer {
+  display: flex;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 预热对话 API 面板布局：抽屉临时可见以便浏览器完成真实排版 */
+.miya-settings-app.is-priming-chat-panel .ins-vault-drawer {
+  visibility: visible !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1;
+}
+
+.miya-settings-app.is-priming-chat-panel #miya-st-panel-chat.is-active {
+  visibility: visible;
+  opacity: 0;
+  transform: translateX(0);
+  pointer-events: none;
+}
+
+.miya-settings-app .ins-vault-drawer {
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+}
+
+.miya-settings-app.has-panel .ins-vault-drawer,
+.miya-settings-app.is-panel-returning .ins-vault-drawer {
+  pointer-events: auto;
+  background: var(--st-bg);
+}
+
+.miya-settings-app .ins-vault-panel {
+  top: calc(env(safe-area-inset-top, 0px) + 52px);
+  padding: 8px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
+}
+
+.miya-settings-app .ins-vault-home,
+.miya-settings-app .ins-vault-panel,
+.miya-settings-app .ins-vault-footer {
+  transition: none !important;
+}
+
+.miya-settings-app .ins-vault-panel:not(.is-active) {
+  visibility: hidden;
+}
+
+.miya-settings-app .ins-vault-panel.is-active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.miya-settings-app .ins-vault-panel.is-leaving {
+  opacity: 1;
+  transform: translateX(100%);
+  pointer-events: none;
+  visibility: visible;
+}
+
+.miya-settings-app .st-form-section__title {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--st-text-tertiary);
+  margin: 20px 0 10px 4px;
+}
+
+.miya-settings-app .st-form-card {
+  background: var(--st-card-bg);
+  border-radius: 20px;
+  padding: 18px 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--st-border);
+  box-shadow: var(--st-shadow-md);
+  backdrop-filter: blur(40px) saturate(1.8);
+  -webkit-backdrop-filter: blur(40px) saturate(1.8);
+}
+
+/* 抽屉内表单去掉毛玻璃，对话 API 等多卡片页首次进入更跟手 */
+.miya-settings-app .ins-vault-panel .st-form-card {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.miya-settings-app .st-form-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--st-text-tertiary);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.miya-settings-app .ins-field-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--st-text-tertiary);
+  margin-bottom: 8px;
+}
+
+.miya-settings-app .ins-text-input,
+.miya-settings-app .ins-select,
+.miya-settings-app .ins-textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--st-border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--st-text-primary);
+  box-shadow: none;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.miya-settings-app .ins-text-input:focus,
+.miya-settings-app .ins-select:focus,
+.miya-settings-app .ins-textarea:focus {
+  background: rgba(0, 122, 255, 0.02);
+  border-color: rgba(0, 122, 255, 0.2);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.06);
+  outline: none;
+}
+
+.miya-settings-app .ins-icon-btn {
+  border-radius: 14px;
+  border: 1px solid var(--st-border);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.miya-settings-app .ins-inline-field .ins-select {
+  flex: 1;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.miya-settings-app .ins-range {
+  accent-color: var(--st-accent);
+}
+
+.miya-settings-app .st-toggle-in-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--st-border);
+}
+
+.miya-settings-app .st-toggle-in-form strong {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.miya-settings-app .st-save-btn {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, var(--st-accent), #5AC8FA);
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.miya-settings-app .st-save-btn:active {
+  transform: scale(0.98);
+}
+
+.miya-settings-app .st-storage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.miya-settings-app .st-foot-btn {
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--st-border);
+  background: var(--st-card-bg);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--st-text-secondary);
+  cursor: pointer;
+}
+
+.miya-settings-app .ins-meter-row {
+  margin-bottom: 14px;
+}
+
+.miya-settings-app .ins-meter-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--st-text-secondary);
+  margin-bottom: 6px;
+}
+
+.miya-settings-app .ins-meter-bar {
+  height: 4px;
+  background: var(--st-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.miya-settings-app .ins-meter-bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--st-accent), #5AC8FA);
+  border-radius: 2px;
+}
+
+.miya-settings-app .ins-vault-note {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--st-text-tertiary);
+  line-height: 1.5;
+}
+
+.miya-settings-app .ins-chip {
+  border-radius: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+}
+
+.miya-settings-app .ins-chip--gold {
+  background: linear-gradient(135deg, var(--st-accent), #5AC8FA);
+  color: white;
+  border: none;
+}
+
+.miya-settings-app .ins-chip--danger {
+  color: var(--st-accent-warm);
+  border-color: rgba(232, 93, 76, 0.25);
+}
+
+.miya-settings-app ::selection {
+  background: rgba(0, 122, 255, 0.15);
+  color: var(--st-text-primary);
+}
+
+.miya-settings-app.has-panel:not(.is-panel-returning) .ins-vault-home {
+  display: none !important;
+  opacity: 0;
+  transform: translateX(-28px);
+  pointer-events: none;
+}
+
+.miya-settings-app.is-panel-returning .ins-vault-home {
+  display: block !important;
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: none;
+}
+
+.miya-settings-app.is-panel-returning .ins-vault-drawer {
+  pointer-events: none;
+}
+
+/* Contact settings panel inside settings */
+.miya-settings-app .miya-ct-intro {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--st-text-tertiary);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.miya-settings-app .miya-ct-card {
+  background: var(--st-card-bg);
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--st-border);
+  box-shadow: var(--st-shadow-sm);
+}
+
+.miya-settings-app .miya-ct-card__kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--st-text-tertiary);
+  margin-bottom: 10px;
+}
+
+.miya-settings-app .miya-ct-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--st-border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 13px;
+}
+
+.miya-settings-app .miya-ct-btn {
+  border-radius: 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 12px 20px;
+  border: 1px solid var(--st-border);
+  background: var(--st-card-bg);
+  cursor: pointer;
+}
+
+.miya-settings-app .miya-ct-btn--primary {
+  background: linear-gradient(135deg, var(--st-accent), #5AC8FA);
+  color: white;
+  border: none;
+}
+
+.miya-settings-app .miya-ct-row__text strong {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.miya-settings-app .miya-ct-row__hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--st-text-tertiary);
+}
+
+/* 消息提示音 */
+.miya-settings-app .st-msgsound-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 4px 0;
+}
+
+.miya-settings-app .st-msgsound-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.miya-settings-app .st-msgsound-item:last-child {
+  border-bottom: none;
+}
+
+.miya-settings-app .st-msgsound-item.is-selected .st-msgsound-item__name {
+  color: var(--st-accent);
+  font-weight: 500;
+}
+
+.miya-settings-app .st-msgsound-item__pick {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.miya-settings-app .st-msgsound-item__radio {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.18);
+  display: block;
+  position: relative;
+  transition: border-color 0.15s;
+}
+
+.miya-settings-app .st-msgsound-item.is-selected .st-msgsound-item__radio {
+  border-color: var(--st-accent);
+}
+
+.miya-settings-app .st-msgsound-item.is-selected .st-msgsound-item__radio::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--st-accent);
+}
+
+.miya-settings-app .st-msgsound-item__name {
+  flex: 1;
+  font-family: 'Noto Serif SC', serif;
+  font-size: 14px;
+  color: var(--st-text-primary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.miya-settings-app .st-msgsound-item__preview {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--st-border);
+  background: rgba(0, 0, 0, 0.02);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: var(--st-text-secondary);
+  cursor: pointer;
+}
+
+.miya-settings-app .st-msgsound-item__preview:active {
+  transform: scale(0.96);
+}
+
+.miya-settings-app .st-msgsound-item__del {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 59, 48, 0.08);
+  color: #FF3B30;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.miya-settings-app .st-msgsound-empty {
+  margin: 12px 0 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--st-text-tertiary);
+  text-align: center;
+}
+
+.miya-settings-app .st-msgsound-upload-btn {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.miya-ig-provider-pick {
+  border: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.miya-ig-provider-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--st-text-secondary, #666);
+  cursor: pointer;
+}
+
+.miya-ig-test-wrap {
+  min-height: 120px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.miya-ig-test {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: 16px;
+  text-align: center;
+}
+
+.miya-ig-test img {
+  max-width: 100%;
+  max-height: 280px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.miya-ig-test--busy p,
+.miya-ig-test--err p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--st-text-secondary, #666);
+}
+
+.miya-ig-test__spin {
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  border-top-color: var(--st-accent, #c9a962);
+  border-radius: 50%;
+  animation: miya-ig-spin 0.8s linear infinite;
+}
+
+@keyframes miya-ig-spin {
+  to { transform: rotate(360deg); }
+}
+
+.miya-ig-preset-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.miya-ig-preset-actions .st-action-btn {
+  flex: 1 1 auto;
+  min-width: 88px;
+  justify-content: center;
+}
+
+/* 数据备份导出/导入进度 */
+.st-backup-progress {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.st-backup-progress.is-show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.st-backup-progress__veil {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.28);
+  backdrop-filter: blur(6px);
+}
+
+.st-backup-progress__panel {
+  position: relative;
+  width: min(320px, calc(100vw - 48px));
+  padding: 24px 22px 20px;
+  border-radius: 18px;
+  background: var(--st-card-bg-hover);
+  border: 1px solid var(--st-border-strong);
+  box-shadow: var(--st-shadow-float);
+}
+
+.st-backup-progress__title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--st-text-primary);
+}
+
+.st-backup-progress__status {
+  margin: 0 0 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--st-text-tertiary);
+}
+
+.st-backup-progress__bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--st-border);
+  overflow: hidden;
+}
+
+.st-backup-progress__fill {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--st-accent), #5AC8FA);
+  transition: width 0.15s ease;
+}
+
+.st-backup-progress__pct {
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--st-text-secondary);
+  text-align: right;
+}
+
+.miya-ig-contact-row {
+  margin-top: 4px;
+}
+
+/* ─── API 悬浮球 ─── */
+.miya-api-fab {
+  --fab-size: 52px;
+  --fab-ink: #2f2f2f;
+  --fab-ink-dim: #8b8b8b;
+  --fab-line: rgba(0, 0, 0, 0.07);
+  --fab-surface: #f4f4f4;
+  --fab-surface-2: #ffffff;
+  position: fixed;
+  z-index: 99500;
+  width: var(--fab-size);
+  height: var(--fab-size);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
+  will-change: transform;
+}
+
+.miya-api-fab[hidden] {
+  display: none !important;
+}
+
+.miya-api-fab.is-dock-left {
+  transform: translateX(calc(var(--fab-size) * -0.52));
+  opacity: 0.58;
+}
+
+.miya-api-fab.is-dock-right {
+  transform: translateX(calc(var(--fab-size) * 0.52));
+  opacity: 0.58;
+}
+
+.miya-api-fab.is-dragging,
+.miya-api-fab.is-open {
+  opacity: 1;
+  transition: none;
+}
+
+.miya-api-fab.is-dragging {
+  transition: none;
+}
+
+.miya-api-fab__ball {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95) 0%, transparent 42%),
+    linear-gradient(160deg, #ffffff 0%, #f0f0f0 48%, #e4e4e4 100%);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.14),
+    0 2px 6px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.04);
+  color: var(--fab-ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.miya-api-fab__glow {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.55) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.miya-api-fab__icon {
+  position: relative;
+  z-index: 1;
+  width: calc(var(--fab-size) * 0.42);
+  height: calc(var(--fab-size) * 0.42);
+  opacity: 0.88;
+}
+
+.miya-api-fab__ball:active {
+  transform: scale(0.95);
+}
+
+.miya-api-fab.is-open .miya-api-fab__ball {
+  transform: scale(0.96);
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  filter: saturate(0.92);
+}
+
+.miya-api-fab.is-open .miya-api-fab__icon {
+  opacity: 1;
+}
+
+.miya-api-fab__panel {
+  position: absolute;
+  top: var(--fab-panel-y, 0px);
+  left: calc(100% + 10px);
+  right: auto;
+  bottom: auto;
+  width: min(248px, calc(100vw - 28px));
+  max-height: min(420px, calc(100vh - 24px));
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.14),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-8px) scale(0.97);
+  transform-origin: left center;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+.miya-api-fab.is-open .miya-api-fab__panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0) scale(1);
+}
+
+.miya-api-fab.is-side-left .miya-api-fab__panel {
+  left: auto;
+  right: calc(100% + 10px);
+  transform: translateX(8px) scale(0.97);
+  transform-origin: right center;
+}
+
+.miya-api-fab.is-side-left.is-open .miya-api-fab__panel {
+  transform: translateX(0) scale(1);
+}
+
+.miya-api-fab__head {
+  flex: 0 0 auto;
+  padding: 14px 15px 12px;
+  border-bottom: 1px solid var(--fab-line);
+  background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
+}
+
+.miya-api-fab__title {
+  margin: 0;
+  font-family: "Noto Sans SC", "Jost", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fab-ink);
+  letter-spacing: 0.01em;
+}
+
+.miya-api-fab__sub {
+  margin: 3px 0 0;
+  font-size: 11px;
+  color: var(--fab-ink-dim);
+}
+
+.miya-api-fab__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px;
+  min-height: 0;
+}
+
+.miya-api-fab__sec + .miya-api-fab__sec {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--fab-line);
+}
+
+.miya-api-fab__sec-title {
+  margin: 0 0 2px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--fab-ink-dim);
+  letter-spacing: 0.08em;
+}
+
+.miya-api-fab__sec-hint {
+  margin: 0 0 8px 6px;
+  font-size: 10px;
+  line-height: 1.35;
+  color: #a3a3a3;
+}
+
+.miya-api-fab__list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.miya-api-fab__item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--fab-ink);
+  font-family: "Noto Sans SC", "Jost", sans-serif;
+  font-size: 13px;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+}
+
+.miya-api-fab__item:hover,
+.miya-api-fab__item:focus-visible {
+  background: #f3f3f3;
+  border-color: rgba(0, 0, 0, 0.04);
+  outline: none;
+}
+
+.miya-api-fab__item.is-active {
+  background: #ececec;
+  border-color: rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+.miya-api-fab__item.is-active::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: #555;
+  flex-shrink: 0;
+}
+
+.miya-api-fab__empty {
+  margin: 0;
+  padding: 12px 8px;
+  font-size: 12px;
+  color: var(--fab-ink-dim);
+  text-align: center;
+}
+
+.miya-api-fab__foot {
+  flex: 0 0 auto;
+  padding: 12px;
+  border-top: 1px solid var(--fab-line);
+  background: linear-gradient(180deg, #f8f8f8 0%, #f3f3f3 100%);
+}
+
+.miya-api-fab__size-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.miya-api-fab__size-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.miya-api-fab__size-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fab-ink);
+}
+
+.miya-api-fab__size-val {
+  font-size: 11px;
+  color: var(--fab-ink-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.miya-api-fab__size-val em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--fab-ink);
+}
+
+.miya-api-fab__size-presets {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.miya-api-fab__chip {
+  min-width: 34px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  background: #fff;
+  color: #666;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+}
+
+.miya-api-fab__chip.is-active {
+  background: #2f2f2f;
+  border-color: #2f2f2f;
+  color: #fff;
+}
+
+.miya-api-fab__size-slider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.miya-api-fab__size-edge {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d8d8d8;
+  flex-shrink: 0;
+}
+
+.miya-api-fab__size-edge--lg {
+  width: 16px;
+  height: 16px;
+  background: #c4c4c4;
+}
+
+.miya-api-fab__size {
+  flex: 1 1 auto;
+  width: 100%;
+  margin: 0;
+  height: 28px;
+  accent-color: #555;
+  cursor: pointer;
+}
+
+.miya-api-fab__veil {
+  position: fixed;
+  inset: 0;
+  z-index: 99499;
+  background: transparent;
+}
+
+.miya-api-fab__veil[hidden] {
+  display: none !important;
+}
+
+/* 设置页 · 悬浮球大小 */
+.miya-settings-app .st-api-fab-size-wrap {
+  padding: 0 16px 14px;
+}
+
+.miya-settings-app .st-api-fab-size {
+  padding: 14px;
+  border-radius: 16px;
+  background: linear-gradient(165deg, #ffffff 0%, #f5f5f5 100%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.miya-settings-app .st-api-fab-size__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.miya-settings-app .st-api-fab-size__preview {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.9), transparent 55%),
+    linear-gradient(160deg, #ececec 0%, #dedede 100%);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.miya-settings-app .st-api-fab-size__preview-ball {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3a3a3a;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95) 0%, transparent 42%),
+    linear-gradient(160deg, #ffffff 0%, #f0f0f0 48%, #e4e4e4 100%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transition: width 0.18s ease, height 0.18s ease;
+}
+
+.miya-settings-app .st-api-fab-size__preview-ball svg {
+  width: 42%;
+  height: 42%;
+  opacity: 0.85;
+}
+
+.miya-settings-app .st-api-fab-size__copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.miya-settings-app .st-api-fab-size__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--st-text-primary);
+}
+
+.miya-settings-app .st-api-fab-size__hint {
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--st-text-tertiary);
+}
+
+.miya-settings-app .st-api-fab-size__badge {
+  flex-shrink: 0;
+  min-width: 52px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.04);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.miya-settings-app .st-api-fab-size__badge span {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--st-text-primary);
+}
+
+.miya-settings-app .st-api-fab-size__badge em {
+  display: block;
+  margin-top: 1px;
+  font-style: normal;
+  font-size: 10px;
+  color: var(--st-text-tertiary);
+  letter-spacing: 0.04em;
+}
+
+.miya-settings-app .st-api-fab-size__presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.miya-settings-app .st-api-fab-size__chip {
+  height: 36px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  background: #fff;
+  color: #666;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+.miya-settings-app .st-api-fab-size__chip:hover {
+  border-color: rgba(0, 0, 0, 0.14);
+}
+
+.miya-settings-app .st-api-fab-size__chip.is-active {
+  background: #1f1f1f;
+  border-color: #1f1f1f;
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+}
+
+.miya-settings-app .st-api-fab-size__slider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 2px 0;
+}
+
+.miya-settings-app .st-api-fab-size__edge {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  color: transparent;
+  font-size: 0;
+  flex-shrink: 0;
+}
+
+.miya-settings-app .st-api-fab-size__edge--lg {
+  width: 18px;
+  height: 18px;
+  background: #bdbdbd;
+}
+
+.miya-settings-app .st-api-fab-size__range {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  accent-color: #444;
+  cursor: pointer;
+}
+

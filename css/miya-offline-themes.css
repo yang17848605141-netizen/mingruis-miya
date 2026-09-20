@@ -1,0 +1,1521 @@
+/* ═══════════════════════════════════════════════════════════════
+   线下现场 · 内置主题：手帐 / 素纸
+   与基础款共用 xw- 类名 · 正文卡片居中宽栏
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 样式抽屉 ── */
+.xw-drawer--beautify .xw-bf-panel {
+  --xw-ink: #141414;
+  --xw-paper: #ffffff;
+  --xw-soft: rgba(20, 20, 20, 0.55);
+  --xw-hair: rgba(20, 20, 20, 0.12);
+  background: #f8f8f6;
+  border-left: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.xw-bf-head h3 {
+  font-family: "Noto Serif SC", serif;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+
+.xw-bf-section { margin-bottom: 18px; }
+
+.xw-bf-section__label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(20, 20, 20, 0.45);
+  margin-bottom: 10px;
+}
+
+.xw-bf-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.xw-bf-section__head .xw-bf-section__label { margin-bottom: 0; }
+
+.xw-btn--compact {
+  padding: 4px 10px;
+  font-size: 11px;
+  min-height: 0;
+}
+
+.xw-bf-section__hint {
+  margin: 0 0 8px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(20, 20, 20, 0.42);
+}
+
+.xw-bf-themes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.xw-bf-theme {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  grid-template-rows: auto auto;
+  gap: 2px 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.xw-bf-theme.is-active {
+  border-color: #1a1a1a;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+
+.xw-bf-theme strong { font-size: 13px; font-weight: 500; }
+.xw-bf-theme small {
+  grid-column: 2;
+  font-size: 10px;
+  line-height: 1.45;
+  color: rgba(20, 20, 20, 0.46);
+}
+
+.xw-bf-theme__swatch {
+  grid-row: 1 / span 2;
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.xw-bf-theme__swatch--museum {
+  background: linear-gradient(145deg, #fafafa, #ebe8e3);
+}
+
+.xw-bf-theme__swatch--korean {
+  background:
+    radial-gradient(circle at 18% 72%, rgba(44, 44, 46, 0.12), transparent 42%),
+    linear-gradient(145deg, #faf8f4 0%, #f5f2ed 48%, #e8e4de 100%);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.xw-bf-theme__swatch--custom {
+  background: repeating-linear-gradient(-45deg, #fff, #fff 4px, #ececec 4px, #ececec 8px);
+}
+
+.xw-bf-css {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.xw-bf-src {
+  width: 100%;
+  min-height: 160px;
+  max-height: 240px;
+  padding: 10px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px;
+  line-height: 1.45;
+  resize: vertical;
+  background: #fff;
+  color: #1a1a1a;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.xw-bf-src-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.xw-bf-section--ref {
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+.xw-bf-section--presets {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+.xw-bf-preset-pick {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  font-family: var(--xw-sans, system-ui, sans-serif);
+  font-size: 13px;
+  background: #fff;
+  color: #141414;
+}
+
+.xw-bf-section--rebuild {
+  padding: 14px 12px;
+  border: 1px dashed rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.xw-bf-rebuild__title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #141414;
+}
+
+.xw-bf-rebuild__hint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(20, 20, 20, 0.62);
+}
+
+.xw-bf-foot { margin-top: 8px; }
+
+.xw-drawer--beautify .xw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 2px solid #141414;
+  background: #fff;
+  color: #141414;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.xw-drawer--beautify .xw-btn--solid {
+  background: #141414;
+  color: #fff;
+  border-color: #141414;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.xw-drawer--beautify .xw-btn:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.xw-drawer--beautify .xw-bf-src-row .xw-btn,
+.xw-drawer--beautify .xw-bf-foot .xw-btn {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 0;
+}
+
+.xw-drawer--beautify .xw-drawer__foot {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  margin-top: 12px;
+  padding-top: 12px;
+  background: linear-gradient(180deg, rgba(248, 248, 246, 0) 0%, #f8f8f6 28%);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   共享 · 主题内居中宽栏
+   ═══════════════════════════════════════════════════════════ */
+
+.miya-offline-app.xw-theme-korean .xw-hub,
+.miya-offline-app.xw-theme-korean .xw-vault {
+  max-width: min(100%, 480px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.miya-offline-app.xw-theme-korean .xw-scene {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.miya-offline-app.xw-theme-korean .xw-script-col {
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   手帐 · 纯色底 · 对话气泡
+   ═══════════════════════════════════════════════════════════ */
+
+.miya-offline-app.xw-theme-korean {
+  --xw-bg: #f3f0eb;
+  --xw-bar: #faf8f5;
+  --xw-paper: #faf8f4;
+  --xw-ink: #1a1a1a;
+  --xw-soft: rgba(26, 26, 26, 0.45);
+  --xw-hair: rgba(26, 26, 26, 0.08);
+  --xw-serif: "Cormorant Garamond", "Noto Serif SC", "Songti SC", serif;
+  --xw-display: "Cormorant Garamond", "Noto Serif SC", serif;
+  --xw-script: "Great Vibes", "Segoe Script", cursive;
+  --xw-sans: "Inter", "Noto Sans SC", sans-serif;
+  --xw-bubble-theirs: #faf8f4;
+  --xw-bubble-mine: #2a2a2c;
+  --xw-gold: #c4a574;
+  --xw-input-bg: rgba(255, 255, 255, 0.72);
+  --xw-bar-h: 52px;
+  --xw-writer-h: 60px;
+  --xw-float-gap: 16px;
+  --xw-card-w: min(calc(100% - 28px), 500px);
+  --xw-ava: 50px;
+  --xw-shadow: 0 4px 16px rgba(26, 26, 26, 0.08);
+  --xw-float-shadow: 0 8px 28px rgba(26, 26, 26, 0.1), 0 2px 8px rgba(26, 26, 26, 0.05);
+  background: var(--xw-bg);
+  font-family: var(--xw-serif);
+}
+
+/* 纯色背景 */
+.miya-offline-app.xw-theme-korean .xw-bg--journal {
+  background: var(--xw-bg);
+}
+
+.miya-offline-app.xw-theme-korean .xw-bg--journal .xw-bg__mesh,
+.miya-offline-app.xw-theme-korean .xw-bg--journal .xw-bg__dots {
+  display: none;
+}
+
+/* ── 壳层 ── */
+.miya-offline-app.xw-theme-korean .xw-shell--journal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.miya-offline-app.xw-theme-korean .xw-main--journal {
+  flex: 1;
+  padding:
+    calc(var(--xw-bar-h) + var(--xw-float-gap) * 2 + env(safe-area-inset-top, 0))
+    6px
+    calc(var(--xw-writer-h) + var(--xw-float-gap) * 2 + env(safe-area-inset-bottom, 0));
+  overflow-y: auto;
+  overflow-x: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+.miya-offline-app.xw-theme-korean .xw-dock,
+.miya-offline-app.xw-theme-korean .xw-exit {
+  display: none !important;
+}
+
+.miya-offline-app.xw-theme-korean .xw-script-col {
+  padding: 0 14px 32px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* ── 顶栏 · 悬浮纸签 ── */
+.miya-offline-app.xw-theme-korean .xw-journal-bar {
+  position: absolute;
+  top: calc(var(--xw-float-gap) + env(safe-area-inset-top, 0));
+  left: 16px;
+  right: 16px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--xw-bar-h);
+  padding: 8px 14px;
+  background:
+    linear-gradient(165deg, #fdfbf7 0%, #f5f0e8 48%, #f0ebe3 100%);
+  border: none;
+  border-radius: 14px;
+  box-shadow:
+    0 6px 24px rgba(34, 28, 20, 0.1),
+    0 2px 6px rgba(34, 28, 20, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__back,
+.miya-offline-app.xw-theme-korean .xw-journal-bar__ico {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #262626;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__back:active,
+.miya-offline-app.xw-theme-korean .xw-journal-bar__ico:active {
+  background: rgba(0, 0, 0, 0.06);
+  opacity: 0.7;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__back svg,
+.miya-offline-app.xw-theme-korean .xw-journal-bar__ico svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__back {
+  width: 40px;
+  height: 40px;
+  margin-left: -4px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__who {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__brand {
+  flex: 1;
+  font-family: var(--xw-display);
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  color: var(--xw-ink);
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__ava {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__who .xw-cast-faces {
+  flex-shrink: 0;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__who .xw-cast-faces .xw-journal-bar__ava {
+  margin-left: -8px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__who .xw-cast-faces .xw-journal-bar__ava:first-child {
+  margin-left: 0;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__name {
+  display: block;
+  font-family: var(--xw-display);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--xw-ink);
+  max-width: 7.5em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 1px;
+  font-family: var(--xw-sans);
+  font-size: 11px;
+  color: var(--xw-soft);
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__status i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #9a9a9a;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-bar__ico {
+  width: 40px;
+  height: 40px;
+}
+
+/* ── 底栏 · 悬浮输入条 ── */
+.miya-offline-app.xw-theme-korean .xw-journal-writer {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(var(--xw-float-gap) + env(safe-area-inset-bottom, 0));
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background:
+    linear-gradient(165deg, #fdfbf7 0%, #f5f0e8 48%, #f0ebe3 100%);
+  border: none;
+  border-radius: 16px;
+  box-shadow:
+    0 6px 24px rgba(34, 28, 20, 0.1),
+    0 2px 6px rgba(34, 28, 20, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__plus,
+.miya-offline-app.xw-theme-korean .xw-journal-writer__ico,
+.miya-offline-app.xw-theme-korean .xw-journal-writer__send {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.15s ease, transform 0.15s ease, background 0.15s ease;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__plus,
+.miya-offline-app.xw-theme-korean .xw-journal-writer__ico {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;
+  color: #262626;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__plus:active,
+.miya-offline-app.xw-theme-korean .xw-journal-writer__ico:active {
+  background: rgba(0, 0, 0, 0.05);
+  opacity: 0.72;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__plus svg,
+.miya-offline-app.xw-theme-korean .xw-journal-writer__ico svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0 14px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: none;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__field {
+  width: 100%;
+  min-height: 22px;
+  max-height: 88px;
+  padding: 8px 0;
+  border: none;
+  background: transparent;
+  resize: none;
+  font-family: var(--xw-sans);
+  font-size: 15px;
+  line-height: 1.4;
+  color: #262626;
+  outline: none;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__field::placeholder {
+  color: #8e8e8e;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__send {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #262626;
+  color: #fff;
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__send:active {
+  opacity: 0.72;
+  transform: scale(0.96);
+}
+
+.miya-offline-app.xw-theme-korean .xw-journal-writer__send svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  margin-left: 1px;
+}
+
+/* ── 日期分隔 ── */
+.miya-offline-app.xw-theme-korean .xw-chat-date {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 28px;
+  font-family: var(--xw-serif);
+  font-size: 11px;
+  color: rgba(26, 26, 26, 0.4);
+  letter-spacing: 0.02em;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat-date::before,
+.miya-offline-app.xw-theme-korean .xw-chat-date::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat-date::before {
+  margin-right: 0;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat-date::after {
+  margin-left: 0;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat-date span {
+  flex-shrink: 0;
+  position: relative;
+  padding: 0 2px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat-date span::before,
+.miya-offline-app.xw-theme-korean .xw-chat-date span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.18);
+  transform: translateY(-50%);
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat-date span::before { left: -10px; }
+.miya-offline-app.xw-theme-korean .xw-chat-date span::after { right: -10px; }
+
+/* ── 消息行 · 居中宽卡片 ── */
+.miya-offline-app.xw-theme-korean .xw-chat {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat__frame {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: var(--xw-card-w);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__frame,
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-chat__frame {
+  display: block;
+  overflow: visible;
+}
+
+/* 头像 · 角上叠放（彩色） */
+.miya-offline-app.xw-theme-korean .xw-chat__ava {
+  width: var(--xw-ava);
+  height: var(--xw-ava);
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  position: relative;
+  z-index: 4;
+  background: #e8e4de;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__ava {
+  position: absolute;
+  top: -6px;
+  left: -8px;
+  margin: 0;
+  z-index: 5;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-chat__ava {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  margin: 0;
+  z-index: 5;
+}
+
+/* 气泡 */
+.miya-offline-app.xw-theme-korean .xw-chat__bubble {
+  position: relative;
+  min-width: 0;
+  flex: 1;
+  width: 100%;
+  padding: 18px 20px 16px;
+  border-radius: 22px;
+  box-shadow: var(--xw-shadow);
+  overflow: visible;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__bubble {
+  background: var(--xw-bubble-theirs);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-top-left-radius: 10px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  padding-left: 24px;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__quote,
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__text,
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__think,
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__time {
+  position: relative;
+  z-index: 2;
+}
+
+.miya-offline-app.xw-theme-korean:not(.xw-has-custom-css) .xw-chat--mine .xw-chat__bubble {
+  background: var(--xw-bubble-mine);
+  color: #fff;
+  border-top-right-radius: 10px;
+  padding-top: 36px;
+  padding-right: 54px;
+  min-height: 80px;
+  width: 100%;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat__quote {
+  display: block;
+  font-family: var(--xw-display);
+  font-size: 32px;
+  line-height: 1;
+  font-weight: 600;
+  color: rgba(26, 26, 26, 0.2);
+  margin: -6px 0 4px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat__sign {
+  position: absolute;
+  top: 12px;
+  left: 18px;
+  font-family: var(--xw-script);
+  font-size: 24px;
+  line-height: 1;
+  color: var(--xw-gold);
+  font-weight: 400;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat__text {
+  font-family: var(--xw-display);
+  font-size: 15px;
+  line-height: 1.9;
+  letter-spacing: 0.01em;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__text {
+  color: var(--xw-ink);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-chat__text {
+  color: rgba(255, 255, 255, 0.96);
+  margin-top: 2px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat__think {
+  margin-bottom: 10px;
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat__time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  margin-top: 14px;
+  font-family: var(--xw-serif);
+  font-size: 10px;
+  color: rgba(26, 26, 26, 0.35);
+}
+
+/* 角色气泡 · 左下角植物标本（贴在卡片上，文字在上层） */
+.miya-offline-app.xw-theme-korean .xw-chat__deco {
+  position: absolute;
+  left: -30px;
+  bottom: -6px;
+  width: 108px;
+  height: 124px;
+  pointer-events: none;
+  z-index: 1;
+  transform: rotate(-12deg);
+  transform-origin: 65% 88%;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat__deco-branch {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url("https://img.heliar.top/file/1781690879823_IMG_4361.png") center/contain no-repeat;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-chat__time {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat__ticks {
+  font-size: 9px;
+  letter-spacing: -1px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat__tools {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+  opacity: 0.42;
+  transition: opacity 0.2s;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__tools {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  bottom: auto;
+  transform: none;
+  margin-top: 0;
+  flex-direction: row;
+  gap: 4px;
+  z-index: 8;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__bubble {
+  padding-top: 42px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .miya-offline-app.xw-theme-korean .xw-chat--theirs .xw-chat__tools {
+    opacity: 0.55;
+  }
+
+  .miya-offline-app.xw-theme-korean .xw-chat:hover .xw-chat__tools,
+  .miya-offline-app.xw-theme-korean .xw-chat:focus-within .xw-chat__tools {
+    opacity: 1;
+  }
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat:hover .xw-chat__tools,
+.miya-offline-app.xw-theme-korean .xw-chat:focus-within .xw-chat__tools {
+  opacity: 1;
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat .xw-block__tool {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.94);
+  color: #262626;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.miya-offline-app.xw-theme-korean .xw-chat .xw-block__tool svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+.miya-offline-app.xw-theme-korean .xw-chat .xw-block__tool:active {
+  opacity: 0.7;
+}
+
+.miya-offline-app.xw-theme-korean .xw-opening {
+  margin: 16px 12px 20px;
+  padding: 16px 18px 14px;
+  border-radius: 18px;
+  border: 1px dashed rgba(0, 0, 0, 0.1);
+  background: rgba(255, 252, 247, 0.92);
+  box-shadow: var(--xw-shadow);
+}
+
+.miya-offline-app.xw-theme-korean .xw-opening__tag {
+  font-family: var(--xw-display);
+  letter-spacing: 0.12em;
+  color: var(--xw-gold);
+  background: rgba(201, 162, 39, 0.08);
+}
+
+.miya-offline-app.xw-theme-korean .xw-opening__body {
+  font-family: var(--xw-display);
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--xw-ink);
+}
+
+.miya-offline-app.xw-theme-korean .xw-opening-pick__title {
+  font-family: var(--xw-display);
+}
+
+.miya-offline-app.xw-theme-korean .xw-opening-pick__item {
+  border-radius: 18px;
+  box-shadow: var(--xw-shadow);
+}
+
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-block__tool {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  box-shadow: none;
+}
+
+/* ── 流式输出 ── */
+.miya-offline-app.xw-theme-korean .xw-stream-mount {
+  position: relative;
+  width: var(--xw-card-w);
+  max-width: 100%;
+  margin: 0 auto 36px;
+  padding: 18px 20px 16px 64px;
+  background: var(--xw-bubble-theirs);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 22px;
+  border-top-left-radius: 10px;
+  box-shadow: var(--xw-shadow);
+}
+
+.miya-offline-app.xw-theme-korean .xw-stream-mount::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  width: var(--xw-ava);
+  height: var(--xw-ava);
+  border-radius: 50%;
+  background:
+    #e8e4de center/cover no-repeat,
+    var(--xw-stream-face, none) center/cover no-repeat;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.miya-offline-app.xw-theme-korean .xw-stream-mount .xw-txt--theirs {
+  font-family: var(--xw-display);
+  font-size: 15px;
+  line-height: 1.85;
+  margin: 0 0 0.75em;
+  color: var(--xw-ink);
+}
+
+.miya-offline-app.xw-theme-korean .xw-stream-mount .xw-txt--theirs:last-child {
+  margin-bottom: 0;
+}
+
+/* ── 选角 / 卷宗 ── */
+.miya-offline-app.xw-theme-korean .xw-hub--journal {
+  padding: 12px 14px 32px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-hub__brand {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--xw-soft);
+}
+
+.miya-offline-app.xw-theme-korean .xw-hub__title {
+  text-align: center;
+  font-family: var(--xw-display);
+  font-size: 28px;
+  font-weight: 400;
+  margin: 0 0 20px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-cast {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  overflow: visible;
+  padding: 0;
+}
+
+.miya-offline-app.xw-theme-korean .xw-cast-node {
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--xw-paper);
+  border: 1px solid var(--xw-hair);
+  border-radius: 16px;
+  box-shadow: var(--xw-shadow);
+  animation: none;
+  transform: none;
+}
+
+.miya-offline-app.xw-theme-korean .xw-cast-node__ring { display: none; }
+
+.miya-offline-app.xw-theme-korean .xw-cast-node__face {
+  width: 44px;
+  height: 44px;
+  border: 2px solid #fff;
+}
+
+.miya-offline-app.xw-theme-korean .xw-cast-node__name {
+  font-family: var(--xw-display);
+  font-size: 16px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-hub__foot {
+  text-align: center;
+  font-size: 11px;
+  color: var(--xw-soft);
+  margin-top: 18px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-vault__grid {
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-vault-card {
+  border-radius: 14px;
+  background: var(--xw-paper);
+  border: 1px solid var(--xw-hair);
+  box-shadow: var(--xw-shadow);
+}
+
+.miya-offline-app.xw-theme-korean .xw-vault__title {
+  font-family: var(--xw-display);
+  font-size: 20px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-ribbon {
+  margin: 0 14px 16px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--xw-paper);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 11px;
+  box-shadow: var(--xw-shadow);
+}
+.miya-offline-app.xw-theme-korean .xw-ribbon__act--ghost {
+  border-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.miya-offline-app.xw-theme-korean .xw-ribbon__act:not(.xw-ribbon__act--ghost) {
+  background: #262626;
+  border-radius: 8px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-note {
+  margin: 0 0 28px;
+  background: var(--xw-paper);
+  border: 1px solid var(--xw-hair);
+  border-radius: 14px;
+  box-shadow: var(--xw-shadow);
+  overflow: hidden;
+}
+
+.miya-offline-app.xw-theme-korean .xw-note__head {
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.02);
+  border-bottom: 1px solid var(--xw-hair);
+  font-size: 10px;
+  color: var(--xw-soft);
+}
+
+.miya-offline-app.xw-theme-korean .xw-note__body {
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.85;
+  font-style: italic;
+}
+
+.miya-offline-app.xw-theme-korean .xw-think__body {
+  border-left: 2px solid var(--xw-gold);
+  padding-left: 8px;
+  font-size: 11px;
+}
+
+.miya-offline-app.xw-theme-korean .xw-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--xw-soft);
+  font-style: italic;
+}
+
+.miya-offline-app.xw-theme-korean .xw-wait {
+  font-size: 12px;
+  color: var(--xw-soft);
+}
+
+.miya-offline-app.xw-theme-korean .xw-embed {
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+/* 多人选角高亮（手帐） */
+.miya-offline-app.xw-theme-korean .xw-cast-node.is-on {
+  outline: 2px solid #1c1c1e;
+  outline-offset: 2px;
+}
+.miya-offline-app.xw-theme-korean .xw-hub__start {
+  background: #262626;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--xw-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+  padding: 14px 28px;
+  box-shadow: none;
+}
+.miya-offline-app.xw-theme-korean .xw-hub__start:active {
+  opacity: 0.78;
+  transform: scale(0.98);
+}
+
+/* ════════════════════════════════════════
+   素纸 · 正文美化 — 纸面小说排印（符号与正文一体）
+   ════════════════════════════════════════ */
+.miya-offline-app.xw-theme-museum .xw-deco--quote,
+.miya-offline-app.xw-theme-museum .xw-deco--quote-en,
+.miya-offline-app.xw-theme-museum .xw-deco--quote-ascii {
+  font-family: var(--xw-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.06em;
+  line-height: 1.75;
+  color: #111;
+  letter-spacing: 0.02em;
+  background: linear-gradient(
+    180deg,
+    transparent 62%,
+    rgba(20, 20, 20, 0.07) 62%,
+    rgba(20, 20, 20, 0.07) 92%,
+    transparent 92%
+  );
+  padding: 0 0.06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--quote .xw-deco__body,
+.miya-offline-app.xw-theme-museum .xw-deco--quote-en .xw-deco__body,
+.miya-offline-app.xw-theme-museum .xw-deco--quote-ascii .xw-deco__body {
+  font: inherit;
+  color: inherit;
+  background: none;
+  letter-spacing: inherit;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--quote .xw-deco__mark,
+.miya-offline-app.xw-theme-museum .xw-deco--quote-en .xw-deco__mark,
+.miya-offline-app.xw-theme-museum .xw-deco--quote-ascii .xw-deco__mark {
+  font-family: inherit;
+  font-style: normal;
+  font-size: 1.35em;
+  line-height: 0;
+  vertical-align: -0.14em;
+  color: inherit;
+  opacity: 0.38;
+  margin: 0 0.02em;
+  font-weight: 300;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--quote-double {
+  font-family: var(--xw-serif);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #141414;
+  border-bottom: 1px solid rgba(20, 20, 20, 0.16);
+  padding: 0 0.04em 0.06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--quote-double .xw-deco__body {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--quote-double .xw-deco__mark {
+  font-family: inherit;
+  font-size: 1.15em;
+  color: inherit;
+  opacity: 0.45;
+  vertical-align: -0.04em;
+}
+
+/* 内心 / 旁注：括号一起带 */
+.miya-offline-app.xw-theme-museum .xw-deco--paren,
+.miya-offline-app.xw-theme-museum .xw-deco--paren-en {
+  font-family: var(--xw-serif);
+  font-style: italic;
+  font-size: 0.9em;
+  color: rgba(20, 20, 20, 0.48);
+  letter-spacing: 0.03em;
+  border-left: 1.5px solid rgba(20, 20, 20, 0.14);
+  padding-left: 0.45em;
+  margin-left: 0.1em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--paren .xw-deco__body,
+.miya-offline-app.xw-theme-museum .xw-deco--paren-en .xw-deco__body {
+  font: inherit;
+  color: inherit;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--paren .xw-deco__mark,
+.miya-offline-app.xw-theme-museum .xw-deco--paren-en .xw-deco__mark {
+  display: inline;
+  font: inherit;
+  color: inherit;
+  opacity: 0.55;
+}
+
+/* 舞台提示：【】一起带 */
+.miya-offline-app.xw-theme-museum .xw-deco--bracket {
+  font-family: var(--xw-sans);
+  font-size: 0.78em;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.18em;
+  color: rgba(20, 20, 20, 0.45);
+  border-top: 1px solid rgba(20, 20, 20, 0.12);
+  border-bottom: 1px solid rgba(20, 20, 20, 0.12);
+  padding: 0.12em 0.2em;
+  margin: 0 0.12em;
+  vertical-align: 0.05em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--bracket .xw-deco__body {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  border: none;
+  padding: 0;
+  margin: 0;
+  vertical-align: baseline;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--bracket .xw-deco__mark {
+  display: inline;
+  font: inherit;
+  color: inherit;
+  letter-spacing: 0;
+  opacity: 0.65;
+}
+
+/* 书名：《》一起带 */
+.miya-offline-app.xw-theme-museum .xw-deco--title {
+  font-family: var(--xw-serif);
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  color: #141414;
+  background: linear-gradient(
+    180deg,
+    transparent 70%,
+    rgba(20, 20, 20, 0.12) 70%,
+    rgba(20, 20, 20, 0.12) 78%,
+    transparent 78%
+  );
+  padding: 0 0.06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--title .xw-deco__body {
+  font: inherit;
+  color: inherit;
+  background: none;
+  letter-spacing: inherit;
+  padding: 0;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--title .xw-deco__mark {
+  font-family: inherit;
+  color: inherit;
+  opacity: 0.5;
+  font-size: 0.95em;
+}
+
+/* 强调：* 一起带 */
+.miya-offline-app.xw-theme-museum .xw-deco--em {
+  font-family: var(--xw-serif);
+  font-style: italic;
+  font-weight: 500;
+  color: #0e0e0e;
+  box-shadow: inset 0 -0.35em 0 rgba(20, 20, 20, 0.08);
+  padding: 0 0.06em 0.05em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--em .xw-deco__body {
+  font: inherit;
+  color: inherit;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.miya-offline-app.xw-theme-museum .xw-deco--em .xw-deco__mark {
+  display: inline;
+  font: inherit;
+  color: inherit;
+  opacity: 0.35;
+  font-size: 0.88em;
+}
+
+.miya-offline-app.xw-theme-museum .xw-sym--glyph {
+  display: inline-block;
+  font-size: 0.92em;
+  opacity: 0.42;
+  color: #141414;
+  margin: 0 0.18em;
+  letter-spacing: 0.12em;
+  transform: translateY(-0.06em);
+}
+
+.miya-offline-app.xw-theme-museum .xw-txt--aside {
+  position: relative;
+  text-align: center;
+  font-family: var(--xw-serif);
+  font-style: italic;
+  font-size: 13.5px;
+  letter-spacing: 0.28em;
+  color: rgba(20, 20, 20, 0.4);
+  margin: 1.8em 0;
+  padding: 0.6em 1.2em;
+}
+.miya-offline-app.xw-theme-museum .xw-txt--aside::before,
+.miya-offline-app.xw-theme-museum .xw-txt--aside::after {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 1px;
+  margin: 0.55em auto;
+  background: rgba(20, 20, 20, 0.16);
+}
+.miya-offline-app.xw-theme-museum .xw-txt--callout {
+  text-align: center;
+  font-family: var(--xw-serif);
+  font-size: 14px;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  color: rgba(20, 20, 20, 0.55);
+  margin: 1.4em auto;
+  max-width: 22em;
+  padding: 0.85em 1.1em;
+  border: 1px solid rgba(20, 20, 20, 0.1);
+  background: rgba(255, 255, 255, 0.55);
+}
+.miya-offline-app.xw-theme-museum .xw-txt--callout .xw-sym--quote {
+  font-size: 1.35em;
+  color: rgba(20, 20, 20, 0.25);
+  vertical-align: -0.12em;
+}
+.miya-offline-app.xw-theme-museum .xw-txt--mine {
+  font-family: var(--xw-serif);
+  font-style: italic;
+  color: rgba(20, 20, 20, 0.52);
+  border-left-color: rgba(20, 20, 20, 0.14);
+}
+
+/* ════════════════════════════════════════
+   手帐 · 正文美化 — 恢复上一版（符号与正文同色同风格）
+   ════════════════════════════════════════ */
+.miya-offline-app.xw-theme-korean .xw-deco--quote,
+.miya-offline-app.xw-theme-korean .xw-deco--quote-en,
+.miya-offline-app.xw-theme-korean .xw-deco--quote-ascii,
+.miya-offline-app.xw-theme-korean .xw-deco--quote-double {
+  font-style: italic;
+  color: #2c2c2e;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--quote .xw-deco__body,
+.miya-offline-app.xw-theme-korean .xw-deco--quote-en .xw-deco__body,
+.miya-offline-app.xw-theme-korean .xw-deco--quote-ascii .xw-deco__body,
+.miya-offline-app.xw-theme-korean .xw-deco--quote-double .xw-deco__body {
+  font-style: inherit;
+  color: inherit;
+  background: none;
+  font-weight: inherit;
+  padding: 0;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--quote .xw-deco__mark,
+.miya-offline-app.xw-theme-korean .xw-deco--quote-en .xw-deco__mark,
+.miya-offline-app.xw-theme-korean .xw-deco--quote-ascii .xw-deco__mark,
+.miya-offline-app.xw-theme-korean .xw-deco--quote-double .xw-deco__mark {
+  display: inline;
+  font-style: inherit;
+  color: inherit;
+  font-weight: 500;
+  opacity: 0.72;
+}
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--quote,
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--quote-en,
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--quote-ascii,
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--quote-double {
+  color: inherit;
+}
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--quote .xw-deco__mark,
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--quote-en .xw-deco__mark,
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--quote-ascii .xw-deco__mark,
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--quote-double .xw-deco__mark {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.miya-offline-app.xw-theme-korean .xw-deco--paren,
+.miya-offline-app.xw-theme-korean .xw-deco--paren-en {
+  color: #8e8e93;
+  font-size: 0.93em;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--paren .xw-deco__body,
+.miya-offline-app.xw-theme-korean .xw-deco--paren-en .xw-deco__body {
+  color: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--paren .xw-deco__mark,
+.miya-offline-app.xw-theme-korean .xw-deco--paren-en .xw-deco__mark {
+  display: inline;
+  color: inherit;
+  opacity: 0.8;
+}
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--paren,
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--paren-en {
+  color: inherit;
+  opacity: 0.85;
+}
+
+.miya-offline-app.xw-theme-korean .xw-deco--bracket {
+  color: #636366;
+  font-size: 0.9em;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+  padding: 0 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--bracket .xw-deco__body {
+  color: inherit;
+  font-size: inherit;
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--bracket .xw-deco__mark {
+  display: inline;
+  color: inherit;
+  opacity: 0.75;
+}
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--bracket {
+  color: inherit;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.miya-offline-app.xw-theme-korean .xw-deco--title {
+  font-weight: 600;
+  color: #1c1c1e;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--title .xw-deco__body {
+  font-weight: inherit;
+  color: inherit;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--title .xw-deco__mark {
+  display: inline;
+  color: inherit;
+  opacity: 0.65;
+  font-weight: 500;
+}
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--title {
+  color: inherit;
+}
+
+.miya-offline-app.xw-theme-korean .xw-deco--em {
+  font-style: italic;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.18);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--em .xw-deco__body {
+  font-style: inherit;
+  border: none;
+  background: none;
+  font-weight: inherit;
+  padding: 0;
+}
+.miya-offline-app.xw-theme-korean .xw-deco--em .xw-deco__mark {
+  display: inline;
+  opacity: 0.4;
+  font-style: normal;
+}
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-deco--em {
+  border-bottom-color: rgba(255, 255, 255, 0.35);
+}
+
+.miya-offline-app.xw-theme-korean .xw-sym--glyph {
+  opacity: 0.65;
+  color: #8e8e93;
+}
+.miya-offline-app.xw-theme-korean .xw-chat--mine .xw-sym--glyph {
+  color: inherit;
+  opacity: 0.55;
+}
+
+.miya-offline-app.xw-theme-korean .xw-stream-mount .xw-deco--quote,
+.miya-offline-app.xw-theme-korean .xw-stream-mount .xw-deco--quote-en {
+  font-style: italic;
+}
+

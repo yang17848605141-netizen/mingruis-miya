@@ -1,0 +1,671 @@
+/* ── 自定义布局 · 4×4 小组件 · INS 韩系灰白 ── */
+
+.wg-4x4 {
+  box-sizing: border-box;
+  font-family: 'Noto Sans SC', 'Outfit', 'DM Sans', sans-serif;
+  color: #2a2a2e;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wg-4x4 *,
+.wg-4x4 *::before,
+.wg-4x4 *::after {
+  box-sizing: border-box;
+}
+
+/* 共享 · 图片占位 */
+.wg-4x4-pair__cover,
+.wg-4x4-pair__ava,
+.wg-4x4-home__ava,
+.wg-4x4-home__post,
+.wg-4x4-wx__cover-img,
+.wg-4x4-wx__avatar,
+.wg-4x4-wx__moment-ava,
+.wg-4x4-wx__moment-photo {
+  background: linear-gradient(155deg, #ececef 0%, #d8d8de 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.wg-4x4-pair__cover.has-custom-cover,
+.wg-4x4-pair__ava.has-custom-photo,
+.wg-4x4-home__ava.has-custom-photo,
+.wg-4x4-home__post.has-custom-photo,
+.wg-4x4-wx__cover-img.has-custom-cover,
+.wg-4x4-wx__avatar.has-custom-photo,
+.wg-4x4-wx__moment-ava.has-custom-photo,
+.wg-4x4-wx__moment-photo.has-custom-photo {
+  background-color: transparent;
+}
+
+/* ══════════════════════════════════════
+   1 · 双人 ins 风头像
+   ══════════════════════════════════════ */
+.wg-4x4--inspair {
+  background: transparent;
+}
+
+.wg-4x4-pair {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.wg-4x4-pair__cover {
+  flex: 0 0 58%;
+  width: 100%;
+  background: linear-gradient(175deg, #c8dff0 0%, #dce8f4 35%, #e8eef6 70%, #f0f2f8 100%);
+  filter: saturate(0.92) brightness(1.03);
+}
+
+.wg-4x4-pair__cover.has-custom-cover {
+  filter: saturate(0.9) brightness(1.02);
+}
+
+.wg-4x4-pair__sheet {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -20px;
+  padding: 0 16px 14px;
+  background: #ffffff;
+  border-radius: 22px 22px 0 0;
+  z-index: 1;
+}
+
+.wg-4x4-pair__sheet::before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: -4%;
+  width: 108%;
+  height: 36px;
+  background: #ffffff;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  z-index: 0;
+}
+
+.wg-4x4-pair__avatars {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  margin-top: -34px;
+  margin-bottom: 8px;
+}
+
+.wg-4x4-pair__person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.wg-4x4-pair__ava {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: none;
+}
+
+.wg-4x4-pair__name {
+  font-family: 'Outfit', 'Noto Sans SC', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: rgba(28, 30, 36, 0.92);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
+
+.wg-4x4-pair__quote {
+  position: relative;
+  z-index: 2;
+  margin: 0 0 10px;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: rgba(140, 142, 150, 0.78);
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.wg-4x4-pair__loc {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: auto 0 0;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(160, 162, 170, 0.72);
+}
+
+.wg-4x4-pair__pin {
+  display: inline-block;
+  width: 8px;
+  height: 10px;
+  background: rgba(160, 162, 170, 0.55);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'%3E%3Cpath fill='black' d='M6 0C3.24 0 1 2.24 1 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'%3E%3Cpath fill='black' d='M6 0C3.24 0 1 2.24 1 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z'/%3E%3C/svg%3E") center / contain no-repeat;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════
+   2 · 灰白 ins 主页
+   ══════════════════════════════════════ */
+.wg-4x4--inshome {
+  background: transparent;
+}
+
+.wg-4x4-home {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 12px 12px 10px;
+  border-radius: 20px;
+  background: #f9f9fb;
+  border: 1px solid rgba(236, 236, 240, 0.8);
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.wg-4x4-home.has-custom-bg {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.wg-4x4-home.has-custom-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    168deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(255, 255, 255, 0.82) 55%,
+    rgba(255, 255, 255, 0.76) 100%
+  );
+  pointer-events: none;
+}
+
+.wg-4x4-home__head,
+.wg-4x4-home__rule,
+.wg-4x4-home__plog,
+.wg-4x4-home__grid,
+.wg-4x4-home__anniv,
+.wg-4x4-home__bubble {
+  position: relative;
+  z-index: 1;
+}
+
+.wg-4x4-home__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.wg-4x4-home__ava-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.wg-4x4-home__ava {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: none;
+}
+
+.wg-4x4-home__time {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  padding: 2px 5px;
+  border-radius: 8px;
+  background: rgba(58, 58, 64, 0.88);
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.wg-4x4-home__cam {
+  position: absolute;
+  right: -2px;
+  bottom: -1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(200, 202, 210, 0.85);
+  border: 1.5px solid #ffffff;
+  z-index: 2;
+}
+
+.wg-4x4-home__cam::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.wg-4x4-home__profile {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wg-4x4-home__name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.wg-4x4-home__user {
+  font-family: 'Outfit', 'Noto Sans SC', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: rgba(38, 40, 46, 0.92);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x4-home__album {
+  flex-shrink: 0;
+  width: 14px;
+  height: 12px;
+  opacity: 0.45;
+  background: rgba(140, 142, 150, 0.55);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 14'%3E%3Crect x='1' y='3' width='14' height='10' rx='1.5' fill='black'/%3E%3Ccircle cx='5.5' cy='7' r='1.8' fill='black'/%3E%3Cpath d='M1 10l3.5-2.5 2.5 1.8L11 6l4 3.5' stroke='black' stroke-width='1.2' fill='none'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 14'%3E%3Crect x='1' y='3' width='14' height='10' rx='1.5' fill='black'/%3E%3Ccircle cx='5.5' cy='7' r='1.8' fill='black'/%3E%3Cpath d='M1 10l3.5-2.5 2.5 1.8L11 6l4 3.5' stroke='black' stroke-width='1.2' fill='none'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.wg-4x4-home__bio {
+  margin: 0;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(150, 152, 160, 0.78);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x4-home__date {
+  align-self: flex-end;
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: rgba(160, 162, 170, 0.72);
+}
+
+.wg-4x4-home__rule {
+  height: 1px;
+  margin-bottom: 7px;
+  background: rgba(228, 228, 234, 0.75);
+}
+
+.wg-4x4-home__plog {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.wg-4x4-home__plog-title {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(120, 122, 130, 0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x4-home__plog-arrow {
+  flex-shrink: 0;
+  font-size: 12px;
+  line-height: 1;
+  color: rgba(180, 182, 190, 0.55);
+}
+
+.wg-4x4-home__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  flex: 1;
+  min-height: 0;
+  margin-bottom: 6px;
+}
+
+.wg-4x4-home__post {
+  height: 100%;
+  min-height: 78px;
+  border-radius: 4px;
+  filter: saturate(0.76) contrast(0.96);
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.04);
+}
+
+.wg-4x4-home__post.has-custom-photo {
+  filter: saturate(0.82) contrast(0.98);
+}
+
+.wg-4x4-home__anniv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 7px;
+}
+
+.wg-4x4-home__anniv-left {
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(150, 152, 160, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x4-home__days {
+  flex-shrink: 0;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(90, 92, 100, 0.82);
+}
+
+.wg-4x4-home__bubble {
+  position: relative;
+  padding: 9px 12px 8px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid rgba(236, 236, 240, 0.85);
+  box-shadow: none;
+}
+
+.wg-4x4-home__quote {
+  margin: 0;
+  padding-right: 36px;
+  font-family: 'LXGW WenKai SC', 'Noto Serif SC', serif;
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: rgba(110, 112, 120, 0.78);
+}
+
+.wg-4x4-home__icons {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  color: rgba(180, 182, 190, 0.55);
+}
+
+.wg-4x4-home__icon-chat {
+  display: inline-block;
+  width: 10px;
+  height: 9px;
+  background: rgba(180, 182, 190, 0.55);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 11'%3E%3Cpath fill='black' d='M1 1h10v6H4l-3 3V1z'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 11'%3E%3Cpath fill='black' d='M1 1h10v6H4l-3 3V1z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ══════════════════════════════════════
+   4 · 微信朋友圈
+   ══════════════════════════════════════ */
+.wg-4x4--wxmoments {
+  background: transparent;
+}
+
+.wg-4x4-wx {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.wg-4x4-wx__header {
+  position: relative;
+  flex: 0 0 42%;
+  min-height: 0;
+  background: transparent;
+}
+
+.wg-4x4-wx__cover-img {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(168deg, #8eb4c8 0%, #b8cdd8 40%, #d4e2ea 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.wg-4x4-wx__cover-img.has-custom-cover {
+  filter: saturate(0.95) brightness(1.02);
+}
+
+.wg-4x4-wx__avatar {
+  position: absolute;
+  right: 10px;
+  bottom: -8px;
+  width: 44px;
+  height: 44px;
+  border-radius: 5px;
+  border: 2px solid #ffffff;
+  box-shadow: none;
+  z-index: 3;
+}
+
+.wg-4x4-wx__nick {
+  position: absolute;
+  right: 58px;
+  bottom: 12px;
+  max-width: calc(100% - 68px);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 2;
+}
+
+.wg-4x4-wx__feed {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #ffffff;
+  overflow: hidden;
+  padding-top: 10px;
+}
+
+.wg-4x4-wx__sign {
+  margin: 0 10px 8px 0;
+  padding: 0;
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #888888;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: transparent;
+}
+
+.wg-4x4-wx__moment {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 4px 12px 8px;
+}
+
+.wg-4x4-wx__moment-ava {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+}
+
+.wg-4x4-wx__moment-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.wg-4x4-wx__moment-name {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #576b95;
+}
+
+.wg-4x4-wx__moment-text {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.55;
+  color: #1a1a1a;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wg-4x4-wx__moment-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 3px;
+}
+
+.wg-4x4-wx__moment-photo.is-hidden {
+  display: none;
+}
+
+.wg-4x4-wx__moment-time {
+  font-size: 9px;
+  color: #b2b2b2;
+}
+
+/* ══════════════════════════════════════
+   四列胶囊 · 并列竖图
+   ══════════════════════════════════════ */
+.wg-4x4--instriple {
+  background: transparent;
+}
+
+.wg-4x4-triple {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 4px 0;
+  background: transparent;
+}
+
+.wg-4x4-triple__photo {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 100%;
+  border-radius: 999px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #ece8e4 0%, #ddd8d2 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.wg-4x4-triple__photo.has-custom-photo {
+  background-color: transparent;
+  filter: saturate(0.9) brightness(1.02);
+}
+
+/* ── 自定义布局 · 4×4 缩放 ── */
+.desk-custom__wg--instriple,
+.desk-custom__wg--inspair,
+.desk-custom__wg--inshome,
+.desk-custom__wg--wxmoments {
+  --dc-wg-design-h: var(--dc-cell-h-4, 330px);
+  width: 100%;
+  height: var(--dc-wg-design-h);
+  transform-origin: top center;
+  transform: scale(calc(100cqh / var(--dc-wg-design-h)));
+  background: transparent;
+}
+
+.desk-custom__item--widget:has(> .desk-custom__wg--instriple),
+.desk-custom__item--widget:has(> .desk-custom__wg--inspair),
+.desk-custom__item--widget:has(> .desk-custom__wg--inshome),
+.desk-custom__item--widget:has(> .desk-custom__wg--wxmoments) {
+  overflow: visible;
+  z-index: 1;
+}
+
+@supports not (container-type: size) {
+  .desk-custom__wg--instriple,
+  .desk-custom__wg--inspair,
+  .desk-custom__wg--inshome,
+  .desk-custom__wg--wxmoments {
+    transform: none;
+    height: 100%;
+  }
+}
+
+@media (max-height: 700px) {
+  .desk-custom__wg--instriple,
+  .desk-custom__wg--inspair,
+  .desk-custom__wg--inshome,
+  .desk-custom__wg--wxmoments {
+    --dc-wg-design-h: calc(var(--dc-cell-h-4, 330px) - 16px);
+  }
+
+  .wg-4x4-triple {
+    gap: 8px;
+  }
+}

@@ -1,0 +1,1851 @@
+/* ═══════════════════════════════════════════════════════════
+   博物馆陈列廊 · 无外框，聚光灯下独立展品
+   ═══════════════════════════════════════════════════════════ */
+
+.tw-exhibit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 10px 4px 12px;
+  text-align: center;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+.tw-exhibit:active {
+  opacity: 0.88;
+  transform: scale(0.97);
+}
+
+.tw-exhibit.is-longpressing {
+  opacity: 0.78;
+  transform: scale(0.94);
+}
+
+.tw-exhibit.is-longpressing .tw-exhibit__alcove::after {
+  content: '删除';
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--tw-serif);
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  color: rgba(255, 240, 220, 0.92);
+  background: rgba(20, 8, 8, 0.42);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* ── 展陈空间：无边界，只有光与影 ── */
+.tw-exhibit__alcove {
+  position: relative;
+  width: 100%;
+  height: 132px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* 顶部射灯锥 */
+.tw-exhibit__beam {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 150px;
+  background: radial-gradient(
+    ellipse 55% 75% at 50% 0%,
+    rgba(255, 248, 230, 0.14) 0%,
+    rgba(255, 240, 210, 0.05) 35%,
+    transparent 72%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: tw-ex-beam 5s ease-in-out infinite alternate;
+}
+@keyframes tw-ex-beam {
+  0% { opacity: 0.75; }
+  100% { opacity: 1; }
+}
+
+/* 展品周围氛围光晕 — 每种颜色不同 */
+.tw-exhibit__haze {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 100px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(18px);
+}
+.tw-exhibit--typewriter .tw-exhibit__haze { background: radial-gradient(ellipse, rgba(27, 48, 34, 0.35) 0%, transparent 70%); }
+.tw-exhibit--watch .tw-exhibit__haze      { background: radial-gradient(ellipse, rgba(139, 0, 0, 0.2) 0%, transparent 70%); }
+.tw-exhibit--phone .tw-exhibit__haze       { background: radial-gradient(ellipse, rgba(100, 100, 110, 0.18) 0%, transparent 70%); }
+.tw-exhibit--inkwell .tw-exhibit__haze     { background: radial-gradient(ellipse, rgba(50, 30, 80, 0.22) 0%, transparent 70%); }
+.tw-exhibit--gramophone .tw-exhibit__haze  { background: radial-gradient(ellipse, rgba(166, 139, 109, 0.25) 0%, transparent 70%); }
+.tw-exhibit--candlestick .tw-exhibit__haze { background: radial-gradient(ellipse, rgba(255, 140, 50, 0.2) 0%, transparent 70%); }
+.tw-exhibit--lunarium .tw-exhibit__haze    { background: radial-gradient(ellipse, rgba(60, 80, 160, 0.22) 0%, transparent 70%); }
+.tw-exhibit--telescope .tw-exhibit__haze   { background: radial-gradient(ellipse, rgba(40, 60, 120, 0.25) 0%, transparent 70%); }
+
+/* ── 底座：每件展品的展台材质完全不同 ── */
+.tw-exhibit__pedestal {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* ① 打字机 — 胡桃木写字台台面 */
+.tw-exhibit--typewriter .tw-exhibit__pedestal {
+  width: 92%;
+  max-width: 168px;
+  height: 10px;
+  background:
+    repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(0,0,0,0.04) 18px, rgba(0,0,0,0.04) 19px),
+    linear-gradient(180deg, #4a3828 0%, #2a2018 60%, #1a1410 100%);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 -1px 0 rgba(166, 139, 109, 0.2), 0 6px 20px rgba(0, 0, 0, 0.55);
+}
+.tw-exhibit--typewriter .tw-exhibit__pedestal::before {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 10px;
+  right: 10px;
+  height: 8px;
+  background: linear-gradient(180deg, #1a1410, #0a0a0a);
+  border-radius: 0 0 3px 3px;
+}
+
+/* ② 怀表 — 酒红丝绒垫 + 大理石柱 */
+.tw-exhibit--watch .tw-exhibit__pedestal {
+  width: 88px;
+  height: 52px;
+  background: linear-gradient(180deg, #e8e4e0 0%, #c8c0b8 30%, #a8a098 100%);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+}
+.tw-exhibit--watch .tw-exhibit__pedestal::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 6px;
+  right: 6px;
+  height: 10px;
+  background: radial-gradient(ellipse at 50% 80%, #5a1020 0%, #3a0818 60%, #2a0610 100%);
+  border-radius: 50% 50% 2px 2px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.tw-exhibit--watch .tw-exhibit__pedestal::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 10px;
+  background: linear-gradient(180deg, #a8a098, #787068);
+  border-radius: 0 0 2px 2px;
+}
+
+/* ③ 电话 — Art Deco 黑色大理石方柱 */
+.tw-exhibit--phone .tw-exhibit__pedestal {
+  width: 64px;
+  height: 36px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.04) 25%, transparent 25%),
+    linear-gradient(225deg, rgba(255,255,255,0.04) 25%, transparent 25%),
+    linear-gradient(180deg, #2a2a2a 0%, #141414 50%, #0a0a0a 100%);
+  background-size: 12px 12px, 12px 12px, 100% 100%;
+  border-radius: 1px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.tw-exhibit--phone .tw-exhibit__pedestal::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: -8px;
+  right: -8px;
+  height: 6px;
+  background: linear-gradient(180deg, #1a1a1a, #080808);
+}
+
+/* ④ 墨水瓶 — 皮革台面写字斜板 */
+.tw-exhibit--inkwell .tw-exhibit__pedestal {
+  width: 180px;
+  height: 10px;
+  background: linear-gradient(180deg, #3a2818 0%, #2a1c10 100%);
+  border-radius: 2px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+.tw-exhibit--inkwell .tw-exhibit__pedestal::before {
+  content: "";
+  position: absolute;
+  top: -28px;
+  left: 8px;
+  right: 8px;
+  height: 30px;
+  background: linear-gradient(160deg, #4a3020 0%, #2a1c10 100%);
+  transform: perspective(200px) rotateX(8deg);
+  transform-origin: bottom center;
+  border-radius: 2px 2px 0 0;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ⑤ 留声机 — 拼花木地板展台 */
+.tw-exhibit--gramophone .tw-exhibit__pedestal {
+  width: 160px;
+  height: 12px;
+  background:
+    repeating-conic-gradient(rgba(0,0,0,0.06) 0% 25%, transparent 0% 50%) 0 0 / 16px 16px,
+    linear-gradient(90deg, #5a4030 0%, #6b5040 25%, #5a4030 50%, #4a3020 75%, #5a4030 100%);
+  border-radius: 1px;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.45);
+}
+
+/* ⑥ 烛台 — 石砌壁龛托台（仅台面，无拱框） */
+.tw-exhibit--candlestick .tw-exhibit__pedestal {
+  width: 120px;
+  height: 16px;
+  background: linear-gradient(180deg, #4a4840 0%, #2a2820 50%, #1a1810 100%);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.tw-exhibit--candlestick .tw-exhibit__pedestal::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 42px;
+  background: radial-gradient(ellipse 80% 100% at 50% 100%, rgba(255, 140, 50, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ⑦ 月相轮 — 天鹅绒圆形台座 */
+.tw-exhibit--lunarium .tw-exhibit__pedestal {
+  width: 100px;
+  height: 18px;
+  background: radial-gradient(ellipse 100% 60% at 50% 0%, #1a1030 0%, #0a0818 100%);
+  border-radius: 50% 50% 4px 4px / 30% 30% 4px 4px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55), 0 0 30px rgba(60, 80, 160, 0.08);
+}
+.tw-exhibit--lunarium .tw-exhibit__pedestal::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 8px;
+  background: linear-gradient(180deg, #2a2038, #121018);
+  border-radius: 0 0 50% 50%;
+}
+
+/* ⑧ 望远镜 — 黄铜夹具石墩 */
+.tw-exhibit--telescope .tw-exhibit__pedestal {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(180deg, #6a6860 0%, #3a3830 40%, #2a2820 100%);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+}
+.tw-exhibit--telescope .tw-exhibit__pedestal::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 8px;
+  background: linear-gradient(180deg, #c9a87c, #8b7355);
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 器物悬浮于底座之上 */
+.tw-exhibit__object {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 118px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
+  margin-bottom: 2px;
+}
+
+/* 地面投影 */
+.tw-exhibit__shadow {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 12px;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.55) 0%, transparent 72%);
+  filter: blur(4px);
+  z-index: 0;
+}
+
+/* ── 博物馆铭牌（书名在器物下方） ── */
+.tw-exhibit__caption {
+  position: relative;
+  z-index: 2;
+  margin-top: 8px;
+  padding: 7px 8px 6px;
+  width: 100%;
+  max-width: none;
+  background: linear-gradient(180deg, rgba(30, 26, 20, 0.85) 0%, rgba(18, 15, 12, 0.92) 100%);
+  border: none;
+  border-top: 1px solid rgba(166, 139, 109, 0.35);
+  border-bottom: 2px solid rgba(139, 115, 85, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.tw-exhibit__caption::before,
+.tw-exhibit__caption::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(166, 139, 109, 0.4);
+  border-radius: 50%;
+}
+.tw-exhibit__caption::before { left: 8px; }
+.tw-exhibit__caption::after  { right: 8px; }
+
+.tw-exhibit__index {
+  display: block;
+  font-size: 6px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(139, 115, 85, 0.65);
+  margin-bottom: 6px;
+}
+
+.tw-exhibit__title {
+  margin: 0;
+  font-family: var(--tw-serif);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--tw-snow);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tw-exhibit__specimen {
+  margin: 5px 0 0;
+  font-size: 7px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(166, 139, 109, 0.55);
+  font-style: italic;
+}
+
+/* ═══ 通用器物容器 ═══ */
+.tw-v {
+  position: relative;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ═══════════════════════════════════════
+   ① 打字机 · Remington No. 7
+   ═══════════════════════════════════════ */
+.tw-v--typewriter { width: 100%; height: 112px; }
+
+.tw-v-tw__scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 4px;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
+}
+
+.tw-v-tw__hood {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88px;
+  height: 18px;
+  background: linear-gradient(180deg, #2d4a35 0%, #1a2e22 55%, #0f1a14 100%);
+  border-radius: 4px 4px 1px 1px;
+  border: 1px solid rgba(139, 115, 85, 0.28);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05);
+  z-index: 1;
+}
+
+.tw-v-tw__platen {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 78px;
+  height: 16px;
+  z-index: 4;
+}
+
+.tw-v-tw__roller {
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #9a9a9a, #3a3a3a);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+.tw-v-tw__roller--l { left: 0; }
+.tw-v-tw__roller--r { right: 0; }
+
+.tw-v-tw__sheet {
+  position: absolute;
+  top: 3px;
+  left: 8px;
+  right: 8px;
+  height: 34px;
+  background: linear-gradient(180deg, #faf6ec 0%, #ebe4d4 100%);
+  border-radius: 1px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  padding: 5px 6px 0;
+  animation: tw-v-tw-feed 5s ease-in-out infinite;
+}
+@keyframes tw-v-tw-feed {
+  0%, 20% { transform: translateY(0); }
+  80%, 100% { transform: translateY(-6px); }
+}
+
+.tw-v-tw__typed {
+  display: block;
+  height: 2px;
+  margin-bottom: 4px;
+  background: rgba(26, 26, 26, 0.55);
+  border-radius: 1px;
+  width: 78%;
+  animation: tw-v-tw-type 2.4s steps(10) infinite;
+}
+.tw-v-tw__typed--short {
+  width: 42%;
+  opacity: 0.35;
+  animation: none;
+}
+
+@keyframes tw-v-tw-type {
+  0%, 35% { width: 18%; }
+  70%, 100% { width: 78%; }
+}
+
+.tw-v-tw__caret {
+  position: absolute;
+  bottom: 7px;
+  left: 10px;
+  width: 2px;
+  height: 7px;
+  background: var(--tw-ink);
+  animation: tw-v-tw-blink 0.75s step-end infinite;
+}
+@keyframes tw-v-tw-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.tw-v-tw__carriage {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 6px;
+  z-index: 3;
+  animation: tw-v-tw-slide 5s ease-in-out infinite;
+}
+@keyframes tw-v-tw-slide {
+  0%, 20% { transform: translateX(-50%); }
+  80%, 100% { transform: translateX(calc(-50% + 6px)); }
+}
+
+.tw-v-tw__rail {
+  display: block;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(180deg, #7a7a7a, #444);
+  border-radius: 2px;
+}
+
+.tw-v-tw__return {
+  position: absolute;
+  right: -8px;
+  top: -1px;
+  width: 10px;
+  height: 5px;
+  background: var(--tw-brass);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.tw-v-tw__deck {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92px;
+  z-index: 2;
+}
+
+.tw-v-tw__row {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+.tw-v-tw__row span {
+  width: 7px;
+  height: 7px;
+  background: linear-gradient(180deg, #f2ece0, #b89878);
+  border: 0.5px solid rgba(0, 0, 0, 0.28);
+  border-radius: 1px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.28);
+}
+.tw-v-tw__row--back { transform: translateY(1px); opacity: 0.88; }
+.tw-v-tw__row--front { transform: translateY(-1px); }
+
+.tw-v-tw__key-hit {
+  animation: tw-v-tw-key 1.1s ease infinite;
+}
+@keyframes tw-v-tw-key {
+  0%, 68%, 100% { transform: translateY(0); }
+  72%, 82% { transform: translateY(2px); box-shadow: none; }
+}
+
+.tw-v-tw__spacebar {
+  display: block;
+  width: 44px;
+  height: 5px;
+  margin: 3px auto 0;
+  background: linear-gradient(180deg, #d8ccb8, #9a8468);
+  border-radius: 1px;
+  border: 0.5px solid rgba(0, 0, 0, 0.25);
+}
+
+.tw-v-tw__chassis {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 104px;
+  height: 24px;
+  background: linear-gradient(180deg, #2f4f38 0%, #1a3024 45%, #0c1810 100%);
+  border-radius: 3px 3px 2px 2px;
+  border: 1px solid rgba(139, 115, 85, 0.32);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  z-index: 1;
+}
+
+.tw-v-tw__badge {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 4px;
+  letter-spacing: 0.22em;
+  color: rgba(201, 168, 124, 0.72);
+}
+
+.tw-v-tw__foot {
+  position: absolute;
+  bottom: -3px;
+  width: 14px;
+  height: 4px;
+  background: #0a0a0a;
+  border-radius: 0 0 2px 2px;
+}
+.tw-v-tw__foot--l { left: 10px; }
+.tw-v-tw__foot--r { right: 10px; }
+
+/* ═══════════════════════════════════════
+   ② 怀表 · Pocket Chronometer
+   ═══════════════════════════════════════ */
+.tw-v--watch { width: 100%; height: 112px; }
+
+.tw-v-wt__velvet {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4px;
+}
+
+.tw-v-wt__chain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  margin-bottom: 2px;
+  animation: tw-v-wt-sway 4s ease-in-out infinite;
+}
+@keyframes tw-v-wt-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.tw-v-wt__chain span {
+  display: block;
+  width: 5px;
+  height: 3px;
+  border: 1px solid var(--tw-brass);
+  border-radius: 2px;
+  background: linear-gradient(90deg, #6b5344, #a68b6d, #6b5344);
+}
+.tw-v-wt__chain span:first-child {
+  width: 8px;
+  height: 5px;
+  border-radius: 3px;
+  background: radial-gradient(circle, #a68b6d, #6b5344);
+}
+
+.tw-v-wt__case {
+  position: relative;
+  width: 86px;
+  height: 86px;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+}
+
+.tw-v-wt__bezel {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #8b7355, #c9a87c, #6b5344, #a68b6d, #8b7355);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.15);
+  animation: tw-v-wt-glint 5s ease-in-out infinite;
+}
+@keyframes tw-v-wt-glint {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.12); }
+}
+
+.tw-v-wt__dial {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #f0ece0 0%, #d4c8b0 40%, #a89880 100%);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.tw-v-wt__tick {
+  position: absolute;
+  background: var(--tw-ink);
+  opacity: 0.5;
+}
+.tw-v-wt__tick--12 { top: 6px; left: 50%; transform: translateX(-50%); width: 1px; height: 6px; }
+.tw-v-wt__tick--3 { right: 6px; top: 50%; transform: translateY(-50%); width: 6px; height: 1px; }
+.tw-v-wt__tick--6 { bottom: 6px; left: 50%; transform: translateX(-50%); width: 1px; height: 6px; }
+.tw-v-wt__tick--9 { left: 6px; top: 50%; transform: translateY(-50%); width: 6px; height: 1px; }
+
+.tw-v-wt__num {
+  position: absolute;
+  font-size: 5px;
+  font-family: var(--tw-display);
+  color: rgba(26, 26, 26, 0.7);
+  letter-spacing: 0.05em;
+}
+.tw-v-wt__num--12 { top: 10px; left: 50%; transform: translateX(-50%); }
+.tw-v-wt__num--3 { right: 10px; top: 50%; transform: translateY(-50%); }
+.tw-v-wt__num--6 { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.tw-v-wt__num--9 { left: 10px; top: 50%; transform: translateY(-50%); }
+
+.tw-v-wt__hand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  background: var(--tw-ink);
+  border-radius: 1px;
+}
+.tw-v-wt__hand--hour {
+  width: 2px;
+  height: 16px;
+  margin-left: -1px;
+  animation: tw-v-wt-hour 43200s linear infinite;
+}
+.tw-v-wt__hand--minute {
+  width: 1.5px;
+  height: 22px;
+  margin-left: -0.75px;
+  animation: tw-v-wt-minute 3600s linear infinite;
+}
+.tw-v-wt__hand--second {
+  width: 1px;
+  height: 26px;
+  margin-left: -0.5px;
+  background: var(--tw-burgundy);
+  animation: tw-v-wt-second 60s linear infinite;
+}
+@keyframes tw-v-wt-hour { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes tw-v-wt-minute { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes tw-v-wt-second { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.tw-v-wt__jewel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #8b0000, #4a0000);
+  border: 0.5px solid rgba(0,0,0,0.3);
+}
+
+.tw-v-wt__crown {
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 10px;
+  background: linear-gradient(90deg, #6b5344, #a68b6d);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 1px 0 3px rgba(0,0,0,0.3);
+}
+
+.tw-v-wt__hinge {
+  position: absolute;
+  left: -3px;
+  top: 30%;
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(90deg, #6b5344, #8b7355);
+  border-radius: 2px 0 0 2px;
+}
+
+.tw-v-wt__fob {
+  margin-top: 6px;
+  font-size: 5px;
+  letter-spacing: 0.28em;
+  color: rgba(166, 139, 109, 0.55);
+}
+
+/* ═══════════════════════════════════════
+   ③ 转盘电话 · Bakelite Receiver
+   ═══════════════════════════════════════ */
+.tw-v--phone { width: 100%; height: 112px; }
+
+.tw-v-ph__scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2px;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.52));
+}
+
+.tw-v-ph__handset {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) rotate(-6deg);
+  width: 74px;
+  height: 18px;
+  z-index: 4;
+  animation: tw-v-ph-lift 4s ease-in-out infinite;
+}
+@keyframes tw-v-ph-lift {
+  0%, 78%, 100% { transform: translateX(-50%) rotate(-6deg) translateY(0); }
+  82%, 90% { transform: translateX(-50%) rotate(-10deg) translateY(-3px); }
+}
+
+.tw-v-ph__grip {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 6px;
+  height: 8px;
+  background: linear-gradient(180deg, #1f1f1f, #080808);
+  border-radius: 6px;
+  border: 1px solid rgba(139, 115, 85, 0.35);
+}
+
+.tw-v-ph__earcup,
+.tw-v-ph__mouthcup {
+  position: absolute;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid #0a0a0a;
+  background: radial-gradient(circle at 40% 35%, #2a2a2a, #050505);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.45);
+}
+.tw-v-ph__earcup {
+  left: 0;
+  border-radius: 50% 50% 42% 42%;
+}
+.tw-v-ph__mouthcup {
+  right: 0;
+  border-radius: 42% 42% 50% 50%;
+}
+
+.tw-v-ph__cradle {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 68px;
+  height: 10px;
+  z-index: 2;
+}
+
+.tw-v-ph__cradle-arm {
+  position: absolute;
+  top: 0;
+  width: 18px;
+  height: 8px;
+  border: 2px solid var(--tw-brass);
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+}
+.tw-v-ph__cradle-arm--l { left: 4px; transform: rotate(-8deg); }
+.tw-v-ph__cradle-arm--r { right: 4px; transform: rotate(8deg); }
+
+.tw-v-ph__body {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 58px;
+  background: linear-gradient(180deg, #222 0%, #111 55%, #060606 100%);
+  border-radius: 10px 10px 6px 6px;
+  border: 1.5px solid rgba(139, 115, 85, 0.38);
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.04);
+  z-index: 1;
+}
+
+.tw-v-ph__dial {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+}
+
+.tw-v-ph__dial-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #f0ead8, #d8ccb0, #ece4d0, #c8b898, #f0ead8);
+  border: 2px solid var(--tw-brass);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.12);
+}
+
+.tw-v-ph__dial-hole {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: #0a0a0a;
+  border: 0.5px solid rgba(0, 0, 0, 0.35);
+}
+.tw-v-ph__dial-hole--1 { transform: rotate(0deg) translateY(-14px); }
+.tw-v-ph__dial-hole--2 { transform: rotate(36deg) translateY(-14px); }
+.tw-v-ph__dial-hole--3 { transform: rotate(72deg) translateY(-14px); }
+.tw-v-ph__dial-hole--4 { transform: rotate(108deg) translateY(-14px); }
+.tw-v-ph__dial-hole--5 { transform: rotate(144deg) translateY(-14px); }
+.tw-v-ph__dial-hole--6 { transform: rotate(180deg) translateY(-14px); }
+.tw-v-ph__dial-hole--7 { transform: rotate(216deg) translateY(-14px); }
+.tw-v-ph__dial-hole--8 { transform: rotate(252deg) translateY(-14px); }
+.tw-v-ph__dial-hole--9 { transform: rotate(288deg) translateY(-14px); }
+.tw-v-ph__dial-hole--0 { transform: rotate(324deg) translateY(-14px); }
+
+.tw-v-ph__finger {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 3px;
+  margin: -1.5px 0 0 -1px;
+  background: var(--tw-ink);
+  transform-origin: left center;
+  border-radius: 1px;
+  animation: tw-v-ph-dial 10s linear infinite;
+}
+@keyframes tw-v-ph-dial {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.tw-v-ph__hook {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 5px;
+  background: linear-gradient(180deg, var(--tw-brass), #6b5344);
+  border-radius: 2px;
+}
+
+.tw-v-ph__pulse {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 54px;
+  height: 26px;
+  border: 1px solid rgba(166, 139, 109, 0.28);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  animation: tw-v-ph-pulse 3.2s ease-out infinite;
+}
+.tw-v-ph__pulse--2 { animation-delay: 0.9s; }
+@keyframes tw-v-ph-pulse {
+  0%, 82% { opacity: 0; transform: translateX(-50%) scale(0.85); }
+  84% { opacity: 0.55; }
+  100% { opacity: 0; transform: translateX(-50%) scale(1.35); }
+}
+
+/* ═══════════════════════════════════════
+   ④ 墨水瓶 · Quill & Inkstand
+   ═══════════════════════════════════════ */
+.tw-v--inkwell { width: 100%; height: 112px; }
+
+.tw-v-ik__desk {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tw-v-ik__parchment {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 90px;
+  height: 36px;
+  background: linear-gradient(160deg, #f0ece0, #dcd0c0);
+  border-radius: 1px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  opacity: 0.7;
+}
+.tw-v-ik__parchment::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  right: 20px;
+  height: 1px;
+  background: rgba(26, 26, 26, 0.12);
+  box-shadow: 0 6px 0 rgba(26, 26, 26, 0.08), 0 12px 0 rgba(26, 26, 26, 0.06);
+}
+
+.tw-v-ik__stand {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  z-index: 1;
+}
+
+.tw-v-ik__pot {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 36px;
+}
+
+.tw-v-ik__glass {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(200,220,240,0.15) 0%, rgba(100,120,140,0.1) 100%);
+  border: 1.5px solid rgba(166, 139, 109, 0.5);
+  border-radius: 4px 4px 12px 12px;
+  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+}
+
+.tw-v-ik__ink {
+  position: absolute;
+  bottom: 2px;
+  left: 4px;
+  right: 4px;
+  height: 22px;
+  background: radial-gradient(ellipse at 50% 30%, #1a1030, #0a0518);
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+}
+
+.tw-v-ik__ripple {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid rgba(100, 80, 160, 0.4);
+  border-radius: 50%;
+  animation: tw-v-ik-ripple 3s ease-out infinite;
+}
+.tw-v-ik__ripple--1 { width: 8px; height: 4px; }
+.tw-v-ik__ripple--2 { width: 8px; height: 4px; animation-delay: 1.5s; }
+@keyframes tw-v-ik-ripple {
+  0% { opacity: 0.8; transform: translateX(-50%) scale(0.5); }
+  100% { opacity: 0; transform: translateX(-50%) scale(2.5); }
+}
+
+.tw-v-ik__rim {
+  position: absolute;
+  top: 0;
+  left: -2px;
+  right: -2px;
+  height: 6px;
+  background: linear-gradient(180deg, #a68b6d, #6b5344);
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.tw-v-ik__seal {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #8b0000, #4a0000);
+  border: 1px solid rgba(0,0,0,0.3);
+  font-size: 7px;
+  font-family: var(--tw-script);
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.tw-v-ik__quill {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 12px;
+  height: 52px;
+  transform-origin: bottom center;
+  animation: tw-v-ik-quill 5s ease-in-out infinite;
+}
+@keyframes tw-v-ik-quill {
+  0%, 100% { transform: rotate(18deg); }
+  50% { transform: rotate(24deg); }
+}
+
+.tw-v-ik__feather {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 38px;
+  background: linear-gradient(180deg, #f5f0e8 0%, #d4c8b0 50%, #a89880 100%);
+  border-radius: 50% 50% 20% 20%;
+  clip-path: polygon(30% 0%, 70% 0%, 80% 100%, 20% 100%);
+}
+.tw-v-ik__feather::before {
+  content: "";
+  position: absolute;
+  inset: 4px 2px;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.06) 3px,
+    rgba(0,0,0,0.06) 4px
+  );
+}
+
+.tw-v-ik__nib {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 10px solid #2a2a2a;
+}
+
+.tw-v-ik__drop {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 6px;
+  background: radial-gradient(ellipse, #1a1030, transparent);
+  border-radius: 50% 50% 50% 50%;
+  animation: tw-v-ik-drop 4s ease-in infinite;
+  opacity: 0;
+}
+@keyframes tw-v-ik-drop {
+  0%, 70% { opacity: 0; transform: translateX(-50%) translateY(0); }
+  80% { opacity: 0.8; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+}
+
+.tw-v-ik__blot {
+  position: absolute;
+  bottom: 18px;
+  left: 20%;
+  width: 14px;
+  height: 10px;
+  background: radial-gradient(ellipse, rgba(26, 16, 48, 0.7) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: rotate(-15deg);
+}
+
+/* ═══════════════════════════════════════
+   ⑤ 留声机 · His Master's Voice
+   ═══════════════════════════════════════ */
+.tw-v--gramophone { width: 100%; height: 112px; }
+
+.tw-v-gr__stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 12px;
+  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.5));
+}
+
+.tw-v-gr__cabinet {
+  position: relative;
+  width: 56px;
+  height: 48px;
+  z-index: 2;
+}
+
+.tw-v-gr__lid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(180deg, #2a2218, #1a1510);
+  border: 1px solid rgba(139, 115, 85, 0.4);
+  border-radius: 2px 2px 0 0;
+}
+
+.tw-v-gr__turntable {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+}
+
+.tw-v-gr__disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #1a1a1a 0%, #0a0a0a 30%, #1a1a1a 31%, #0a0a0a 100%);
+  border: 2px solid rgba(139, 115, 85, 0.3);
+  animation: tw-v-gr-spin 4s linear infinite;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+@keyframes tw-v-gr-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.tw-v-gr__label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #8b0000, #4a0000);
+  font-size: 4px;
+  color: rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.05em;
+}
+
+.tw-v-gr__groove {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 0.5px solid rgba(255,255,255,0.04);
+  box-shadow:
+    inset 0 0 0 4px rgba(255,255,255,0.02),
+    inset 0 0 0 8px rgba(255,255,255,0.02),
+    inset 0 0 0 12px rgba(255,255,255,0.02);
+}
+
+.tw-v-gr__tonearm {
+  position: absolute;
+  top: 4px;
+  right: -8px;
+  width: 28px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--tw-brass), #6b5344);
+  transform-origin: left center;
+  transform: rotate(-25deg);
+  border-radius: 2px;
+  z-index: 3;
+}
+
+.tw-v-gr__needle {
+  position: absolute;
+  right: -2px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  background: #ccc;
+  border-radius: 1px;
+  animation: tw-v-gr-vibrate 0.15s linear infinite;
+}
+@keyframes tw-v-gr-vibrate {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(-50%) translateX(0.5px); }
+}
+
+.tw-v-gr__crank {
+  position: absolute;
+  bottom: 4px;
+  right: -6px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--tw-brass);
+  border-radius: 50%;
+  animation: tw-v-gr-crank 3s linear infinite;
+}
+@keyframes tw-v-gr-crank {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.tw-v-gr__horn {
+  position: absolute;
+  top: 8px;
+  right: 12%;
+  width: 52px;
+  height: 44px;
+  z-index: 1;
+  transform: rotate(-15deg);
+}
+
+.tw-v-gr__horn-inner {
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from 200deg at 20% 60%, #c9a87c, #8b7355, #6b5344, #a68b6d, #c9a87c);
+  border-radius: 50% 10% 60% 10%;
+  box-shadow:
+    inset 3px 3px 8px rgba(255,255,255,0.2),
+    inset -2px -2px 6px rgba(0,0,0,0.3),
+    4px 6px 16px rgba(0,0,0,0.4);
+  animation: tw-v-gr-shine 4s ease-in-out infinite;
+}
+@keyframes tw-v-gr-shine {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.15); }
+}
+
+.tw-v-gr__horn-mouth {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2a2218, #0a0a0a);
+  border: 2px solid var(--tw-brass);
+}
+
+.tw-v-gr__sound {
+  position: absolute;
+  top: 20px;
+  right: 8%;
+  display: flex;
+  gap: 3px;
+  align-items: flex-end;
+  height: 20px;
+}
+.tw-v-gr__sound span {
+  display: block;
+  width: 2px;
+  background: rgba(166, 139, 109, 0.4);
+  border-radius: 1px;
+  animation: tw-v-gr-eq 0.8s ease-in-out infinite;
+}
+.tw-v-gr__sound span:nth-child(1) { height: 6px; animation-delay: 0s; }
+.tw-v-gr__sound span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+.tw-v-gr__sound span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+@keyframes tw-v-gr-eq {
+  0%, 100% { transform: scaleY(0.5); opacity: 0.4; }
+  50% { transform: scaleY(1); opacity: 0.8; }
+}
+
+/* ═══════════════════════════════════════
+   ⑥ 烛台 · Wax & Wick
+   ═══════════════════════════════════════ */
+.tw-v--candlestick { width: 100%; height: 112px; }
+
+.tw-v-cd__niche {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tw-v-cd__arch {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 60px;
+  border: none;
+  border-radius: 50% 50% 0 0;
+  background: radial-gradient(ellipse 80% 100% at 50% 100%, rgba(255, 140, 50, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.tw-v-cd__candelabra {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  z-index: 1;
+}
+
+.tw-v-cd__arm {
+  position: absolute;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tw-v-cd__arm--l { left: 4px; transform: rotate(-8deg); }
+.tw-v-cd__arm--r { right: 4px; transform: rotate(8deg); }
+
+.tw-v-cd__cup {
+  width: 14px;
+  height: 6px;
+  background: linear-gradient(180deg, #a68b6d, #6b5344);
+  border-radius: 2px 2px 4px 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.tw-v-cd__candle {
+  position: relative;
+  width: 10px;
+  height: 32px;
+  background: linear-gradient(90deg, #c8b8a0, #f0ece0, #d4c8b0, #c8b8a0);
+  border-radius: 2px 2px 0 0;
+  margin-top: 2px;
+}
+.tw-v-cd__candle--short { height: 22px; }
+
+.tw-v-cd__wax-drip {
+  position: absolute;
+  left: 2px;
+  bottom: -4px;
+  width: 4px;
+  height: 8px;
+  background: linear-gradient(180deg, #e8e4d9, #c8b8a0);
+  border-radius: 0 0 50% 50%;
+  animation: tw-v-cd-drip 6s ease-in infinite;
+}
+@keyframes tw-v-cd-drip {
+  0%, 80% { height: 4px; opacity: 1; }
+  90% { height: 10px; }
+  100% { height: 4px; opacity: 0.6; }
+}
+
+.tw-v-cd__flame {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 16px;
+}
+.tw-v-cd__flame--small { top: -10px; width: 7px; height: 11px; }
+
+.tw-v-cd__flame-core {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, #fff8e0 0%, #ffd080 30%, #e87830 60%, transparent 100%);
+  border-radius: 50% 50% 30% 30%;
+  animation: tw-v-cd-flicker 1.4s ease-in-out infinite alternate;
+}
+.tw-v-cd__flame-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle, rgba(255, 160, 60, 0.35) 0%, transparent 70%);
+  animation: tw-v-cd-glow 2s ease-in-out infinite alternate;
+}
+@keyframes tw-v-cd-flicker {
+  0% { transform: scaleX(1) scaleY(1); opacity: 0.9; }
+  25% { transform: scaleX(0.92) scaleY(1.08); }
+  50% { transform: scaleX(1.05) scaleY(0.95); opacity: 1; }
+  75% { transform: scaleX(0.96) scaleY(1.04); }
+  100% { transform: scaleX(1.02) scaleY(0.98); opacity: 0.95; }
+}
+@keyframes tw-v-cd-glow {
+  0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.tw-v-cd__stem {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 36px;
+  background: linear-gradient(90deg, #6b5344, #a68b6d, #6b5344);
+  border-radius: 2px;
+}
+
+.tw-v-cd__base {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 12px;
+  background: linear-gradient(180deg, #8b7355, #4a3828);
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+.tw-v-cd__base::before,
+.tw-v-cd__base::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 16px;
+  height: 6px;
+  background: inherit;
+  border-radius: 0 0 3px 3px;
+}
+.tw-v-cd__base::before { left: -10px; transform: rotate(-12deg); }
+.tw-v-cd__base::after { right: -10px; transform: rotate(12deg); }
+
+.tw-v-cd__warmth {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 40px;
+  background: radial-gradient(ellipse, rgba(255, 140, 50, 0.15) 0%, transparent 70%);
+  animation: tw-v-cd-warmth 3s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes tw-v-cd-warmth {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════
+   ⑦ 月相轮 · Lunar Orrery
+   ═══════════════════════════════════════ */
+.tw-v--lunarium { width: 100%; height: 112px; }
+
+.tw-v-lu__frame {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tw-v-lu__orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(139, 115, 85, 0.35);
+}
+.tw-v-lu__orbit--outer {
+  width: 118px;
+  height: 118px;
+  animation: tw-v-lu-spin 24s linear infinite;
+}
+.tw-v-lu__orbit--mid {
+  width: 84px;
+  height: 84px;
+  border-style: dashed;
+  border-color: rgba(166, 139, 109, 0.25);
+  animation: tw-v-lu-spin-rev 16s linear infinite;
+}
+@keyframes tw-v-lu-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes tw-v-lu-spin-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+
+.tw-v-lu__mark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--tw-brass);
+  border-radius: 50%;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 4px rgba(166, 139, 109, 0.5);
+}
+.tw-v-lu__mark:nth-child(2) { top: auto; bottom: -2px; }
+.tw-v-lu__mark:nth-child(3) { top: 50%; left: -2px; transform: translateY(-50%); }
+.tw-v-lu__mark:nth-child(4) { top: 50%; left: auto; right: -2px; transform: translateY(-50%); }
+
+.tw-v-lu__arm {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 46px;
+  background: linear-gradient(180deg, var(--tw-brass), rgba(107, 83, 68, 0.5));
+  transform-origin: bottom center;
+}
+
+.tw-v-lu__moon-disc {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e8e8f0, #a0a0b8);
+  box-shadow:
+    inset -4px -2px 8px rgba(0,0,0,0.3),
+    0 0 12px rgba(200, 210, 255, 0.2);
+  overflow: hidden;
+}
+
+.tw-v-lu__phase {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  opacity: 0;
+  animation: tw-v-lu-phase 8s step-end infinite;
+}
+.tw-v-lu__phase--1 {
+  background: radial-gradient(circle at 70% 50%, transparent 45%, #0a0e18 46%);
+  animation-delay: 0s;
+}
+.tw-v-lu__phase--2 {
+  background: radial-gradient(circle at 30% 50%, transparent 45%, #0a0e18 46%);
+  animation-delay: 2s;
+}
+.tw-v-lu__phase--3 {
+  background: linear-gradient(90deg, #0a0e18 50%, transparent 50%);
+  animation-delay: 4s;
+}
+.tw-v-lu__phase--4 {
+  background: radial-gradient(circle at 50% 50%, #e8e8f0 0%, #a0a0b8 100%);
+  animation-delay: 6s;
+}
+@keyframes tw-v-lu-phase {
+  0%, 24% { opacity: 1; }
+  25%, 100% { opacity: 0; }
+}
+.tw-v-lu__phase--1 { animation-name: tw-v-lu-p1; }
+.tw-v-lu__phase--2 { animation-name: tw-v-lu-p2; }
+.tw-v-lu__phase--3 { animation-name: tw-v-lu-p3; }
+.tw-v-lu__phase--4 { animation-name: tw-v-lu-p4; }
+@keyframes tw-v-lu-p1 { 0%, 24% { opacity: 1; } 25%, 100% { opacity: 0; } }
+@keyframes tw-v-lu-p2 { 0%, 24% { opacity: 0; } 25%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes tw-v-lu-p3 { 0%, 49% { opacity: 0; } 50%, 74% { opacity: 1; } 75%, 100% { opacity: 0; } }
+@keyframes tw-v-lu-p4 { 0%, 74% { opacity: 0; } 75%, 100% { opacity: 1; } }
+
+.tw-v-lu__hub {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  z-index: 2;
+}
+
+.tw-v-lu__hub-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--tw-brass);
+  background: radial-gradient(circle, #1a1510, #0a0a0a);
+  box-shadow: 0 0 8px rgba(166, 139, 109, 0.3);
+}
+
+.tw-v-lu__hub-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #c9a87c, #6b5344);
+  animation: tw-v-lu-pulse 2s ease-in-out infinite;
+}
+@keyframes tw-v-lu-pulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(201, 168, 124, 0.4); }
+  50% { box-shadow: 0 0 12px rgba(201, 168, 124, 0.7); }
+}
+
+.tw-v-lu__stars {
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+}
+.tw-v-lu__stars span {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(220, 230, 255, 0.6);
+  border-radius: 50%;
+  animation: tw-v-lu-twinkle 3s ease-in-out infinite;
+}
+.tw-v-lu__stars span:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+.tw-v-lu__stars span:nth-child(2) { top: 20%; right: 12%; animation-delay: 0.6s; }
+.tw-v-lu__stars span:nth-child(3) { bottom: 25%; left: 10%; animation-delay: 1.2s; }
+.tw-v-lu__stars span:nth-child(4) { bottom: 15%; right: 18%; animation-delay: 1.8s; }
+.tw-v-lu__stars span:nth-child(5) { top: 40%; left: 8%; animation-delay: 2.4s; }
+@keyframes tw-v-lu-twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.tw-v-lu__engrave {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 5px;
+  letter-spacing: 0.2em;
+  color: rgba(139, 115, 85, 0.5);
+}
+
+/* ═══════════════════════════════════════
+   ⑧ 望远镜 · Brass Refractor
+   ═══════════════════════════════════════ */
+.tw-v--telescope { width: 100%; height: 112px; }
+
+.tw-v-tp__dome {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 10px;
+  overflow: visible;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.55));
+}
+
+.tw-v-tp__sky {
+  position: absolute;
+  inset: -20px -30px 0;
+  background: radial-gradient(ellipse 70% 55% at 50% 10%, rgba(30, 50, 100, 0.22) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.tw-v-tp__star {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  animation: tw-v-tp-twinkle 4s ease-in-out infinite;
+}
+.tw-v-tp__star--1 { top: 12%; left: 20%; width: 2px; height: 2px; animation-delay: 0s; }
+.tw-v-tp__star--2 { top: 8%; right: 25%; width: 1.5px; height: 1.5px; animation-delay: 0.8s; }
+.tw-v-tp__star--3 { top: 22%; left: 35%; width: 1px; height: 1px; animation-delay: 1.6s; }
+.tw-v-tp__star--4 { top: 18%; right: 15%; width: 2px; height: 2px; animation-delay: 2.4s; }
+.tw-v-tp__star--5 { top: 6%; left: 55%; width: 1.5px; height: 1.5px; animation-delay: 3.2s; }
+@keyframes tw-v-tp-twinkle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; box-shadow: 0 0 4px rgba(255,255,255,0.6); }
+}
+
+.tw-v-tp__comet {
+  position: absolute;
+  top: 15%;
+  left: -10%;
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.8), transparent);
+  border-radius: 2px;
+  animation: tw-v-tp-comet 8s ease-in-out infinite;
+}
+@keyframes tw-v-tp-comet {
+  0%, 70% { transform: translateX(0) rotate(-15deg); opacity: 0; }
+  75% { opacity: 0.8; }
+  100% { transform: translateX(120px) rotate(-15deg); opacity: 0; }
+}
+
+.tw-v-tp__mount {
+  position: relative;
+  z-index: 1;
+  animation: tw-v-tp-sway 6s ease-in-out infinite;
+}
+@keyframes tw-v-tp-sway {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+.tw-v-tp__tripod {
+  position: relative;
+  width: 80px;
+  height: 36px;
+}
+
+.tw-v-tp__leg {
+  position: absolute;
+  bottom: 0;
+  width: 3px;
+  height: 32px;
+  background: linear-gradient(180deg, var(--tw-brass), #4a3828);
+  border-radius: 1px;
+  transform-origin: top center;
+}
+.tw-v-tp__leg--l { left: 8px; transform: rotate(-18deg); }
+.tw-v-tp__leg--r { right: 8px; transform: rotate(18deg); }
+.tw-v-tp__leg--c { left: 50%; transform: translateX(-50%); height: 28px; }
+
+.tw-v-tp__tube {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-8deg);
+  width: 90px;
+  height: 22px;
+  transform-origin: center bottom;
+}
+
+.tw-v-tp__lens-front {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 22px;
+  background: linear-gradient(135deg, rgba(180, 200, 230, 0.4), rgba(100, 130, 180, 0.2));
+  border: 2px solid var(--tw-brass);
+  border-radius: 4px 2px 2px 4px;
+  box-shadow: inset 0 0 6px rgba(150, 180, 220, 0.3);
+}
+
+.tw-v-tp__body {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 58px;
+  height: 14px;
+  background: linear-gradient(180deg, #c9a87c, #8b7355, #6b5344);
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.tw-v-tp__body::before {
+  content: "";
+  position: absolute;
+  inset: 3px 8px;
+  border-top: 0.5px solid rgba(0,0,0,0.15);
+  border-bottom: 0.5px solid rgba(0,0,0,0.15);
+}
+
+.tw-v-tp__finder {
+  position: absolute;
+  top: -8px;
+  left: 30px;
+  width: 16px;
+  height: 6px;
+  background: linear-gradient(180deg, #8b7355, #6b5344);
+  border-radius: 2px;
+  border: 0.5px solid rgba(0,0,0,0.2);
+}
+
+.tw-v-tp__eyepiece {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 12px;
+  background: linear-gradient(180deg, #6b5344, #3a2a1a);
+  border-radius: 2px 4px 4px 2px;
+  border: 1px solid rgba(0,0,0,0.3);
+}
+
+.tw-v-tp__focus-knob {
+  position: absolute;
+  bottom: -4px;
+  left: 40px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #a68b6d, #6b5344);
+  border: 1px solid rgba(0,0,0,0.3);
+  animation: tw-v-tp-focus 4s ease-in-out infinite;
+}
+@keyframes tw-v-tp-focus {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+
+.tw-v-tp__plaque {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 5px;
+  letter-spacing: 0.18em;
+  color: rgba(139, 115, 85, 0.45);
+  z-index: 2;
+}
+
+/* 减少动态效果偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .tw-v *,
+  .tw-exhibit,
+  .tw-exhibit__beam {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

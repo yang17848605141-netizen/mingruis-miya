@@ -1,0 +1,713 @@
+/* Miya Chat · 视频通话 · 仿微信简洁风 */
+
+.mc-call-host {
+    --mc-call-bg: #000000;
+    --mc-call-ink: #FFFFFF;
+    --mc-call-muted: rgba(255, 255, 255, 0.65);
+    --mc-call-line: rgba(255, 255, 255, 0.12);
+    --mc-call-green: #07C160;
+    --mc-call-red: #FA5151;
+    --mc-call-bubble-me: #95EC69;
+    --mc-call-bubble-other: rgba(255, 255, 255, 0.92);
+    --mc-call-font: var(--mc-font, -apple-system, "PingFang SC", "Helvetica Neue", sans-serif);
+    position: fixed;
+    inset: 0;
+    z-index: 12050;
+    pointer-events: none;
+    visibility: hidden;
+    font-family: var(--mc-call-font);
+    color: var(--mc-call-ink);
+    background: var(--mc-call-bg);
+}
+
+.mc-call-host.is-open {
+    pointer-events: auto;
+    visibility: visible;
+}
+
+/* iOS 软键盘：收缩通话层可视区域，避免输入栏被键盘挡住 */
+html.is-ios .mc-call-host.is-video.mc-call--keyboard {
+    top: var(--mc-call-kb-top, 0px);
+    height: var(--mc-call-kb-height, 100%);
+    bottom: auto;
+}
+
+.mc-call-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* —— 视频背景层 —— */
+.mc-call-viewport {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.mc-call-bg-base {
+    position: absolute;
+    inset: 0;
+    background: #1a1a1a;
+}
+
+.mc-call-hero-avatar,
+.mc-call-main-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    pointer-events: none;
+}
+
+.mc-call-hero-avatar[hidden],
+.mc-call-main-video[hidden] {
+    display: none !important;
+}
+
+.mc-call-viewport-shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.45) 0%,
+        transparent 22%,
+        transparent 55%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+}
+
+/* —— 顶栏 —— */
+.mc-call-topbar {
+    position: relative;
+    z-index: 12;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: calc(10px + env(safe-area-inset-top, 0)) 16px 8px;
+    flex-shrink: 0;
+}
+
+.mc-call-topbar-center {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+}
+
+.mc-call-name {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #fff;
+}
+
+.mc-call-status {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: var(--mc-call-muted);
+}
+
+.mc-call-timer {
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.85);
+    padding-top: 2px;
+}
+
+/* —— 小窗 PiP —— */
+.mc-call-pip {
+    position: absolute;
+    z-index: 11;
+    right: 12px;
+    top: calc(72px + env(safe-area-inset-top, 0));
+    width: 88px;
+    height: 118px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: #2c2c2c;
+    touch-action: none;
+}
+
+.mc-call-pip[hidden] {
+    display: none !important;
+}
+
+.mc-call-pip video,
+.mc-call-pip-hero-avatar {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.mc-call-pip-hero-avatar {
+    pointer-events: none;
+}
+
+.mc-call-pip-hero-avatar[hidden] {
+    display: none !important;
+}
+
+.mc-call-pip-ava {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    background: #3a3a3a;
+}
+
+.mc-call-pip-ava[hidden] {
+    display: none !important;
+}
+
+/* —— 对话区 —— */
+.mc-call-chat {
+    position: relative;
+    z-index: 10;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    pointer-events: none;
+    padding: 0 12px 8px;
+}
+
+.mc-call-scroll {
+    max-height: 42vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    pointer-events: auto;
+}
+
+.mc-call-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 0;
+}
+
+.mc-call-bubble {
+    display: flex;
+    max-width: 78%;
+}
+
+.mc-call-bubble.is-me {
+    align-self: flex-end;
+}
+
+.mc-call-bubble.is-other {
+    align-self: flex-start;
+}
+
+.mc-call-bubble-inner {
+    position: relative;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    line-height: 1.45;
+    word-break: break-word;
+}
+
+.mc-call-bubble.is-me .mc-call-bubble-inner {
+    background: var(--mc-call-bubble-me);
+    color: #000;
+    border-top-right-radius: 2px;
+}
+
+.mc-call-bubble.is-other .mc-call-bubble-inner {
+    background: var(--mc-call-bubble-other);
+    color: #000;
+    border-top-left-radius: 2px;
+}
+
+.mc-call-bubble-text {
+    margin: 0;
+}
+
+.mc-call-bubble-play {
+    position: absolute;
+    right: -28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    font-size: 9px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.mc-call-bubble.is-me .mc-call-bubble-play--rec {
+    right: auto;
+    left: -28px;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.mc-call-typing {
+    padding: 4px 0 6px;
+    pointer-events: none;
+}
+
+.mc-call-typing[hidden] {
+    display: none !important;
+}
+
+.mc-call-typing-bubble {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border-top-left-radius: 2px;
+    background: var(--mc-call-bubble-other);
+    color: #666;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+/* —— 底部操作栏 —— */
+.mc-call-footer {
+    position: relative;
+    z-index: 12;
+    flex-shrink: 0;
+    padding: 0 12px calc(10px + env(safe-area-inset-bottom, 0));
+    background: transparent;
+}
+
+.mc-call-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.mc-call-input-row[hidden] {
+    display: none !important;
+}
+
+.mc-call-icon-btn {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.mc-call-icon-btn--send {
+    background: var(--mc-call-green);
+    color: #fff;
+}
+
+.mc-call-input {
+    flex: 1;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 9px 12px;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+    font-family: var(--mc-call-font);
+}
+
+.mc-call-input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.mc-call-tools {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    padding: 4px 0 8px;
+    background: transparent;
+}
+
+.mc-call-tools[hidden] {
+    display: none !important;
+}
+
+.mc-call-voice-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 0 0 env(safe-area-inset-bottom, 0);
+}
+
+.mc-call-voice-overlay[hidden] {
+    display: none !important;
+}
+
+.mc-call-voice-overlay .qq-voice-rec {
+    width: 100%;
+    max-width: 480px;
+}
+
+.mc-call-tool-btn {
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.mc-call-tool-btn--hangup {
+    background: var(--mc-call-red);
+    color: #fff;
+}
+
+.mc-call-tool-btn .mc-call-cam-slash {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.mc-call-tool-btn.is-cam-off {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.mc-call-tool-btn.is-cam-off .mc-call-cam-slash {
+    opacity: 1;
+}
+
+.mc-call-tool-btn[hidden] {
+    display: none !important;
+}
+
+/* —— 来电界面 —— */
+.mc-call-ring {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.mc-call-ring[hidden] {
+    display: none !important;
+}
+
+.mc-call-ring-body {
+    text-align: center;
+    padding: 0 32px;
+    width: 100%;
+    max-width: 320px;
+}
+
+.mc-call-ring-avatar-box {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.mc-call-ring-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #3a3a3a;
+}
+
+.mc-call-ring-avatar[hidden] {
+    display: none !important;
+}
+
+.mc-call-ring-fallback {
+    display: inline-flex;
+    width: 96px;
+    height: 96px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 500;
+    color: #fff;
+    background: #3a3a3a;
+}
+
+.mc-call-ring-fallback[hidden] {
+    display: none !important;
+}
+
+.mc-call-ring-label {
+    margin: 0 0 4px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.mc-call-ring-sub {
+    margin: 0 0 48px;
+    font-size: 14px;
+    color: var(--mc-call-muted);
+}
+
+.mc-call-ring-actions {
+    display: flex;
+    justify-content: center;
+    gap: 64px;
+}
+
+.mc-call-ring-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: none;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: var(--mc-call-font);
+}
+
+.mc-call-ring-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.mc-call-ring-btn--accept .mc-call-ring-icon {
+    background: var(--mc-call-green);
+    color: #fff;
+}
+
+.mc-call-ring-btn--decline .mc-call-ring-icon {
+    background: var(--mc-call-red);
+    color: #fff;
+}
+
+/* —— 聊天内通话记录 —— */
+.mc-call-record-wrap {
+    align-self: center;
+    max-width: 92%;
+    margin: 8px auto;
+    padding: 0;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.mc-call-record-wrap.qq-room__sys--call {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.mc-call-record {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    color: #888;
+    font-family: var(--mc-call-font);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.mc-call-record-icon {
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+.mc-call-record-text {
+    text-align: left;
+}
+
+/* —— 通话记录弹层 —— */
+.mc-call-archive {
+    position: fixed;
+    inset: 0;
+    z-index: 12200;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.mc-call-archive.is-open {
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.mc-call-archive[hidden] {
+    display: none !important;
+}
+
+.mc-call-archive-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.mc-call-archive-panel {
+    position: relative;
+    width: 100%;
+    max-height: 72vh;
+    margin: 0;
+    border-radius: 12px 12px 0 0;
+    background: #ededed;
+    color: #111;
+    overflow: hidden;
+}
+
+.mc-call-archive-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 48px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+}
+
+.mc-call-archive-head h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.mc-call-archive-close {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    width: 32px;
+    height: 32px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #666;
+}
+
+.mc-call-archive-body {
+    padding: 12px 12px calc(16px + env(safe-area-inset-bottom, 0));
+    overflow-y: auto;
+    max-height: calc(72vh - 52px);
+}
+
+.mc-call-archive-msg {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+    max-width: 80%;
+}
+
+.mc-call-archive-msg.is-me {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.mc-call-archive-msg.is-other {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+.mc-call-archive-who {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.mc-call-archive-bubble {
+    position: relative;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #fff;
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.mc-call-archive-msg.is-me .mc-call-archive-bubble {
+    background: var(--mc-call-bubble-me);
+    border-top-right-radius: 2px;
+}
+
+.mc-call-archive-msg.is-other .mc-call-archive-bubble {
+    border-top-left-radius: 2px;
+}
+
+.mc-call-archive-text {
+    margin: 0;
+    color: #000;
+}
+
+.mc-call-archive-play {
+    position: absolute;
+    right: -26px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: none;
+    border-radius: 50%;
+    background: #07C160;
+    color: #fff;
+    font-size: 8px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.mc-call-archive-msg.is-me .mc-call-archive-play--rec {
+    right: auto;
+    left: -26px;
+    background: #576b95;
+}
+
+.mc-call-archive-empty {
+    text-align: center;
+    color: #999;
+    padding: 32px 16px;
+    font-size: 14px;
+}

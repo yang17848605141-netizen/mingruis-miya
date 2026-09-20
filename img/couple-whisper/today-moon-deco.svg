@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 32" fill="none">
+  <path d="M18 8.5a7 7 0 1 0 0.01 0" fill="rgba(255,248,230,0.82)"/>
+  <circle cx="34" cy="14" r="1" fill="rgba(255,255,255,0.35)"/>
+  <circle cx="42" cy="8" r="0.8" fill="rgba(255,255,255,0.25)"/>
+  <circle cx="48" cy="18" r="0.6" fill="rgba(255,255,255,0.2)"/>
+  <text x="58" y="14" fill="rgba(210,205,198,0.62)" font-family="Noto Serif SC, serif" font-size="10" letter-spacing="1">�	|d</text>
+  <text x="58" y="26" fill="rgba(180,175,168,0.38)" font-family="Jost, sans-serif" font-size="7" letter-spacing="2.5">ONLY US</text>
+</svg>

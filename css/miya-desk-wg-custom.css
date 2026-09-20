@@ -1,0 +1,453 @@
+/* 自定义 HTML 桌面小组件
+   外壳默认完全穿透：禁止系统再画边框/阴影（边框请写在 HTML 里）。
+   对齐不依赖 :has()：由 JS 给 item 打 desk-custom__item--custom-WxH。 */
+
+.desk-custom__wg--custom {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0;
+  padding: var(--wg-custom-pad, 0);
+  background: var(--wg-custom-bg, transparent);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.desk-custom__item--widget > .desk-custom__wg--custom {
+  overflow: visible !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 仅当用户显式加了背景/内边距/圆角时才裁切内容 */
+.desk-custom__wg--custom[data-wg-has-shell="1"] {
+  overflow: hidden !important;
+  border-radius: var(--wg-custom-radius, 0px);
+}
+
+.desk-custom__item--widget > .desk-custom__wg--custom[data-wg-has-shell="1"] {
+  overflow: hidden !important;
+}
+
+.wg-custom__host {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  position: relative;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.desk-custom__wg--custom[data-wg-has-shell="1"] .wg-custom__host {
+  overflow: hidden;
+}
+
+/* style 不占布局；真正的组件根节点铺满 */
+.wg-custom__host > style {
+  display: none !important;
+}
+
+.wg-custom__host > *:not(style) {
+  max-width: 100%;
+}
+
+/* 常见：<style> + 单个根 div → 根节点铺满格子 */
+.wg-custom__host > div:only-of-type,
+.wg-custom__host > *:not(style):only-of-type {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  box-sizing: border-box;
+}
+
+/* {{photo}} 自动生成的图槽：铺满父级 */
+.wg-custom__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 28px;
+  background: rgba(0, 0, 0, 0.06) center/cover no-repeat;
+  border-radius: inherit;
+}
+
+/* data-miya-img：只保证封面裁切，尺寸由模板自己定 */
+.wg-custom__host [data-miya-img] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.wg-custom__host [data-miya-img].has-custom-photo .pic-placeholder,
+.wg-custom__host [data-miya-img].has-custom-photo > .pic-placeholder {
+  display: none !important;
+}
+
+.wg-custom__fallback {
+  display: grid;
+  gap: 4px;
+  height: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.wg-custom__text {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.35;
+  color: inherit;
+}
+
+/* 示例模板样式 */
+.wg-custom-demo {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.wg-custom-demo--2x2 .wg-custom-demo__photo,
+.wg-custom-demo--2x2 [data-miya-img="photo"],
+.wg-custom-demo--2x2 .wg-custom__img {
+  flex: 1;
+  min-height: 0;
+  border-radius: 10px;
+}
+
+.wg-custom-demo__title {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.wg-custom-demo__note,
+.wg-custom-demo__caption {
+  margin: 0;
+  font-size: 10px;
+  opacity: 0.72;
+}
+
+.wg-custom-demo--4x2 .wg-custom-demo__grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.wg-custom-demo--4x2 .wg-custom-demo__cell,
+.wg-custom-demo--4x2 .wg-custom-demo__cell .wg-custom__img {
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 与软件图标外缘对齐（JS 打 class，不依赖 :has，安卓旧核也能对齐）
+   4 列：对齐首末列图标左右外缘
+   2 列：对齐该两列图标左右外缘
+   2×1：高度对齐单枚图标（58px） */
+.desk-custom__item--custom-4x1,
+.desk-custom__item--custom-4x2,
+.desk-custom__item--custom-4x3,
+.desk-custom__item--custom-4x4,
+.desk-custom__item--widget:has(> .desk-custom__wg--custom-4x1),
+.desk-custom__item--widget:has(> .desk-custom__wg--custom-4x2),
+.desk-custom__item--widget:has(> .desk-custom__wg--custom-4x3),
+.desk-custom__item--widget:has(> .desk-custom__wg--custom-4x4) {
+  padding-left: var(--dc-icon-edge-inset, 0);
+  padding-right: var(--dc-icon-edge-inset, 0);
+  box-sizing: border-box;
+}
+
+.desk-custom__item--custom-2x2,
+.desk-custom__item--custom-2x1,
+.desk-custom__item--widget:has(> .desk-custom__wg--custom-2x2),
+.desk-custom__item--widget:has(> .desk-custom__wg--custom-2x1) {
+  --dc-2col-edge-inset: max(0px, calc((100% - var(--dc-col-gap, 2px)) / 4 - var(--dc-icon-size, 58px) / 2));
+  padding-left: var(--dc-2col-edge-inset);
+  padding-right: var(--dc-2col-edge-inset);
+  box-sizing: border-box;
+}
+
+.desk-custom__item--custom-2x1,
+.desk-custom__item--widget:has(> .desk-custom__wg--custom-2x1) {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.desk-custom__item--custom-2x1 > .desk-custom__wg,
+.desk-custom__item--widget:has(> .desk-custom__wg--custom-2x1) > .desk-custom__wg {
+  width: 100%;
+  height: var(--dc-icon-size, 58px);
+}
+
+.desk-custom-wg-picker__item--custom .desk-custom-wg-picker__name::before {
+  content: '自制 · ';
+  opacity: 0.55;
+  font-weight: 500;
+}
+
+.desk-custom-wg-picker__head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.desk-custom-wg-editor__hint {
+  margin: 8px 0;
+  font-size: 12px;
+  color: var(--ink-faint, #9a948a);
+  line-height: 1.5;
+}
+
+/* 美化页 · 自定义小组件二级子页 */
+.miya-beautify-app {
+  position: relative;
+}
+
+.ins-atelier-subpage {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #f7f5f1 0%, #efebe4 100%);
+  transform: translateX(0);
+  animation: ins-atelier-subpage-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ins-atelier-subpage[hidden] {
+  display: none !important;
+}
+
+@keyframes ins-atelier-subpage-in {
+  from { transform: translateX(100%); opacity: 0.6; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.miya-beautify-app.has-subpage .ins-atelier-rail,
+.miya-beautify-app.has-subpage .ins-atelier-stage {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.ins-atelier-subpage__head {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: calc(env(safe-area-inset-top, 0px) + 12px) 14px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.ins-atelier-subpage__back {
+  appearance: none;
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ins-atelier-subpage__back span {
+  font-size: 18px;
+  line-height: 1;
+  margin-top: -1px;
+}
+
+.ins-atelier-subpage__title {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.ins-atelier-subpage__spacer {
+  width: 64px;
+  flex-shrink: 0;
+}
+
+.ins-atelier-subpage__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px 14px calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+.ins-dual-actions--tight {
+  margin: 10px 0 14px;
+}
+
+/* 编辑器控件回退（不依赖聊天页样式） */
+.mi-cwg-tpl .mi-btn {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.06);
+  color: inherit;
+}
+.mi-cwg-tpl .mi-btn--dark {
+  background: #1c1a17;
+  color: #fff;
+}
+.mi-cwg-tpl .mi-btn--ghost {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.mi-cwg-tpl .mi-btn--block { width: 100%; }
+.mi-cwg-tpl .mi-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  background: #fff;
+}
+.mi-cwg-tpl .mi-input--area {
+  resize: vertical;
+  min-height: 100px;
+}
+.mi-cwg-tpl .mi-me-lead,
+.mi-cwg-tpl .mi-empty-hint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.72;
+}
+
+.mi-cwg-tpl {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mi-cwg-tpl__toolbar,
+.mi-cwg-tpl__vault-btns,
+.mi-cwg-tpl__style-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mi-cwg-tpl__section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mi-cwg-tpl__h {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mi-cwg-tpl-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--ink-soft, #6b6560);
+}
+
+.mi-cwg-tpl__slot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.mi-cwg-tpl__ta {
+  min-height: 140px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+.mi-cwg-tpl__preview {
+  min-height: 120px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.04);
+  padding: 10px;
+}
+
+.mi-cwg-tpl__preview-stage {
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto;
+  aspect-ratio: 1;
+  background: transparent;
+}
+
+.mi-cwg-tpl__preview-stage[data-size="4x1"] { aspect-ratio: 4 / 1; max-width: 100%; }
+.mi-cwg-tpl__preview-stage[data-size="4x2"] { aspect-ratio: 4 / 2; max-width: 100%; }
+.mi-cwg-tpl__preview-stage[data-size="4x3"] { aspect-ratio: 4 / 3; max-width: 100%; }
+.mi-cwg-tpl__preview-stage[data-size="4x4"] { aspect-ratio: 1; max-width: 180px; }
+.mi-cwg-tpl__preview-stage[data-size="2x1"] { aspect-ratio: 2 / 1; max-width: 160px; }
+.mi-cwg-tpl__preview-stage[data-size="2x2"] { aspect-ratio: 1; max-width: 140px; }
+
+.mi-cwg-tpl-guide {
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 8px 10px;
+}
+
+.mi-cwg-tpl-guide__sum {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.mi-cwg-tpl-guide__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.mi-cwg-tpl-guide__body {
+  margin-top: 6px;
+}
+
+.mi-cwg-tpl-guide__pre {
+  white-space: pre-wrap;
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 0;
+  max-height: min(55vh, 420px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.65);
+}

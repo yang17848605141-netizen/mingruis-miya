@@ -1,0 +1,1068 @@
+/* ── 自定义布局 · 4×3 小组件 ── */
+
+/* ══════════════════════════════════════
+   照片墙 · 不规则拼贴
+   ══════════════════════════════════════ */
+.wg-4x3--photowall {
+  background: transparent;
+}
+
+.wg-4x3-wall {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 4px 6px;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.wg-4x3-wall__mosaic {
+  position: relative;
+  height: 100%;
+  min-height: 168px;
+}
+
+.wg-4x3-wall__tile {
+  position: absolute;
+  overflow: hidden;
+  background: linear-gradient(145deg, #f0f2f6 0%, #e4e8ee 100%);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.wg-4x3-wall__tile--hero {
+  left: 0;
+  top: 0;
+  width: 52%;
+  height: 68%;
+  border-radius: 3px 14px 6px 4px;
+  transform: rotate(-2.5deg);
+  z-index: 2;
+  border: 3px solid #fff;
+}
+
+.wg-4x3-wall__tile--b {
+  right: 2%;
+  top: 2%;
+  width: 38%;
+  height: 42%;
+  border-radius: 50% 50% 12px 12px;
+  transform: rotate(3deg);
+  z-index: 3;
+  border: 2.5px solid #fff;
+}
+
+.wg-4x3-wall__tile--c {
+  right: 0;
+  bottom: 18%;
+  width: 34%;
+  height: 36%;
+  border-radius: 2px 2px 10px 2px;
+  transform: rotate(-4deg);
+  z-index: 1;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.wg-4x3-wall__tile--d {
+  left: 4%;
+  bottom: 0;
+  width: 28%;
+  height: 32%;
+  border-radius: 2px;
+  transform: rotate(5deg);
+  z-index: 4;
+  border: 2px solid #fff;
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 88% 100%, 0 100%);
+}
+
+.wg-4x3-wall__tile--e {
+  left: 36%;
+  bottom: 4%;
+  width: 30%;
+  height: 38%;
+  border-radius: 2px 2px 2px 12px;
+  transform: rotate(-1.5deg);
+  z-index: 2;
+  padding-bottom: 14px;
+  background: #fff;
+  border: 1px solid rgba(210, 210, 218, 0.6);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.wg-4x3-wall__tile--e .wg-4x3-wall__photo {
+  height: calc(100% - 14px);
+  border-radius: 1px 1px 0 0;
+}
+
+.wg-4x3-wall__photo {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.wg-4x3-wall__photo.has-custom-photo {
+  background-color: transparent;
+}
+
+.wg-4x3-wall__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 3px 6px 4px;
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+  font-size: 8px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  text-align: center;
+  color: rgba(80, 84, 92, 0.72);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.wg-4x3-wall__tile--hero .wg-4x3-wall__cap {
+  border-radius: 0 0 4px 4px;
+}
+
+.wg-4x3-wall__tape {
+  position: absolute;
+  z-index: 5;
+  width: 28px;
+  height: 10px;
+  background: rgba(255, 248, 220, 0.72);
+  border: 1px solid rgba(220, 200, 150, 0.35);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.wg-4x3-wall__tape--1 {
+  top: 18%;
+  left: 44%;
+  transform: rotate(-18deg);
+}
+
+.wg-4x3-wall__tape--2 {
+  bottom: 28%;
+  right: 28%;
+  transform: rotate(12deg);
+}
+
+/* ══════════════════════════════════════
+   月历志 · 留白月历
+   ══════════════════════════════════════ */
+.wg-4x3--calendar {
+  background: transparent;
+}
+
+.wg-4x3-cal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 16px 18px 14px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(224, 224, 230, 0.75);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.wg-4x3-cal.has-custom-bg {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.42);
+}
+
+.wg-4x3-cal.has-custom-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(
+    168deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.78) 55%,
+    rgba(255, 255, 255, 0.68) 100%
+  );
+  pointer-events: none;
+}
+
+.wg-4x3-cal__head,
+.wg-4x3-cal__hero,
+.wg-4x3-cal__week,
+.wg-4x3-cal__note {
+  position: relative;
+  z-index: 1;
+}
+
+.wg-4x3-cal__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.wg-4x3-cal__mast {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.wg-4x3-cal__month {
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  color: rgba(28, 30, 34, 0.9);
+}
+
+.wg-4x3-cal__year {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  color: rgba(150, 154, 162, 0.65);
+}
+
+.wg-4x3-cal__avatar {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(145deg, rgba(240, 242, 248, 0.95), rgba(228, 232, 240, 0.9));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.wg-4x3-cal__photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: linear-gradient(155deg, #f0f2f8 0%, #e4e8f0 100%);
+  background-size: cover;
+  background-position: center;
+  box-sizing: border-box;
+}
+
+.wg-4x3-cal__photo.has-custom-photo {
+  background-color: transparent;
+}
+
+.wg-4x3-cal__hero {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(230, 230, 236, 0.8);
+}
+
+.wg-4x3-cal__daynum {
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  color: rgba(24, 26, 30, 0.92);
+}
+
+.wg-4x3-cal__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 6px;
+  min-width: 0;
+}
+
+.wg-4x3-cal__weekday {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(130, 134, 142, 0.72);
+}
+
+.wg-4x3-cal__tag {
+  align-self: flex-start;
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: rgba(248, 248, 252, 0.95);
+  border: 1px dashed rgba(200, 198, 210, 0.55);
+  color: rgba(120, 118, 130, 0.7);
+}
+
+.wg-4x3-cal__week {
+  margin-bottom: 12px;
+}
+
+.wg-4x3-cal__weekhead {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 6px;
+  padding: 0 2px;
+}
+
+.wg-4x3-cal__weekhead span {
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: rgba(170, 174, 182, 0.6);
+}
+
+.wg-4x3-cal__weekrow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  padding: 0 2px;
+}
+
+.wg-4x3-cal__cell {
+  aspect-ratio: 1;
+  max-width: 32px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(88, 92, 100, 0.62);
+  border-radius: 50%;
+}
+
+.wg-4x3-cal__cell.is-other {
+  color: rgba(190, 194, 202, 0.55);
+}
+
+.wg-4x3-cal__cell.is-today {
+  background: rgba(28, 30, 34, 0.88);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.wg-4x3-cal__note {
+  margin: auto 0 0;
+  padding: 0;
+  font-family: "LXGW WenKai SC", "Noto Serif SC", serif;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: rgba(88, 92, 100, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x3-cal__note::before {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 1px;
+  margin-bottom: 8px;
+  background: rgba(200, 190, 170, 0.45);
+}
+
+/* ══════════════════════════════════════
+   私人账册 · 第三页手帐
+   ══════════════════════════════════════ */
+.wg-4x3--journal {
+  background: transparent;
+  overflow: visible;
+}
+
+.wg-4x3-journal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  overflow: visible;
+}
+
+.wg-4x3-journal__face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.wg-4x3-journal__shadow {
+  position: absolute;
+  left: 6%;
+  right: 4%;
+  bottom: -8px;
+  height: 24px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(40, 44, 50, 0.18) 0%, transparent 72%);
+  filter: blur(5px);
+  z-index: 0;
+}
+
+.wg-4x3-journal__substrate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.wg-4x3-journal__leaf {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 2px;
+  border: 1px solid rgba(180, 170, 150, 0.28);
+  box-shadow: 0 8px 22px rgba(80, 70, 55, 0.08);
+  background: transparent;
+}
+
+.wg-4x3-journal__leaf-art {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  background-size: cover;
+  background-position: center;
+}
+
+.wg-4x3-journal__leaf-art.has-custom-photo {
+  background-color: transparent;
+}
+
+.wg-4x3-journal__leaf--3 {
+  inset: 8px 12px 10px 8px;
+  transform: rotate(-5deg);
+  opacity: 0.92;
+}
+
+.wg-4x3-journal__leaf--2 {
+  inset: 6px 10px 8px 10px;
+  transform: rotate(2.5deg);
+  opacity: 0.96;
+}
+
+.wg-4x3-journal__sheet {
+  position: absolute;
+  inset: 0 6px 4px 0;
+  z-index: 2;
+  padding: 12px 16px 12px 20px;
+  background: linear-gradient(168deg, rgba(255, 253, 248, 0.98) 0%, rgba(252, 249, 242, 0.96) 42%, rgba(245, 240, 230, 0.94) 100%);
+  border: 1px solid rgba(210, 200, 180, 0.55);
+  border-radius: 2px;
+  box-shadow:
+    0 14px 34px rgba(70, 62, 48, 0.12),
+    0 4px 10px rgba(70, 62, 48, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transform: rotate(-1deg);
+  overflow: hidden;
+}
+
+.wg-4x3-journal__sheet.has-custom-sheet {
+  background: transparent;
+  box-shadow:
+    0 14px 34px rgba(70, 62, 48, 0.1),
+    0 4px 10px rgba(70, 62, 48, 0.04);
+}
+
+.wg-4x3-journal__sheet-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: transparent;
+  background-size: cover;
+  background-position: center;
+}
+
+.wg-4x3-journal__sheet-art.has-custom-photo {
+  background-color: transparent;
+}
+
+.wg-4x3-journal__grain,
+.wg-4x3-journal__ruled,
+.wg-4x3-journal__margin-line,
+.wg-4x3-journal__foil {
+  position: absolute;
+  z-index: 1;
+}
+
+.wg-4x3-journal__head,
+.wg-4x3-journal__cols,
+.wg-4x3-journal__rows,
+.wg-4x3-journal__foot,
+.wg-4x3-journal__seal,
+.wg-4x3-journal__corner-mark {
+  position: relative;
+  z-index: 1;
+}
+
+.wg-4x3-journal__grain {
+  inset: 0;
+  opacity: 0.38;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+.wg-4x3-journal__sheet.has-custom-sheet .wg-4x3-journal__grain {
+  opacity: 0.22;
+}
+
+.wg-4x3-journal__ruled {
+  position: absolute;
+  left: 18px;
+  right: 12px;
+  top: 58px;
+  bottom: 36px;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 19px,
+    rgba(190, 180, 165, 0.26) 19px,
+    rgba(190, 180, 165, 0.26) 20px
+  );
+}
+
+.wg-4x3-journal__margin-line {
+  position: absolute;
+  left: 16px;
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(180, 90, 80, 0.12), rgba(168, 72, 62, 0.38) 30%, rgba(168, 72, 62, 0.38) 70%, rgba(180, 90, 80, 0.12));
+  pointer-events: none;
+}
+
+.wg-4x3-journal__foil {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 4%, rgba(196, 168, 108, 0.12) 18%, rgba(212, 185, 120, 0.7) 50%, rgba(196, 168, 108, 0.12) 82%, transparent 96%);
+  pointer-events: none;
+}
+
+.wg-4x3-journal__head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.wg-4x3-journal__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.wg-4x3-journal__eyebrow {
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(120, 108, 85, 0.72);
+}
+
+.wg-4x3-journal__serial {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 11px;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: rgba(70, 62, 48, 0.62);
+}
+
+.wg-4x3-journal__datechip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 6px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(190, 180, 165, 0.45);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.wg-4x3-journal__day {
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: rgba(45, 40, 32, 0.88);
+}
+
+.wg-4x3-journal__datemeta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(100, 92, 75, 0.68);
+  line-height: 1.2;
+}
+
+.wg-4x3-journal__cols {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 24px 1fr 42px;
+  gap: 6px;
+  padding: 0 2px 4px 4px;
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(130, 120, 100, 0.55);
+  border-bottom: 1px solid rgba(190, 180, 165, 0.35);
+}
+
+.wg-4x3-journal__cols span:last-child {
+  text-align: right;
+}
+
+.wg-4x3-journal__rows {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 4px 2px 0 4px;
+}
+
+.wg-4x3-journal__rows li {
+  display: grid;
+  grid-template-columns: 24px 1fr 42px;
+  gap: 6px;
+  align-items: baseline;
+  min-height: 22px;
+  font-size: 10px;
+  color: rgba(55, 48, 38, 0.82);
+}
+
+.wg-4x3-journal__row-date {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(100, 92, 75, 0.65);
+}
+
+.wg-4x3-journal__row-item {
+  font-family: "LXGW WenKai SC", "Noto Serif SC", serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x3-journal__row-amt {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: right;
+  color: rgba(168, 72, 62, 0.78);
+}
+
+.wg-4x3-journal__row-amt--plus {
+  color: rgba(72, 120, 88, 0.82);
+}
+
+.wg-4x3-journal__foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(190, 180, 165, 0.45);
+}
+
+.wg-4x3-journal__balance-lbl {
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(130, 120, 100, 0.55);
+}
+
+.wg-4x3-journal__balance {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(45, 40, 32, 0.88);
+}
+
+.wg-4x3-journal__currency {
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: rgba(130, 120, 100, 0.55);
+}
+
+.wg-4x3-journal__seal {
+  position: absolute;
+  right: 72px;
+  bottom: 38px;
+  width: 28px;
+  height: 28px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(168, 72, 62, 0.45);
+  border-radius: 50%;
+  transform: rotate(-12deg);
+  opacity: 0.55;
+}
+
+.wg-4x3-journal__seal span {
+  font-family: "Noto Serif SC", serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(168, 72, 62, 0.65);
+}
+
+.wg-4x3-journal__corner-mark {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 8px;
+  color: rgba(180, 150, 90, 0.45);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.wg-4x3-journal__receipt {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 58px;
+  min-height: 74px;
+  z-index: 6;
+  padding: 10px 8px 10px;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #fffefb 0%, #f6f2ea 100%);
+  border: 1px solid rgba(190, 180, 165, 0.5);
+  box-shadow: 4px 10px 22px rgba(70, 62, 48, 0.12);
+  transform: rotate(7deg);
+  transform-origin: center center;
+}
+
+.wg-4x3-journal__receipt-perf {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: repeating-linear-gradient(90deg, transparent 0 3px, rgba(190, 180, 165, 0.45) 3px 4px);
+  opacity: 0.65;
+}
+
+.wg-4x3-journal__receipt-tag {
+  display: block;
+  margin-top: 4px;
+  font-size: 5.5px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(120, 108, 85, 0.62);
+}
+
+.wg-4x3-journal__receipt-line {
+  display: block;
+  height: 1px;
+  margin: 6px 0 4px;
+  background: rgba(190, 180, 165, 0.4);
+}
+
+.wg-4x3-journal__receipt-amt {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  color: rgba(45, 40, 32, 0.85);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.wg-4x3-journal__clip {
+  position: absolute;
+  top: -4px;
+  left: 42%;
+  width: 14px;
+  height: 32px;
+  z-index: 5;
+  border-radius: 2px 2px 1px 1px;
+  background: linear-gradient(90deg, rgba(120, 125, 132, 0.95) 0%, rgba(200, 205, 212, 0.98) 35%, rgba(160, 165, 172, 0.95) 65%, rgba(100, 105, 112, 0.92) 100%);
+  box-shadow: 0 3px 8px rgba(40, 44, 50, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transform: rotate(2deg);
+}
+
+.wg-4x3-journal__clip::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 2px;
+  right: 2px;
+  height: 8px;
+  border-radius: 1px;
+  background: rgba(60, 64, 70, 0.35);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* ══════════════════════════════════════
+   INS动态 · 社交帖卡片
+   ══════════════════════════════════════ */
+.wg-4x3--moment {
+  background: transparent;
+  overflow: visible;
+}
+
+.wg-4x3-moment {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wg-4x3-moment__shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.wg-4x3-moment__pattern {
+  display: none;
+}
+
+.wg-4x3-moment__bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  padding: 0 1px;
+}
+
+.wg-4x3-moment__deco--heart {
+  font-size: 13px;
+  line-height: 1;
+  color: rgba(170, 172, 178, 0.55);
+  text-shadow: none;
+}
+
+.wg-4x3-moment__bar-spark {
+  margin-left: auto;
+  font-size: 10px;
+  color: rgba(180, 182, 188, 0.42);
+  letter-spacing: 0.2em;
+}
+
+.wg-4x3-moment__media {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  margin-bottom: -16px;
+}
+
+.wg-4x3-moment__hero {
+  width: 100%;
+  height: 100%;
+  min-height: 158px;
+  border-radius: 20px;
+  background: linear-gradient(155deg, #f6f6f8 0%, #ececee 52%, #e2e2e6 100%);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.wg-4x3-moment__hero.has-custom-photo {
+  background-color: transparent;
+  filter: saturate(0.82) contrast(0.98);
+}
+
+.wg-4x3-moment__float {
+  position: absolute;
+  z-index: 2;
+  font-size: 11px;
+  line-height: 1;
+  pointer-events: none;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8);
+}
+
+.wg-4x3-moment__float--a {
+  top: 10px;
+  right: 12px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.wg-4x3-moment__float--b {
+  bottom: 20px;
+  left: 12px;
+  font-size: 10px;
+  color: rgba(200, 202, 208, 0.75);
+}
+
+.wg-4x3-moment__bubble {
+  position: relative;
+  z-index: 3;
+  margin-top: auto;
+  padding: 11px 12px 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(236, 236, 240, 0.75);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.wg-4x3-moment__bubble::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 30px;
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.88);
+  border-left: 1px solid rgba(236, 236, 240, 0.75);
+  border-top: 1px solid rgba(236, 236, 240, 0.75);
+  transform: rotate(45deg);
+  border-radius: 2px 0 0 0;
+}
+
+.wg-4x3-moment__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+}
+
+.wg-4x3-moment__accent {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #f2f2f4 0%, #e4e4e8 100%);
+  background-size: cover;
+  background-position: center;
+  border: 2.5px solid #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.wg-4x3-moment__accent.has-custom-photo {
+  background-color: transparent;
+}
+
+.wg-4x3-moment__ids {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.wg-4x3-moment__sub {
+  font-family: "Jost", "DM Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(48, 50, 56, 0.82);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-4x3-moment__sub::before {
+  content: "@";
+  opacity: 0.45;
+  margin-right: 1px;
+}
+
+.wg-4x3-moment__title {
+  font-family: "Jost", "DM Sans", sans-serif;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(150, 152, 158, 0.68);
+}
+
+.wg-4x3-moment__quote {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-family: "Jost", "DM Sans", sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: rgba(88, 90, 96, 0.78);
+  background: rgba(246, 246, 248, 0.92);
+  border: 1px solid rgba(232, 232, 236, 0.65);
+}
+
+/* ── 自定义布局 · 4×3 缩放 ── */
+.desk-custom__wg--photowall,
+.desk-custom__wg--calendar,
+.desk-custom__wg--journal,
+.desk-custom__wg--moment {
+  --dc-wg-design-h: var(--dc-cell-h-3, 246px);
+  width: 100%;
+  height: var(--dc-wg-design-h);
+  transform-origin: top center;
+  transform: scale(calc(100cqh / var(--dc-wg-design-h)));
+  background: transparent;
+}
+
+.desk-custom__item--widget:has(> .desk-custom__wg--journal),
+.desk-custom__item--widget:has(> .desk-custom__wg--moment) {
+  overflow: visible;
+}
+
+@supports not (container-type: size) {
+  .desk-custom__wg--photowall,
+  .desk-custom__wg--calendar,
+  .desk-custom__wg--journal,
+  .desk-custom__wg--moment {
+    transform: none;
+    height: 100%;
+  }
+}
+
+@media (max-height: 700px) {
+  .desk-custom__wg--photowall,
+  .desk-custom__wg--calendar,
+  .desk-custom__wg--journal,
+  .desk-custom__wg--moment {
+    --dc-wg-design-h: calc(var(--dc-cell-h-3, 246px) - 12px);
+  }
+}

@@ -1,0 +1,621 @@
+/* Miya Chat App · ins白 内置预设 — 对齐设计稿 */
+
+.miya-chat-app.chat-bf-theme-ins-white {
+  --soft-font: "Noto Sans SC", "Inter", -apple-system, sans-serif;
+  --soft-bg: #FFFFFF;
+  --soft-bg-2: #F5F5F5;
+  --soft-bg-3: #F5F5F5;
+  --soft-surface: #FFFFFF;
+  --soft-surface-2: #FFFFFF;
+  --soft-ink: #000000;
+  --soft-ink-2: #666666;
+  --soft-ink-3: #999999;
+  --soft-gold: #000000;
+  --soft-gold-soft: rgba(0, 0, 0, 0.06);
+  --soft-coral: #000000;
+  --soft-badge: #000000;
+  --soft-line: rgba(0, 0, 0, 0.06);
+  --soft-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --soft-shadow-float: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --soft-r: 18px;
+  --soft-r-lg: 22px;
+  --soft-r-pill: 999px;
+  --soft-topbar-h: 52px;
+  --soft-tabbar-h: 52px;
+}
+
+.ins-chrome { display: none !important; }
+.ins-quick-label-white { display: none; }
+
+.miya-chat-app.chat-bf-theme-ins-white {
+  color: #000;
+  background: #fff !important;
+  font-weight: 400;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .ins-chrome {
+  display: grid !important;
+  place-items: center;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .ins-hide-when-white {
+  display: none !important;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .ins-quick-label-default { display: none; }
+.miya-chat-app.chat-bf-theme-ins-white .ins-quick-label-white { display: inline; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-deco__grain,
+.miya-chat-app.chat-bf-theme-ins-white .soft-deco__sparkles,
+.miya-chat-app.chat-bf-theme-ins-white .soft-deco__crystal,
+.miya-chat-app.chat-bf-theme-ins-white .soft-deco__floral,
+.miya-chat-app.chat-bf-theme-ins-white .soft-deco__ribbon,
+.miya-chat-app.chat-bf-theme-ins-white .soft-deco__quote {
+  display: none !important;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .qq-pages { background: #fff; }
+.miya-chat-app.chat-bf-theme-ins-white .qq-page__scroll {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-topbar {
+  top: calc(var(--soft-safe-t) + 2px);
+  left: 20px;
+  right: 20px;
+  min-height: var(--soft-topbar-h);
+  align-items: center;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-topbar__titles {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-topbar__title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-topbar__subtitle {
+  display: none !important;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-topbar__icon {
+  width: 36px;
+  height: 36px;
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-topbar__icon--gold {
+  background: #000;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-topbar__icon--gold svg {
+  stroke: #fff;
+  stroke-width: 2.2;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .qq-page--contacts .soft-topbar__titles {
+  position: relative;
+  z-index: 1;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .qq-page--contacts .soft-topbar__titles::before {
+  content: "Contacts";
+  position: absolute;
+  left: -2px;
+  top: -8px;
+  font-family: "Great Vibes", "Cormorant Garamond", cursive;
+  font-size: 38px;
+  color: rgba(0, 0, 0, 0.07);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: -1;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .qq-page--msg .qq-page__scroll {
+  padding-top: calc(var(--soft-safe-t) + var(--soft-topbar-h) + 8px);
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-search { margin-bottom: 14px; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-search input {
+  height: 46px;
+  background: #F5F5F5;
+  border-radius: 14px;
+  box-shadow: none;
+  color: #000;
+  font-size: 15px;
+  padding-left: 42px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-search__icon {
+  left: 16px;
+  color: #999;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .qq-chat-item--pinned {
+  background: transparent;
+  border-radius: 0;
+  margin: 0;
+  padding: 14px 2px;
+  border: none;
+  box-shadow: none;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .qq-chat-item--pinned .soft-thread__ava-wrap::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 17v5M9 10.76a4 4 0 0 1 6 0v1.24l1.5 1.5H7.5L9 12V10.76z'/%3E%3C/svg%3E") center/9px no-repeat;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .qq-chat-item--pinned .soft-thread__name::after {
+  content: "置顶";
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #999;
+  vertical-align: middle;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-thread,
+.miya-chat-app.chat-bf-theme-ins-white .qq-chat-item {
+  padding: 14px 2px;
+  gap: 14px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-thread__ava,
+.miya-chat-app.chat-bf-theme-ins-white .qq-chat-item__ava {
+  width: 52px;
+  height: 52px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-thread__name,
+.miya-chat-app.chat-bf-theme-ins-white .qq-chat-item__name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-thread__preview,
+.miya-chat-app.chat-bf-theme-ins-white .qq-chat-item__msg {
+  font-size: 14px;
+  color: #999;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-thread__time {
+  font-size: 12px;
+  color: #999;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-thread__badge,
+.miya-chat-app.chat-bf-theme-ins-white .qq-chat-item__badge {
+  background: #000;
+  color: #fff;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .qq-page--feed .qq-page__scroll--feed {
+  padding-top: calc(var(--soft-safe-t) + var(--soft-topbar-h) + 44px);
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-tabs {
+  top: calc(var(--soft-safe-t) + var(--soft-topbar-h) - 2px);
+  left: 0;
+  right: 0;
+  justify-content: center;
+  gap: 36px;
+  border-bottom: none;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-tab {
+  font-size: 16px;
+  color: #999;
+  padding: 6px 0 10px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-tab.is-active,
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-tab.ins-feed-tab--rec.is-active {
+  color: #999;
+  font-weight: 400;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-tab.is-active::after,
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-tab.ins-feed-tab--rec.is-active::after {
+  display: none;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-tab.ins-feed-tab--follow {
+  color: #000;
+  font-weight: 700;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-tab.ins-feed-tab--follow::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 3px;
+  background: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-fab {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  right: 20px;
+  bottom: calc(var(--soft-safe-b) + var(--soft-tabbar-h) + 18px);
+  z-index: 45;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  color: #000;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-card,
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-card {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: #fff;
+  overflow: visible;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-card__author,
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-card__author {
+  font-weight: 700;
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-card__tag { display: none; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-feed-card__text,
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-card__text {
+  color: #000;
+  font-size: 15px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-card__media,
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-card__media-grid {
+  border-radius: 18px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-card__media img {
+  filter: none;
+  border-radius: 18px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-card { position: relative; }
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0 0;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 6px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-action svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-action.is-liked {
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-action--accent {
+  color: #666;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-action__count {
+  font-size: 12px;
+  color: #999;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-social {
+  margin: 8px 0 0;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  overflow: visible;
+  clip-path: none;
+  font-size: 13px;
+  color: #666;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-likes {
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #666;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-likes svg {
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-comments {
+  gap: 6px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-comment {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-comment__who {
+  font-weight: 600;
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .mm-feed-comment__text {
+  color: #666;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-quick-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-quick-card {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 16px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-quick-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #F5F5F5;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .ins-quick-card__icon--new {
+  background: #F5F5F5 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='16' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3Ccircle cx='19' cy='22' r='1.8' fill='%23000'/%3E%3Ccircle cx='29' cy='22' r='1.8' fill='%23000'/%3E%3Cpath d='M18 30c2.5 3 7.5 3 10 0' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/70% no-repeat;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .ins-quick-card__icon--new svg { opacity: 0; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-quick-card__label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-contact-group__letter {
+  color: #999;
+  font-weight: 600;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .qq-contact-row__name {
+  font-weight: 700;
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-alpha-tag { color: #CCC; }
+.miya-chat-app.chat-bf-theme-ins-white .soft-alpha-tag.is-active { color: #000; font-weight: 700; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-profile-card {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-profile-card__main {
+  position: relative;
+  align-items: center;
+  padding-right: 100px;
+  min-height: 88px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-profile-card__main::after {
+  content: "";
+  position: absolute;
+  top: -24px;
+  right: -20px;
+  width: 200px;
+  height: 200px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cpath d='M140 30c40 15 70 55 60 95-10 45-55 70-95 60-35-8-60-40-65-75 15-40 55-95 100-80z' fill='%23000' opacity='0.05'/%3E%3C/svg%3E") center/contain no-repeat;
+  pointer-events: none;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-profile-card__ava-wrap {
+  width: 80px;
+  height: 80px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-profile-card__ring {
+  background: #EBEBEB;
+  box-shadow: none;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-profile-card__badge { display: none; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-profile-card__name {
+  font-size: 22px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-profile-card__name::after {
+  content: "+";
+  font-size: 16px;
+  font-weight: 400;
+  color: #999;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-profile-card__bio {
+  color: #666;
+  font-size: 14px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-stats {
+  display: flex;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: none;
+  padding: 18px 8px;
+  margin-top: 16px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-stat--likes { order: 1; }
+.miya-chat-app.chat-bf-theme-ins-white .soft-stat--following { order: 2; }
+.miya-chat-app.chat-bf-theme-ins-white .soft-stat--fans { order: 3; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-stat--likes .soft-stat__lbl {
+  font-size: 0;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-stat--likes .soft-stat__lbl::after {
+  content: "动态";
+  font-size: 12px;
+  color: #999;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-stat__num {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-stat__lbl {
+  font-size: 12px;
+  color: #999;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-menu {
+  margin-top: 16px;
+  gap: 0;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-menu__item {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 17px 16px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-menu__item:last-child { border-bottom: none; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-menu__item-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #000;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-menu__item-arrow { color: #CCC; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar {
+  left: 16px;
+  right: 16px;
+  bottom: calc(var(--soft-safe-b) + 4px);
+  height: var(--soft-tabbar-h);
+  background: #F5F5F5;
+  border: none;
+  box-shadow: none;
+  border-radius: 999px;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar__item span { display: none; }
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar__item { color: #D0D0D0; }
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar__item.is-active { color: #000; }
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar__item.is-active::before { display: none; }
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar__item.is-active svg { stroke: #000; fill: #000; }
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar__item[data-qq-tab="feed"] svg { display: none; }
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar__item[data-qq-tab="feed"]::after {
+  content: "";
+  width: 25px;
+  height: 25px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M14.5 9.5L10 14l4.5-4.5zM10 14l-1 5 5-1' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M14.5 9.5L10 14l4.5-4.5zM10 14l-1 5 5-1' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar__item[data-qq-tab="mine"] svg { display: none; }
+.miya-chat-app.chat-bf-theme-ins-white .soft-tabbar__item[data-qq-tab="mine"]::after {
+  content: "";
+  width: 25px;
+  height: 25px;
+  background: currentColor;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Ccircle cx='9' cy='10' r='1.2' fill='black'/%3E%3Ccircle cx='15' cy='10' r='1.2' fill='black'/%3E%3Cpath d='M8.5 14.5c1.2 1.5 2.8 2 3.5 2s2.3-.5 3.5-2' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Ccircle cx='9' cy='10' r='1.2' fill='black'/%3E%3Ccircle cx='15' cy='10' r='1.2' fill='black'/%3E%3Cpath d='M8.5 14.5c1.2 1.5 2.8 2 3.5 2s2.3-.5 3.5-2' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+.chat-app-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.chat-app-deco__item {
+  position: absolute;
+  pointer-events: none;
+}
+
+.chat-app-deco__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.miya-chat-app.chat-bf-theme-ins-white .chat-app-deco--builtin-doodle-msg,
+.miya-chat-app.chat-bf-theme-ins-white .chat-app-deco--builtin-doodle-mine {
+  display: none !important;
+}

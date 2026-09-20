@@ -1,0 +1,1185 @@
+/* ── 第三页画布 ── */
+.desk--p3 {
+  position: relative;
+  display: block;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: calc(env(safe-area-inset-top, 0px) + 12px) 18px calc(88px + env(safe-area-inset-bottom, 0px));
+  min-height: 100%;
+  min-height: calc(var(--app-height, 100dvh) - 140px);
+}
+
+.desk--p3::-webkit-scrollbar { display: none; }
+
+/* 刊头 */
+.p2-mast {
+  position: relative;
+  z-index: 1;
+  padding: 0 4px 18px;
+  text-align: right;
+}
+
+.p2-mast__vol {
+  margin: 0 0 2px;
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+  font-size: 11px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.p2-mast__title {
+  margin: 0;
+  font-family: "Noto Serif SC", "Cormorant Garamond", serif;
+  font-size: clamp(28px, 8vw, 34px);
+  font-weight: 300;
+  letter-spacing: 0.38em;
+  color: rgba(50, 54, 58, 0.78);
+  line-height: 1;
+}
+
+.p2-mast__sub {
+  margin: 8px 0 0;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ── 刊物封面小组件 ── */
+.wg-folio {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 78px);
+  left: 16px;
+  width: min(58vw, 210px);
+  aspect-ratio: 3 / 4.1;
+  z-index: 2;
+  padding: 14px 16px 12px;
+  background:
+    linear-gradient(168deg, rgba(255,255,255,0.96) 0%, rgba(248,250,252,0.88) 48%, rgba(236,240,244,0.92) 100%);
+  border: 1px solid rgba(255,255,255,0.95);
+  box-shadow:
+    0 16px 40px rgba(100, 110, 125, 0.12),
+    0 4px 12px rgba(100, 110, 125, 0.06),
+    inset 0 1px 0 rgba(255,255,255,1);
+  transform: rotate(-2.5deg);
+}
+
+.wg-folio__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.45;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+}
+
+.wg-folio__frame {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(180, 188, 198, 0.35);
+  pointer-events: none;
+}
+
+.wg-folio__head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.wg-folio__issue {
+  font-size: 7px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.wg-folio__no {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+.wg-folio__hero {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.wg-folio__kicker {
+  margin: 0 0 6px;
+  font-size: 8px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.wg-folio__headline {
+  margin: 0;
+  font-family: "Noto Serif SC", "Cormorant Garamond", serif;
+  font-size: clamp(17px, 4.8vw, 21px);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.12em;
+  color: rgba(45, 48, 52, 0.88);
+}
+
+/* 刊物与深入之间的空白 · 花字锚区 */
+.p2-gap {
+  position: absolute;
+  z-index: 3;
+  top: calc(env(safe-area-inset-top, 0px) + 94px);
+  height: 112px;
+  left: calc(16px + min(58vw, 210px) + 10px);
+  right: calc(22px + 42px + 10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.p2-script {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  font-family: "Great Vibes", "Cormorant Garamond", cursive;
+  font-size: clamp(20px, 5.6vw, 26px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: rgba(55, 58, 62, 0.58);
+  transform: rotate(-5deg);
+  transform-origin: center center;
+  pointer-events: auto;
+  cursor: text;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.wg-folio__foot {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 12px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid rgba(180, 188, 198, 0.35);
+}
+
+.wg-folio__tag {
+  font-size: 7px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.wg-folio__date {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 11px;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+
+.wg-folio__spine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, rgba(200,208,218,0.5), rgba(170,178,188,0.35));
+  box-shadow: inset -1px 0 0 rgba(255,255,255,0.6);
+}
+
+.wg-folio__art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+
+.wg-folio__art.has-custom-art {
+  opacity: 0.42;
+}
+
+.wg-folio:has(.wg-folio__art.has-custom-art) .wg-folio__head,
+.wg-folio:has(.wg-folio__art.has-custom-art) .wg-folio__hero,
+.wg-folio:has(.wg-folio__art.has-custom-art) .wg-folio__foot {
+  position: relative;
+  z-index: 1;
+}
+
+.wg-reel__frame.has-custom-art {
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.wg-reel__frame.has-custom-art .wg-reel__tc,
+.wg-reel__frame.has-custom-art .wg-reel__cap {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+}
+
+.tile.has-custom-tile-art .tile__glyph,
+.tile.has-custom-tile-art .tile__name,
+.tile.has-custom-tile-art .tile__hint,
+.tile.has-custom-tile-art .tile__scribble,
+.tile.has-custom-tile-art .tile__match-no,
+.tile.has-custom-tile-art .tile__match-meta,
+.tile.has-custom-tile-art .tile__fun-ratio,
+.tile.has-custom-tile-art .tile__echo-freq,
+.tile.has-custom-tile-art .tile__log-date,
+.tile.has-custom-tile-art .tile__stamp {
+  position: relative;
+  z-index: 2;
+}
+
+.tile.has-custom-tile-art .tile__ripple {
+  opacity: 0.35;
+}
+
+.miya-tile-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tile--fun .miya-tile-bg {
+  border-radius: 3px;
+}
+
+.tile--echo .miya-tile-bg {
+  border-radius: 50%;
+}
+
+/* ── 账册切片 · 叠层记账本 ── */
+.wg-ledger {
+  position: absolute;
+  left: 50%;
+  top: calc(env(safe-area-inset-top, 0px) + 488px);
+  width: min(86vw, 292px);
+  height: 172px;
+  z-index: 3;
+  transform: translateX(-50%);
+}
+
+.wg-ledger__face {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.wg-ledger__face.has-custom-art {
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.wg-ledger__face.has-custom-art .wg-ledger__sheet,
+.wg-ledger__face.has-custom-art .wg-ledger__substrate,
+.wg-ledger__face.has-custom-art .wg-ledger__receipt,
+.wg-ledger__face.has-custom-art .wg-ledger__clip,
+.wg-ledger__face.has-custom-art .wg-ledger__shadow {
+  opacity: 0.92;
+}
+
+.wg-ledger__face.has-custom-art .wg-ledger__grain {
+  opacity: 0.2;
+}
+
+.wg-ledger__shadow {
+  position: absolute;
+  left: 8%;
+  right: 6%;
+  bottom: -10px;
+  height: 28px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(40, 44, 50, 0.22) 0%, transparent 72%);
+  filter: blur(6px);
+  z-index: 0;
+}
+
+.wg-ledger__substrate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.wg-ledger__leaf {
+  position: absolute;
+  border-radius: 2px;
+  border: 1px solid rgba(180, 170, 150, 0.35);
+  box-shadow: 0 8px 22px rgba(80, 70, 55, 0.1);
+}
+
+.wg-ledger__leaf--3 {
+  inset: 6px 10px 8px 6px;
+  background: linear-gradient(158deg, #f3efe6 0%, #e8e2d6 100%);
+  transform: rotate(-5.5deg);
+  opacity: 0.72;
+}
+
+.wg-ledger__leaf--2 {
+  inset: 4px 8px 6px 8px;
+  background: linear-gradient(145deg, #faf8f3 0%, #f0ece3 55%, #e6e0d4 100%);
+  transform: rotate(2.8deg);
+  opacity: 0.88;
+  box-shadow: 0 10px 26px rgba(90, 80, 65, 0.12);
+}
+
+.wg-ledger__sheet {
+  position: absolute;
+  inset: 0 4px 2px 0;
+  z-index: 2;
+  padding: 11px 14px 10px 18px;
+  background:
+    linear-gradient(168deg, rgba(255, 253, 248, 0.98) 0%, rgba(252, 249, 242, 0.96) 42%, rgba(245, 240, 230, 0.94) 100%);
+  border: 1px solid rgba(210, 200, 180, 0.55);
+  border-radius: 2px;
+  box-shadow:
+    0 16px 38px rgba(70, 62, 48, 0.14),
+    0 4px 10px rgba(70, 62, 48, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transform: rotate(-1.2deg);
+  overflow: hidden;
+}
+
+.wg-ledger__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.42;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+.wg-ledger__ruled {
+  position: absolute;
+  left: 16px;
+  right: 10px;
+  top: 54px;
+  bottom: 28px;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0,
+      transparent 17px,
+      rgba(190, 180, 165, 0.28) 17px,
+      rgba(190, 180, 165, 0.28) 18px
+    );
+}
+
+.wg-ledger__margin-line {
+  position: absolute;
+  left: 14px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(180, 90, 80, 0.15), rgba(168, 72, 62, 0.42) 30%, rgba(168, 72, 62, 0.42) 70%, rgba(180, 90, 80, 0.15));
+  pointer-events: none;
+}
+
+.wg-ledger__foil {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 4%, rgba(196, 168, 108, 0.15) 18%, rgba(212, 185, 120, 0.75) 50%, rgba(196, 168, 108, 0.15) 82%, transparent 96%);
+  pointer-events: none;
+}
+
+.wg-ledger__head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.wg-ledger__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.wg-ledger__eyebrow {
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(120, 108, 85, 0.72);
+}
+
+.wg-ledger__serial {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 10px;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: rgba(70, 62, 48, 0.62);
+}
+
+.wg-ledger__datechip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 7px 3px 5px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(190, 180, 165, 0.45);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.wg-ledger__day {
+  font-family: "Cormorant Garamond", "Noto Serif SC", serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: rgba(45, 40, 32, 0.88);
+}
+
+.wg-ledger__datemeta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(100, 92, 75, 0.68);
+  line-height: 1.2;
+}
+
+.wg-ledger__cols {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 22px 1fr 38px;
+  gap: 6px;
+  padding: 0 2px 3px 4px;
+  font-size: 5.5px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(130, 120, 100, 0.55);
+  border-bottom: 1px solid rgba(190, 180, 165, 0.35);
+}
+
+.wg-ledger__cols span:last-child {
+  text-align: right;
+}
+
+.wg-ledger__rows {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 2px 2px 0 4px;
+}
+
+.wg-ledger__rows li {
+  display: grid;
+  grid-template-columns: 22px 1fr 38px;
+  gap: 6px;
+  align-items: baseline;
+  min-height: 18px;
+  font-size: 9px;
+  color: rgba(55, 48, 38, 0.82);
+}
+
+.wg-ledger__row-date {
+  font-family: "Jost", monospace;
+  font-size: 8px;
+  font-variant-numeric: tabular-nums;
+  color: rgba(120, 108, 85, 0.62);
+}
+
+.wg-ledger__row-item {
+  font-family: "Noto Serif SC", "Cormorant Garamond", serif;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-ledger__row-amt {
+  text-align: right;
+  font-family: "Jost", monospace;
+  font-size: 8px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: rgba(80, 72, 58, 0.75);
+}
+
+.wg-ledger__row-amt--plus {
+  color: rgba(90, 118, 88, 0.82);
+}
+
+.wg-ledger__foot {
+  position: absolute;
+  left: 18px;
+  right: 12px;
+  bottom: 9px;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 6px;
+  padding-top: 4px;
+  border-top: 1.5px double rgba(168, 72, 62, 0.28);
+}
+
+.wg-ledger__balance-lbl {
+  margin-right: auto;
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(130, 120, 100, 0.58);
+}
+
+.wg-ledger__balance {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: rgba(45, 40, 32, 0.9);
+}
+
+.wg-ledger__currency {
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: rgba(120, 108, 85, 0.55);
+}
+
+.wg-ledger__seal {
+  position: absolute;
+  right: 52px;
+  bottom: 22px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 220, 210, 0.35), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(168, 58, 48, 0.88) 0%, rgba(130, 38, 32, 0.94) 100%);
+  box-shadow:
+    inset 0 1px 2px rgba(255, 200, 190, 0.35),
+    0 2px 6px rgba(120, 40, 32, 0.25);
+  transform: rotate(-12deg);
+  opacity: 0.82;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.wg-ledger__seal span {
+  font-family: "Noto Serif SC", serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 245, 240, 0.92);
+  text-shadow: 0 1px 1px rgba(80, 20, 15, 0.35);
+}
+
+.wg-ledger__corner-mark {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 6px;
+  color: rgba(196, 168, 108, 0.45);
+  pointer-events: none;
+}
+
+.wg-ledger__receipt {
+  position: absolute;
+  right: -6px;
+  bottom: 14px;
+  width: 58px;
+  height: 72px;
+  z-index: 4;
+  padding: 10px 8px 8px;
+  background: linear-gradient(180deg, #fffefb 0%, #f6f2ea 100%);
+  border: 1px solid rgba(190, 180, 165, 0.5);
+  box-shadow: 4px 10px 22px rgba(70, 62, 48, 0.14);
+  transform: rotate(7deg);
+}
+
+.wg-ledger__receipt-perf {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 3px, rgba(190, 180, 165, 0.45) 3px 4px);
+  opacity: 0.65;
+}
+
+.wg-ledger__receipt-tag {
+  display: block;
+  margin-top: 4px;
+  font-size: 5.5px;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(120, 108, 85, 0.62);
+}
+
+.wg-ledger__receipt-line {
+  display: block;
+  height: 1px;
+  margin: 6px 0 4px;
+  background: rgba(190, 180, 165, 0.4);
+}
+
+.wg-ledger__receipt-amt {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(45, 40, 32, 0.85);
+  text-align: right;
+}
+
+.wg-ledger__clip {
+  position: absolute;
+  top: -4px;
+  left: 42%;
+  width: 14px;
+  height: 34px;
+  z-index: 5;
+  border-radius: 2px 2px 1px 1px;
+  background:
+    linear-gradient(90deg, rgba(120, 125, 132, 0.95) 0%, rgba(200, 205, 212, 0.98) 35%, rgba(160, 165, 172, 0.95) 65%, rgba(100, 105, 112, 0.92) 100%);
+  box-shadow:
+    0 3px 8px rgba(40, 44, 50, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transform: rotate(2deg);
+}
+
+.wg-ledger__clip::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 2px;
+  right: 2px;
+  height: 8px;
+  border-radius: 1px;
+  background: rgba(60, 64, 70, 0.35);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.wg-ledger__clip::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  width: 18px;
+  height: 6px;
+  margin-left: -9px;
+  border-radius: 0 0 8px 8px;
+  background: rgba(140, 145, 152, 0.55);
+  box-shadow: 0 2px 4px rgba(40, 44, 50, 0.15);
+}
+
+/* ── 胶片条小组件 ── */
+.wg-reel {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 248px);
+  left: 8px;
+  right: 24px;
+  z-index: 4;
+  transform: rotate(1.8deg);
+}
+
+.wg-reel__perfs {
+  height: 7px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(40, 44, 48, 0.82) 0 6px,
+      transparent 6px 14px
+    );
+  opacity: 0.75;
+}
+
+.wg-reel__strip {
+  display: flex;
+  gap: 3px;
+  padding: 4px 3px;
+  background: rgba(35, 38, 42, 0.88);
+  box-shadow: 0 10px 28px rgba(80, 90, 100, 0.18);
+}
+
+.wg-reel__frame {
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.wg-reel__frame--a {
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.12), transparent 55%),
+    linear-gradient(160deg, #9aa4ae, #6e7884);
+}
+
+.wg-reel__frame--b {
+  background:
+    linear-gradient(200deg, rgba(255,255,255,0.1), transparent 50%),
+    linear-gradient(145deg, #b0b8c2, #889098);
+}
+
+.wg-reel__frame--c {
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.15), transparent 45%),
+    linear-gradient(180deg, #788088, #505860);
+}
+
+.wg-reel__tc {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  font-size: 6px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.72);
+  font-family: "Jost", monospace;
+}
+
+.wg-reel__cap {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  margin: 0;
+  font-size: 7px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.88);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wg-reel__badge {
+  position: absolute;
+  top: 50%;
+  right: -2px;
+  transform: translateY(-50%) rotate(90deg);
+  font-size: 6px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  opacity: 0.7;
+}
+
+/* ── 应用磁贴 · 非图标 ── */
+.tile {
+  position: absolute;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tile:active {
+  transform: scale(0.94) !important;
+  opacity: 0.82;
+}
+
+/* 深入 · 书脊签 */
+.tile--deep {
+  top: calc(env(safe-area-inset-top, 0px) + 96px);
+  right: 22px;
+  width: 42px;
+  height: 118px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(240,244,248,0.78));
+  border: 1px solid rgba(255,255,255,0.95);
+  box-shadow: 8px 12px 24px rgba(100, 110, 125, 0.14);
+  transform: rotate(4deg);
+}
+
+.tile--deep .tile__spine {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: linear-gradient(180deg, rgba(130,136,145,0.55), rgba(180,188,198,0.25));
+}
+
+.tile--deep .tile__glyph {
+  font-family: "Noto Serif SC", serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(50, 54, 58, 0.82);
+  line-height: 1;
+}
+
+.tile--deep .tile__name {
+  writing-mode: vertical-rl;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  color: var(--ink-soft);
+}
+
+.tile--deep .tile__hint {
+  position: absolute;
+  bottom: 8px;
+  font-size: 6px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  transform: rotate(90deg);
+}
+
+/* 日记 · 便签 */
+.tile--note {
+  top: calc(env(safe-area-inset-top, 0px) + 228px);
+  right: 18px;
+  width: 88px;
+  min-height: 72px;
+  z-index: 6;
+  padding: 10px 10px 12px;
+  background: rgba(255, 252, 235, 0.92);
+  border: 1px solid rgba(220, 210, 170, 0.45);
+  box-shadow: 3px 6px 16px rgba(120, 110, 80, 0.12);
+  transform: rotate(3deg);
+}
+
+.tile--note .tile__tear {
+  position: absolute;
+  top: -1px;
+  right: 12px;
+  width: 14px;
+  height: 8px;
+  background: rgba(255, 252, 235, 0.92);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  filter: drop-shadow(0 1px 0 rgba(200, 190, 150, 0.3));
+}
+
+.tile--note .tile__line {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 34px;
+  height: 1px;
+  background: rgba(200, 190, 150, 0.35);
+  box-shadow: 0 7px 0 rgba(200, 190, 150, 0.25), 0 14px 0 rgba(200, 190, 150, 0.18);
+}
+
+.tile--note .tile__name {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: rgba(70, 62, 40, 0.88);
+}
+
+.tile--note .tile__scribble {
+  display: block;
+  margin-top: 18px;
+  font-size: 9px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: rgba(120, 108, 70, 0.65);
+}
+
+/* 赛事 · 票根 */
+.tile--match {
+  top: calc(env(safe-area-inset-top, 0px) + 318px);
+  left: 14px;
+  width: 108px;
+  height: 52px;
+  z-index: 3;
+  padding: 8px 14px 8px 12px;
+  background: rgba(255,255,255,0.88);
+  border: 1px dashed rgba(150, 158, 168, 0.55);
+  box-shadow: 0 6px 18px rgba(100, 110, 125, 0.1);
+  transform: rotate(-4deg);
+}
+
+.tile--match .tile__stub {
+  position: absolute;
+  right: -6px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: #eef1f4;
+  box-shadow: inset 0 0 0 1px rgba(150, 158, 168, 0.35);
+}
+
+.tile--match .tile__stub::before {
+  content: "";
+  position: absolute;
+  right: 5px;
+  top: -20px;
+  bottom: -20px;
+  width: 1px;
+  border-right: 1px dashed rgba(150, 158, 168, 0.45);
+}
+
+.tile--match .tile__match-no {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(50, 54, 58, 0.85);
+  line-height: 1;
+}
+
+.tile--match .tile__name {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--ink-soft);
+}
+
+.tile--match .tile__match-meta {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  color: rgba(130, 136, 145, 0.75);
+}
+
+/* 娱乐 · 宽银幕 */
+.tile--fun {
+  top: calc(env(safe-area-inset-top, 0px) + 332px);
+  right: 20px;
+  width: 112px;
+  z-index: 5;
+  padding: 0;
+  transform: rotate(-1.5deg);
+}
+
+.tile--fun .tile__film.has-custom-art {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.tile--fun .tile__film.has-custom-art .tile__film-bar {
+  z-index: 2;
+}
+
+.tile--fun .tile__film {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2.39 / 1;
+  border-radius: 3px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.15), transparent 40%),
+    linear-gradient(145deg, #2a2e34, #121418);
+  box-shadow: 0 8px 22px rgba(40, 44, 48, 0.22);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.tile--fun .tile__film-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+}
+
+.tile--fun .tile__name {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.tile--fun .tile__fun-ratio {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 6px;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.55);
+}
+
+/* 共鸣 · 涟漪 */
+.tile--echo {
+  top: calc(env(safe-area-inset-top, 0px) + 410px);
+  left: 28px;
+  width: 78px;
+  height: 78px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.82);
+  border-radius: 50%;
+  box-shadow: 0 10px 28px rgba(100, 110, 125, 0.1);
+}
+
+.tile--echo .tile__ripple {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.tile--echo .tile__ripple span {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(130, 136, 145, 0.28);
+  opacity: 0.35;
+}
+
+.tile--echo .tile__ripple span:nth-child(1) { width: 28px; height: 28px; }
+.tile--echo .tile__ripple span:nth-child(2) { width: 44px; height: 44px; }
+.tile--echo .tile__ripple span:nth-child(3) { width: 60px; height: 60px; }
+
+.tile--echo .tile__name {
+  position: relative;
+  z-index: 1;
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  color: var(--ink-soft);
+}
+
+.tile--echo .tile__echo-freq {
+  position: relative;
+  z-index: 1;
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+}
+
+/* 记录 · 日期戳 */
+.tile--log {
+  top: calc(env(safe-area-inset-top, 0px) + 418px);
+  right: 26px;
+  width: 96px;
+  z-index: 4;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(200, 208, 218, 0.55);
+  box-shadow: 0 4px 14px rgba(100, 110, 125, 0.08);
+  transform: rotate(2deg);
+}
+
+.tile--log .tile__stamp {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: rgba(130, 136, 145, 0.45);
+  border: 1.5px solid rgba(130, 136, 145, 0.35);
+  border-radius: 2px;
+  padding: 1px 4px;
+  transform: rotate(-8deg);
+}
+
+.tile--log .tile__name {
+  display: block;
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  color: var(--ink-soft);
+}
+
+.tile--log .tile__log-date {
+  display: block;
+  margin-top: 6px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: rgba(50, 54, 58, 0.78);
+}
+
+.p2-spacer {
+  height: 56px;
+  pointer-events: none;
+}
+
+@media (max-height: 700px) {
+  .wg-folio {
+    width: min(52vw, 190px);
+    top: calc(env(safe-area-inset-top, 0px) + 68px);
+  }
+
+  .p2-gap {
+    top: calc(env(safe-area-inset-top, 0px) + 82px);
+    height: 98px;
+    left: calc(14px + min(52vw, 190px) + 8px);
+    right: calc(18px + 42px + 8px);
+  }
+
+  .p2-script {
+    font-size: clamp(18px, 5.2vw, 22px);
+  }
+
+  .wg-reel { top: calc(env(safe-area-inset-top, 0px) + 218px); }
+
+  .tile--deep { top: calc(env(safe-area-inset-top, 0px) + 82px); height: 102px; }
+  .tile--note { top: calc(env(safe-area-inset-top, 0px) + 198px); }
+  .tile--match { top: calc(env(safe-area-inset-top, 0px) + 278px); }
+  .tile--fun { top: calc(env(safe-area-inset-top, 0px) + 288px); }
+  .tile--echo { top: calc(env(safe-area-inset-top, 0px) + 358px); width: 70px; height: 70px; }
+  .tile--log { top: calc(env(safe-area-inset-top, 0px) + 364px); }
+  .wg-ledger {
+    top: calc(env(safe-area-inset-top, 0px) + 428px);
+    width: min(82vw, 268px);
+    height: 158px;
+  }
+}

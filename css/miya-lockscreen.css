@@ -1,0 +1,410 @@
+/* miya · iOS-style lock screen */
+
+.miya-lockscreen {
+  --lk-time: clamp(84px, 24vmin, 122px);
+  --lk-ink: rgba(255, 255, 255, 0.97);
+  --lk-muted: rgba(255, 255, 255, 0.78);
+  --lk-key: rgba(255, 255, 255, 0.14);
+  --lk-key-active: rgba(255, 255, 255, 0.24);
+  position: fixed;
+  inset: 0;
+  z-index: 8800;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "PingFang SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.miya-lockscreen:not([hidden]) {
+  visibility: visible;
+}
+
+.miya-lockscreen.is-show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.miya-lock-active {
+  overflow: hidden;
+}
+
+.miya-lockscreen__bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.06) 0%, transparent 55%),
+    linear-gradient(180deg, #22262e 0%, #12151a 52%, #090a0d 100%);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.02);
+  transition: transform 0.4s ease, filter 0.35s ease;
+}
+
+.miya-lockscreen__bg.has-wallpaper {
+  background-color: #0a0a0a;
+}
+
+.miya-lockscreen__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.22) 0%, transparent 32%, transparent 68%, rgba(0, 0, 0, 0.38) 100%);
+  pointer-events: none;
+}
+
+.miya-lockscreen__main {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100%;
+  transition: opacity 0.32s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.miya-lockscreen__swipe {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px calc(env(safe-area-inset-bottom, 0px) + 22px);
+  cursor: pointer;
+}
+
+.miya-lockscreen.is-passcode .miya-lockscreen__swipe {
+  display: none;
+}
+
+.miya-lockscreen__clock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: calc(env(safe-area-inset-top, 0px) + min(14vh, 104px)) 28px 0;
+  text-align: center;
+  color: var(--lk-ink);
+}
+
+.miya-lockscreen__time {
+  margin: 0;
+  font-size: var(--lk-time);
+  font-weight: 200;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  text-shadow: 0 6px 28px rgba(0, 0, 0, 0.32);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 真机/PWA：用 vmin + is-mobile，避免 vw 在部分手机上几乎不变 */
+html.is-mobile .miya-lockscreen {
+  --lk-time: clamp(100px, 32vmin, 140px);
+}
+
+html.is-mobile .miya-lockscreen__clock {
+  padding-top: calc(env(safe-area-inset-top, 0px) + min(8vh, 72px));
+}
+
+.miya-lockscreen__date {
+  margin: 12px 0 0;
+  font-size: clamp(18px, 4.5vw, 22px);
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  color: var(--lk-muted);
+  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.26);
+}
+
+.miya-lockscreen__hint {
+  margin: 0;
+  color: var(--lk-muted);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.miya-lockscreen__home-bar {
+  width: 132px;
+  height: 5px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.18);
+}
+
+/* ── Passcode · bottom keypad (same layout as lock screen) ── */
+
+.miya-lockscreen__pass {
+  display: none;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0 20px calc(env(safe-area-inset-bottom, 0px) + 16px);
+}
+
+.miya-lockscreen.is-passcode .miya-lockscreen__pass {
+  display: flex;
+}
+
+.miya-lockscreen__pass-msg {
+  width: 100%;
+  min-height: 20px;
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(255, 118, 118, 0.96);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.miya-lockscreen__pass-msg.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.miya-lockscreen.is-shake .miya-lockscreen__keypad-wrap {
+  animation: miya-lock-shake 0.48s ease;
+}
+
+@keyframes miya-lock-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-8px); }
+  80% { transform: translateX(8px); }
+}
+
+.miya-lockscreen__keypad-wrap {
+  width: min(100%, 360px);
+  flex-shrink: 0;
+  padding: 0 4px;
+}
+
+.miya-lockscreen__keypad {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 3vw, 20px);
+}
+
+.miya-lockscreen__key {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 84px;
+  max-height: 84px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  color: var(--lk-ink);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-shadow:
+    0 6px 22px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition:
+    background 0.14s ease,
+    transform 0.12s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.14s ease,
+    border-color 0.14s ease;
+}
+
+.miya-lockscreen__key-num {
+  font-size: clamp(30px, 8vw, 36px);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.miya-lockscreen__key-sub {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.52);
+  transform: translateY(-1px);
+}
+
+.miya-lockscreen__key:active {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.16) 100%);
+  transform: scale(0.93);
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.miya-lockscreen__key--blank {
+  visibility: hidden;
+  pointer-events: none;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.miya-lockscreen__key--delete {
+  color: rgba(255, 255, 255, 0.88);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.miya-lockscreen__delete-icon {
+  display: block;
+}
+
+.miya-lockscreen__key--delete:active {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: scale(0.92);
+}
+
+.miya-lockscreen__pass-cancel {
+  flex-shrink: 0;
+  margin-top: 6px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color 0.16s ease, background 0.16s ease;
+}
+
+.miya-lockscreen__pass-cancel:active {
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Beautify · lock settings ── */
+.ins-atelier-lock-card {
+  margin-bottom: 28px;
+  padding: 22px 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 246, 242, 0.88) 100%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
+}
+
+.ins-atelier-lock-card + .ins-atelier-showcase {
+  margin-top: 8px;
+}
+
+.ins-atelier-lock-preview {
+  margin-top: 14px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #111;
+}
+
+.ins-atelier-lock-preview__screen {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  max-height: 200px;
+  margin: 0 auto;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, transparent 40%, rgba(0, 0, 0, 0.35) 100%),
+    linear-gradient(180deg, #2a2f38 0%, #12151a 100%);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+}
+
+.ins-atelier-lock-preview__screen.has-image .ins-atelier-lock-preview__placeholder {
+  opacity: 0;
+}
+
+.ins-atelier-lock-preview__time {
+  font-size: 36px;
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.ins-atelier-lock-preview__date {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.78;
+}
+
+.ins-atelier-lock-preview__placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+  transition: opacity 0.25s ease;
+}
+
+.ins-atelier-lock-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ins-atelier-lock-pass-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ins-atelier-lock-note {
+  margin: 14px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(201, 169, 98, 0.08);
+  border: 1px solid rgba(201, 169, 98, 0.18);
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(0, 0, 0, 0.58);
+}
+
+.ins-atelier-splash-pill--lock {
+  margin-top: 14px;
+}
+
+.ins-atelier-splash-pill--lock:first-of-type {
+  margin-top: 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .miya-lockscreen,
+  .miya-lockscreen__bg,
+  .miya-lockscreen__main,
+  .miya-lockscreen__pass {
+    transition-duration: 0.01ms !important;
+  }
+}
